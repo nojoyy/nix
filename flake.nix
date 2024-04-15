@@ -72,7 +72,9 @@
       system = "x86_64-linux";
       modules = [
         ./hardware/Sapphire.nix
+        ./system/general.nix
         ./system/Sapphire.nix
+        ./system/locale.nix
         ./system/noah.nix
         ./system/carbon.nix
         ./system/graphical.nix
@@ -88,7 +90,9 @@
       system = "x86_64-linux";
       modules = [
         ./hardware/Ruby.nix
+        ./system/general.nix
         ./system/Ruby.nix
+        ./system/locale.nix
         ./system/noah.nix
         ./system/carbon.nix
         ./system/graphical.nix

@@ -147,14 +147,13 @@ in {
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  # Configure keymap
+  services.xserver.xkb.layout = "us";
+
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.sddm.autoNumlock = true;
   services.xserver.displayManager.sddm.theme = themeName;
-
-  # Add Icon Theme
-  environment.systemPackages = with pkgs; [
-    gnome3.adwaita-icon-theme
-  ];
+  environment.systemPackages = packages;
 
   # Enable Hyprland
   programs.hyprland.enable = true;
