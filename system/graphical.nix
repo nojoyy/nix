@@ -31,8 +31,7 @@ let
 
   customTheme = builtins.isAttrs theme;
 
-  theme = themes.deepin;
-  # theme = "breeze";
+  theme = themes.abstractdark;
 
   themeName = if customTheme then theme.pkg.name else theme;
 
@@ -151,7 +150,12 @@ in {
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.sddm.autoNumlock = true;
   services.xserver.displayManager.sddm.theme = themeName;
-  environment.systemPackages = packages;
-  services.xserver.desktopManager.gnome.enable = true;
-  programs.sway.enable = true;
+
+  # Add Icon Theme
+  environment.systemPackages = with pkgs; [
+    gnome3.adwaita-icon-theme
+  ];
+
+  # Enable Hyprland
+  programs.hyprland.enable = true;
 }

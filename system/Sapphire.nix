@@ -57,13 +57,6 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # SDDM
-  services.xserver.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-
-  # Hyprland
-  programs.hyprland.enable = true;
-
   # Fonts
   fonts.packages = with pkgs; [ fira-code font-awesome fira-code-nerdfont];
 

@@ -75,6 +75,7 @@
         ./system/Sapphire.nix
         ./system/noah.nix
         ./system/carbon.nix
+        ./system/graphical.nix
         ./system/ssh.nix
         ./system/pipewire.nix
         ./system/polkit.nix
@@ -90,6 +91,7 @@
         ./system/Ruby.nix
         ./system/noah.nix
         ./system/carbon.nix
+        ./system/graphical.nix
         ./system/pipewire.nix
         ./system/polkit.nix
       ];
