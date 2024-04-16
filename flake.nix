@@ -2,6 +2,7 @@
   description = "Nixos config flake";
 
   inputs = {
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
@@ -18,9 +19,11 @@
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-hardware.url = "github:tracteurblinde/nixos-hardware/surface-linux-6.8.1";
   };
 
-  outputs = { self, home-manager, nixpkgs, emacs, hyprland, ... }:
+  outputs = { self, home-manager, nixpkgs, nixos-hardware, emacs, hyprland, ... }:
 
     let 
       system = "x86_64-linux";
@@ -90,6 +93,7 @@
       system = "x86_64-linux";
       modules = [
         ./hardware/Ruby.nix
+        nixos-hardware.nixosModules.microsoft-surface-pro-intel
         ./system/general.nix
         ./system/Ruby.nix
         ./system/locale.nix

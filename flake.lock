@@ -165,6 +165,22 @@
         "type": "github"
       }
     },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1713023887,
+        "narHash": "sha256-/yHl8Toy1BsQMGrQ76/vqai+C4tC7r1CbByJMOvguTY=",
+        "owner": "tracteurblinde",
+        "repo": "nixos-hardware",
+        "rev": "76ffc98d61d81f7dbcb27290d811063be36300eb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tracteurblinde",
+        "ref": "surface-linux-6.8.1",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1712608508,
@@ -202,6 +218,7 @@
         "emacs": "emacs",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs"
       }
     },
