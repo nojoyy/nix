@@ -150,10 +150,20 @@ in {
   # Configure keymap
   services.xserver.xkb.layout = "us";
 
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.autoNumlock = true;
-  services.xserver.displayManager.sddm.theme = themeName;
-  environment.systemPackages = packages;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.autoNumlock = true;
+  services.displayManager.sddm.theme = themeName;
+  environment.systemPackages = with pkgs; [
+    # Window manager
+    hyprpaper
+    dunst
+    tofi
+    waybar
+
+    # Terminal
+    foot
+    neofetch
+  ];
 
   # Enable Hyprland
   programs.hyprland.enable = true;
