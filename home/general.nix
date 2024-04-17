@@ -15,7 +15,6 @@
     xfce.thunar
     tofi
     waybar
-    wlogout
     libreoffice-qt
     emacs
     
@@ -34,6 +33,8 @@
   # Enable Emacs
   services.emacs.enable = true;
 
+  # wlogout
+  programs.wlogout.enable = true;
 
   # Clear tofi cache to update desktop entries
   home.activation = {
