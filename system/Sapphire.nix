@@ -5,8 +5,6 @@
 { config, pkgs, ... }:
 
 {
-  nixpkgs.config.allowUnfree = true;
-
   boot.loader = {
     grub = {
       enable = true;

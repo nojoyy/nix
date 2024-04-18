@@ -1,6 +1,18 @@
 { config, pkgs, ... }:
 
 {
+  # Allow unfree packages (proprietary)
+  # Steam, Obsidian
+  nixpkgs.config.allowUnfree = true;
+  
+  # Nix Helper
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/noah/.nixos/";
+  };
+
   # Network Manager
   networking.networkmanager.enable = true; 
 
@@ -8,7 +20,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Fonts
-  fonts.packages = with pkgs; [ fira-code font-awesome fira-code-nerdfont];
+  fonts.packages = with pkgs; [ fira-code font-awesome fira-code-nerdfont fira ];
 
   # System level package
   environment.systemPackages = with pkgs; [
@@ -18,5 +30,6 @@
     cmake
     vlc
     gnome.adwaita-icon-theme
+    obsidian
   ];
 }

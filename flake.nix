@@ -49,7 +49,7 @@
     };
     
     # Home Manager Configurations
-    homeManagerConfigurations = {
+    homeConfigurations = {
       "noah@Sapphire" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [

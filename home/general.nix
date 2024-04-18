@@ -8,19 +8,13 @@
   #General Packages
   home.packages = with pkgs; [ 
     # Desktop
-    dunst
     firefox
-    hyprpaper
     keepassxc
     xfce.thunar
-    tofi
-    waybar
     libreoffice-qt
     emacs
     
     # Shells, Terminals, and Shell Accessories
-    foot
-    neofetch
     zoxide
 
     # GNU Stuff 
@@ -28,6 +22,7 @@
 
     # Misc Utils
     qpwgraph
+
   ];
 
   # Enable Emacs
