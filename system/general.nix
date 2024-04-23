@@ -5,6 +5,10 @@
   # Steam, Obsidian
   nixpkgs.config.allowUnfree = true;
   
+  # Add QEMU/VM Support
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+  
   # Nix Helper
   programs.nh = {
     enable = true;
