@@ -31,5 +31,6 @@
     vlc
     gnome.adwaita-icon-theme
     obsidian
+    unzip
   ];
 }

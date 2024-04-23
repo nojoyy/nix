@@ -21,9 +21,11 @@
     };
 
     nixos-hardware.url = "github:tracteurblinde/nixos-hardware/surface-linux-6.8.1";
+
+    orca = { url = "github:ovlach/nix-orca-slicer"; };
   };
 
-  outputs = { self, home-manager, nixpkgs, nixos-hardware, emacs, hyprland, ... }:
+  outputs = { self, home-manager, nixpkgs, nixos-hardware, emacs, hyprland, orca, ... }:
 
     let 
       system = "x86_64-linux";
@@ -57,7 +59,7 @@
           ./home/general.nix
           ./modules/obs.nix
         ];
-        extraSpecialArgs = { inherit nixpkgs emacs hyprland; };
+        extraSpecialArgs = { inherit nixpkgs emacs hyprland orca; };
       };
       
       "noah@Ruby" = home-manager.lib.homeManagerConfiguration {
@@ -86,6 +88,7 @@
         ./system/polkit.nix
         ./system/v4l2loopback.nix
         ./system/steam.nix
+        ./modules/docker.nix
       ];
     };
     

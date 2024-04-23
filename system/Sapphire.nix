@@ -15,12 +15,42 @@
     efi = {
       canTouchEfiVariables = true;
     };
-  };  
+  };
+
+  # AMD Proprietary drivers
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
+  hardware.opengl.extraPackages = with pkgs; [
+    amdvlk
+  ];
+
+  # Enable for xserver
+  services.xserver.videoDrivers = [ "amdgpu" ];
+  boot.kernelParams = [
+    "video=DP-1:2560x1440@75"
+    "video=HDMI-A-1:2560x1440@75"
+  ];
+
+  # For 32 bit applications 
+  hardware.opengl.extraPackages32 = with pkgs; [
+    driversi686Linux.amdvlk
+  ];
 
   networking.hostName = "Sapphire";
 
   services.hardware.openrgb.enable = true;
 
+
+  environment.systemPackages = with pkgs; [
+    amdctl
+    amdgpu_top
+    microcodeAmd
+    pkgs.linuxKernel.packages.linux_6_8.amdgpu-pro
+
+    orca
+    gnome-menus
+  ];
+  
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";

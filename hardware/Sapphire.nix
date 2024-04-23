@@ -26,11 +26,17 @@
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/8913-3722";
       fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
     };
 
   fileSystems."/mnt/hdd" =
     { device = "/dev/disk/by-uuid/e7404a46-0829-41f4-a49c-1130607776a8";
       fsType = "ext4";
+    };
+
+  fileSystems."/mnt/carbon" =
+    { device = "//192.168.0.106/vault";
+      fsType = "cifs";
     };
 
   swapDevices =
@@ -42,6 +48,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp42s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp4s0.useDHCP = lib.mkDefault true;
 

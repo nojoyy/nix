@@ -16,13 +16,14 @@
     
     # Shells, Terminals, and Shell Accessories
     zoxide
+    fzf
 
     # GNU Stuff 
     stow
 
     # Misc Utils
-    qpwgraph
-
+    gimp
+    zathura
   ];
 
   # Enable Emacs
