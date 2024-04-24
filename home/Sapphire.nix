@@ -41,6 +41,11 @@
     # Gaming
     discord
     prusa-slicer
+
+    # CAD/Printing
+    orca-slicer
+    prusa-slicer
+    freecad
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
