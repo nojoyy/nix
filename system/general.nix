@@ -4,7 +4,7 @@
   # Allow unfree packages (proprietary)
   # Steam, Obsidian
   nixpkgs.config.allowUnfree = true;
-  
+
   # Add QEMU/VM Support
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
