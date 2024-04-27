@@ -159,11 +159,18 @@ in {
     dunst
     tofi
     waybar
+    swaylock
 
     # Terminal
     foot
     neofetch
+
+    # ICC
+    displaycal
   ];
+
+  # Enable swaylock with pam
+  security.pam.services.swaylock = {};
 
   # Enable Hyprland
   programs.hyprland.enable = true;

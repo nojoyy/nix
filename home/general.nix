@@ -17,6 +17,7 @@
     # Shells, Terminals, and Shell Accessories
     zoxide
     fzf
+    zellij
 
     # GNU Stuff 
     stow

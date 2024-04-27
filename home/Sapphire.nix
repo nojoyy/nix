@@ -46,6 +46,19 @@
     orca-slicer
     prusa-slicer
     freecad
+
+    # Minecract
+    prismlauncher
+
+    (retroarch.override {
+      cores = with libretro; [
+        snes9x
+        dolphin
+      ];
+    })
+
+    # Programming
+    nodejs
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

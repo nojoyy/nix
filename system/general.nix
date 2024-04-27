@@ -8,6 +8,7 @@
   # Add QEMU/VM Support
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+  users.users.noah.extraGroups = [ "libvirtd" ];
   
   # Nix Helper
   programs.nh = {
@@ -36,5 +37,7 @@
     gnome.adwaita-icon-theme
     obsidian
     unzip
+    rpi-imager
+    kitty
   ];
 }
