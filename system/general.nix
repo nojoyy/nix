@@ -38,6 +38,6 @@
     obsidian
     unzip
     rpi-imager
-    kitty
+
   ];
 }
