@@ -34,6 +34,7 @@
         config = {
           allowUnfree = true;
         };
+        overlays = [ emacs.overlay ];
       };
 
   in {
@@ -46,7 +47,9 @@
         });
         allowUnfree = true;
       };
+      overlays = [emacs.overlay];
     };
+
     
     # Home Manager Configurations
     homeConfigurations = {
@@ -57,7 +60,7 @@
           ./home/general.nix
           ./modules/obs.nix
         ];
-        extraSpecialArgs = { inherit nixpkgs emacs hyprland ;};
+        extraSpecialArgs = { inherit nixpkgs hyprland ;};
       };
       
       "noah@Ruby" = home-manager.lib.homeManagerConfiguration {
@@ -66,12 +69,13 @@
           ./home/Ruby.nix
           ./home/general.nix
         ];
-        extraSpecialArgs = { inherit nixpkgs emacs hyprland; };
+        extraSpecialArgs = { inherit nixpkgs hyprland; };
       };
     };
     
     # Nixos configurations
     nixosConfigurations.Sapphire = nixpkgs.lib.nixosSystem {
+      inherit pkgs;
       system = "x86_64-linux";
       modules = [
         ./hardware/Sapphire.nix

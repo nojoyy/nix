@@ -12,7 +12,6 @@
     keepassxc
     xfce.thunar
     libreoffice-qt
-    emacs
     
     # Shells, Terminals, and Shell Accessories
     zoxide
@@ -25,7 +24,9 @@
     # Misc Utils
     gimp
     zathura
-  ];
+    
+    emacs-unstable
+   ];
 
   # Enable Emacs
   services.emacs.enable = true;
