@@ -40,7 +40,6 @@
 
     # Gaming
     discord
-    prusa-slicer
 
     # CAD/Printing
     orca-slicer

@@ -34,7 +34,9 @@
         config = {
           allowUnfree = true;
         };
-        overlays = [ emacs.overlay ];
+        overlays = [
+          emacs.overlay
+        ];
       };
 
   in {
@@ -47,7 +49,6 @@
           ./home/general.nix
           ./modules/obs.nix
         ];
-        extraSpecialArgs = { inherit nixpkgs hyprland ;};
       };
       
       "noah@Ruby" = home-manager.lib.homeManagerConfiguration {
@@ -56,7 +57,6 @@
           ./home/Ruby.nix
           ./home/general.nix
         ];
-        extraSpecialArgs = { inherit nixpkgs hyprland; };
       };
     };
     
@@ -71,15 +71,16 @@
         ./system/locale.nix
         ./home/users/noah.nix
         ./system/carbon.nix
-        ./system/graphical.nix
-        ./modules/sddm.nix
+	      ./system/graphical.nix
+        hyprland.nixosModules.default
+	      ./modules/hyprland.nix
+	      ./modules/sddm.nix
+        ./modules/v4l2loopback.nix
         ./modules/ssh.nix
         ./modules/pipewire.nix
         ./modules/polkit.nix
-        ./system/v4l2loopback.nix
         ./modules/steam.nix
         ./modules/docker.nix
-        ./modules/hyprland.nix
       ];
     };
     
@@ -95,6 +96,7 @@
         ./home/users/noah.nix
         ./system/carbon.nix
         ./system/graphical.nix
+        hyprland.nixosModules.default
         ./modules/hyprland.nix
         ./modules/sddm.nix
         ./modules/pipewire.nix
