@@ -90,12 +90,14 @@
         ./modules/pipewire.nix
         ./modules/polkit.nix
         ./system/v4l2loopback.nix
-        ./system/steam.nix
+        ./modules/steam.nix
         ./modules/docker.nix
+        ./modules/hyprland.nix
       ];
     };
     
     nixosConfigurations.Ruby = nixpkgs.lib.nixosSystem {
+      inherit pkgs;
       system = "x86_64-linux";
       modules = [
         ./hardware/Ruby.nix
