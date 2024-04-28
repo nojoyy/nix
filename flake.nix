@@ -38,19 +38,6 @@
       };
 
   in {
-
-    nixpkgs.config = {
-      packageOverrides = pkgs: {
-        emacs = pkgs.lib.overriderDerivation (pkgs.emacs.override {
-        withGTK2 = true;
-        withGTK3 = false;
-        });
-        allowUnfree = true;
-      };
-      overlays = [emacs.overlay];
-    };
-
-    
     # Home Manager Configurations
     homeConfigurations = {
       "noah@Sapphire" = home-manager.lib.homeManagerConfiguration {
@@ -108,6 +95,7 @@
         ./home/users/noah.nix
         ./system/carbon.nix
         ./system/graphical.nix
+        ./modules/hyprland.nix
         ./modules/sddm.nix
         ./modules/pipewire.nix
         ./modules/polkit.nix
