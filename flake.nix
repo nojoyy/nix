@@ -85,6 +85,7 @@
         ./system/noah.nix
         ./system/carbon.nix
         ./system/graphical.nix
+        ./system/sddm.nix
         ./system/ssh.nix
         ./system/pipewire.nix
         ./system/polkit.nix
@@ -105,6 +106,7 @@
         ./system/noah.nix
         ./system/carbon.nix
         ./system/graphical.nix
+        ./system/sddm.nix
         ./system/pipewire.nix
         ./system/polkit.nix
       ];

@@ -24,6 +24,7 @@
     # Misc Utils
     gimp
     zathura
+    lazygit
     
     emacs-unstable
    ];

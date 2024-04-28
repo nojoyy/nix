@@ -46,7 +46,6 @@
     amdgpu_top
     microcodeAmd
     pkgs.linuxKernel.packages.linux_6_8.amdgpu-pro
-    gnome-menus
   ];
   
   # Configure network proxy if necessary
