@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  nixpkgs.config.allowUnfree = true;
-
   # Add QEMU/VM Support
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
@@ -32,7 +30,6 @@
     git
     cmake
     vlc
-    gnome.adwaita-icon-theme
     obsidian
     unzip
     rpi-imager

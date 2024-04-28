@@ -82,13 +82,13 @@
         ./system/general.nix
         ./system/Sapphire.nix
         ./system/locale.nix
-        ./system/noah.nix
+        ./home/users/noah.nix
         ./system/carbon.nix
         ./system/graphical.nix
-        ./system/sddm.nix
-        ./system/ssh.nix
-        ./system/pipewire.nix
-        ./system/polkit.nix
+        ./modules/sddm.nix
+        ./modules/ssh.nix
+        ./modules/pipewire.nix
+        ./modules/polkit.nix
         ./system/v4l2loopback.nix
         ./system/steam.nix
         ./modules/docker.nix
@@ -103,12 +103,12 @@
         ./system/general.nix
         ./system/Ruby.nix
         ./system/locale.nix
-        ./system/noah.nix
+        ./home/users/noah.nix
         ./system/carbon.nix
         ./system/graphical.nix
-        ./system/sddm.nix
-        ./system/pipewire.nix
-        ./system/polkit.nix
+        ./modules/sddm.nix
+        ./modules/pipewire.nix
+        ./modules/polkit.nix
       ];
     };
   };
