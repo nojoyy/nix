@@ -39,5 +39,6 @@
     obsidian
     unzip
     rpi-imager
+    cachix
  ];
 }
