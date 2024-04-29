@@ -16,10 +16,9 @@
     # GNOME Menus/Icons
     gnome-menus
     gnome.adwaita-icon-theme
-  ];
 
-  # Enable swaylock with pam
-  security.pam.services.hyprlock = {};
+    imagemagick
+  ];
 
   # Enable Hyprland
   programs.hyprland.enable = true;
