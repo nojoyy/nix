@@ -26,10 +26,11 @@
     zathura
     lazygit
     
-    emacs-unstable
+    emacs-pgtk
    ];
 
   # Enable Emacs
+  services.emacs.package = pkgs.emacs-pgtk;
   services.emacs.enable = true;
 
   # wlogout
