@@ -32,7 +32,7 @@ let
     };
 
   customTheme = builtins.isAttrs theme;
-  theme = themes.simplicity;
+  theme = themes.abstractdark;
 
   themeName = if customTheme
               then theme.pkg.name
@@ -91,7 +91,10 @@ in {
     enableHidpi = true;
     autoNumlock = true;
     theme = themeName;
-  };
+    };
+
+  # Enable hyprland system wide
+  programs.hyprland.enable = true;
 
 }
     

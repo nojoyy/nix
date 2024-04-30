@@ -61,6 +61,7 @@
           ./home/general.nix
           hyprland.homeManagerModules.default
           ./modules/hyprland.nix
+          ./modules/pcmanfm.nix
         ];
       };
     };

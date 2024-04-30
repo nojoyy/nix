@@ -22,9 +22,10 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    settings = {
-      source = "~/.config/hypr/external.conf";
-    };
+    # pull from existing config
+    extraConfig = ''
+      source = ~/.config/hypr/external.conf
+      '';
   };
 
   xdg.portal = {
