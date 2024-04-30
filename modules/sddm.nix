@@ -86,10 +86,12 @@ in {
 
   # Enable and configure SDDM
   services.displayManager.sddm = {
+    wayland.enable = true;
     enable = true;
     enableHidpi = true;
     autoNumlock = true;
     theme = themeName;
   };
+
 }
     

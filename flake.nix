@@ -47,6 +47,9 @@
         modules = [
           ./home/Sapphire.nix
           ./home/general.nix
+          hyprland.homeManagerModules.default
+          ./modules/hyprland.nix
+          ./modules/pcmanfm.nix
           ./modules/obs.nix
         ];
       };
@@ -56,6 +59,8 @@
         modules = [ 
           ./home/Ruby.nix
           ./home/general.nix
+          hyprland.homeManagerModules.default
+          ./modules/hyprland.nix
         ];
       };
     };
@@ -72,8 +77,6 @@
         ./home/users/noah.nix
         ./system/carbon.nix
 	      ./system/graphical.nix
-        hyprland.nixosModules.default
-	      ./modules/hyprland.nix
 	      ./modules/sddm.nix
         ./modules/v4l2loopback.nix
         ./modules/ssh.nix
@@ -96,8 +99,6 @@
         ./home/users/noah.nix
         ./system/carbon.nix
         ./system/graphical.nix
-        hyprland.nixosModules.default
-        ./modules/hyprland.nix
         ./modules/sddm.nix
         ./modules/pipewire.nix
         ./modules/polkit.nix

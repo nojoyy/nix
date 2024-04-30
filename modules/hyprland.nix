@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Window manager
     hyprpaper
     hyprlock
@@ -16,10 +16,19 @@
     # GNOME Menus/Icons
     gnome-menus
     gnome.adwaita-icon-theme
-
-    imagemagick
   ];
 
   # Enable Hyprland
-  programs.hyprland.enable = true;
+  wayland.windowManager.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    settings = {
+      source = "~/.config/hypr/external.conf";
+    };
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+  };
 }

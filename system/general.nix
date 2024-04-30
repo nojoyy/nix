@@ -20,6 +20,8 @@
     flake = "/home/noah/.nixos/";
   };
 
+  services.gvfs.enable = true;
+
   # Network Manager
   networking.networkmanager.enable = true; 
 
