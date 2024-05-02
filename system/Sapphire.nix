@@ -20,21 +20,25 @@
   # AMD Proprietary drivers
   boot.initrd.kernelModules = [ "amdgpu" ];
 
-  hardware.opengl.extraPackages = with pkgs; [
-    amdvlk
-  ];
-
   # Enable for xserver
   services.xserver.videoDrivers = [ "amdgpu" ];
   boot.kernelParams = [
     "video=DP-1:2560x1440@75"
-    "video=HDMI-A-1:2560x1440@75"
+    "video=DP-2:2560x1440@75"
   ];
 
-  # For 32 bit applications 
-  hardware.opengl.extraPackages32 = with pkgs; [
-    driversi686Linux.amdvlk
-  ];
+  # opengl
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      amdvlk
+    ];
+    extraPackages32 = with pkgs; [
+      driversi686Linux.amdvlk
+    ];
+  };
 
   networking.hostName = "Sapphire";
 

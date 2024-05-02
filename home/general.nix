@@ -62,7 +62,7 @@
 
   # Session Variables
   home.sessionVariables = {
-    EDITOR = "emacs";
+    EDITOR = "emacsclient";
     GTK_USE_PORTAL = "1";
   };
 

@@ -78,7 +78,6 @@
         ./home/users/noah.nix
         ./system/carbon.nix
 	      ./system/graphical.nix
-	      ./modules/sddm.nix
         ./modules/v4l2loopback.nix
         ./modules/ssh.nix
         ./modules/pipewire.nix

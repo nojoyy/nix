@@ -9,6 +9,9 @@
     tofi
     waybar
 
+    # Image Viewer
+    qimgv
+
     # Terminal
     foot
     neofetch
