@@ -51,6 +51,7 @@
 
   # Additional Packages
   environment.systemPackages = with pkgs; [
+    networkmanager-openvpn
   ];
 
   # Configure network proxy if necessary
