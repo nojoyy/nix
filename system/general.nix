@@ -42,5 +42,6 @@
     unzip
     rpi-imager
     cachix
+    tigervnc
  ];
 }
