@@ -5,6 +5,15 @@
 { config, pkgs, ... }:
 
 {
+
+  # Sapphire Imports
+  imports = [
+    ./default.nix
+    ./../modules/v4l2loopback.nix
+    ./../modules/docker.nix
+    ./../modules/steam.nix
+  ];
+  
   boot.loader = {
     grub = {
       enable = true;

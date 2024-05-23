@@ -48,11 +48,7 @@
         inherit pkgs;
         modules = [
           ./home/Sapphire.nix
-          ./home/default.nix
           inputs.hyprland.homeManagerModules.default
-          ./modules/hyprland.nix
-          ./modules/pcmanfm.nix
-          ./modules/obs.nix
         ];
       };
       
@@ -60,10 +56,7 @@
         inherit pkgs;
         modules = [ 
           ./home/Ruby.nix
-          ./home/default.nix
           inputs.hyprland.homeManagerModules.default
-          ./modules/hyprland.nix
-          ./modules/pcmanfm.nix
         ];
       };
     };
@@ -73,20 +66,9 @@
       inherit pkgs;
       system = "x86_64-linux";
       modules = [
-        ./hardware/Sapphire.nix
-        ./system/default.nix
-        inputs.stylix.nixosModules.stylix
         ./system/Sapphire.nix
-        ./system/locale.nix
-        ./home/users/noah.nix
-        ./system/carbon.nix
-	      ./system/graphical.nix
-        ./modules/v4l2loopback.nix
-        ./modules/ssh.nix
-        ./modules/pipewire.nix
-        ./modules/polkit.nix
-        ./modules/steam.nix
-        ./modules/docker.nix
+        ./hardware/Sapphire.nix
+        inputs.stylix.nixosModules.stylix
       ];
     };
     
@@ -94,17 +76,10 @@
       inherit pkgs;
       system = "x86_64-linux";
       modules = [
+        ./system/Ruby.nix
         ./hardware/Ruby.nix
         inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
-        ./system/default.nix
-        ./system/Ruby.nix
-        ./system/locale.nix
-        ./home/users/noah.nix
-        ./system/carbon.nix
-        ./system/graphical.nix
-        ./modules/sddm.nix
-        ./modules/pipewire.nix
-        ./modules/polkit.nix
+        inputs.stylix.nixosModules.stylix
       ];
     };
   };

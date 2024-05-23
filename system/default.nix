@@ -1,6 +1,18 @@
 { config, pkgs, ... }:
 
 {
+
+  # Additional Modules
+  imports = [
+    ./locale.nix
+    ./users/noah.nix
+    ./carbon.nix
+    ./graphical.nix
+    ./../modules/pipewire.nix
+    ./../modules/polkit.nix
+    ./../modules/ssh.nix
+  ];
+  
   # Enable chachix for hyprland   
   nix.settings = {
     substituters = ["https://hyprland.cachix.org"];

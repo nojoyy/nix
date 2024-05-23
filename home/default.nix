@@ -1,6 +1,14 @@
 { config, pkgs, lib, ... }:
 
 {
+
+  # Default Modules
+  imports = [
+    ./default.nix
+    ./../modules/hyprland.nix
+    ./../modules/pcmanfm.nix
+  ];
+  
   # General Home Manager Config
   home.username = "noah";
   home.homeDirectory = "/home/noah/";
