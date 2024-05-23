@@ -43,5 +43,9 @@
     rpi-imager
     cachix
     tigervnc
- ];
+  ];
+
+
+  # STYLIX
+  stylix.image = /home/noah/dotfiles/hypr/wallpapers/sunset_city.jpg;
 }

@@ -20,10 +20,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    stylix.url = "github:danth/stylix"; 
+    
     nixos-hardware.url = "github:tracteurblinde/nixos-hardware/surface-linux-6.8.1";
   };
 
-  outputs = { self, home-manager, nixpkgs, nixos-hardware, emacs, hyprland, ... }:
+  outputs = {nixpkgs, ...}@inputs: 
 
     let 
       system = "x86_64-linux";
@@ -35,31 +37,31 @@
           allowUnfree = true;
         };
         overlays = [
-          emacs.overlay
+          inputs.emacs.overlay
         ];
       };
 
   in {
     # Home Manager Configurations
     homeConfigurations = {
-      "noah@Sapphire" = home-manager.lib.homeManagerConfiguration {
+      "noah@Sapphire" = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           ./home/Sapphire.nix
-          ./home/general.nix
-          hyprland.homeManagerModules.default
+          ./home/default.nix
+          inputs.hyprland.homeManagerModules.default
           ./modules/hyprland.nix
           ./modules/pcmanfm.nix
           ./modules/obs.nix
         ];
       };
       
-      "noah@Ruby" = home-manager.lib.homeManagerConfiguration {
+      "noah@Ruby" = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ 
           ./home/Ruby.nix
-          ./home/general.nix
-          hyprland.homeManagerModules.default
+          ./home/default.nix
+          inputs.hyprland.homeManagerModules.default
           ./modules/hyprland.nix
           ./modules/pcmanfm.nix
         ];
@@ -72,7 +74,8 @@
       system = "x86_64-linux";
       modules = [
         ./hardware/Sapphire.nix
-        ./system/general.nix
+        ./system/default.nix
+        inputs.stylix.nixosModules.stylix
         ./system/Sapphire.nix
         ./system/locale.nix
         ./home/users/noah.nix
@@ -92,8 +95,8 @@
       system = "x86_64-linux";
       modules = [
         ./hardware/Ruby.nix
-        nixos-hardware.nixosModules.microsoft-surface-pro-intel
-        ./system/general.nix
+        inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
+        ./system/default.nix
         ./system/Ruby.nix
         ./system/locale.nix
         ./home/users/noah.nix

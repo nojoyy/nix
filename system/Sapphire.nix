@@ -50,6 +50,7 @@
     amdgpu_top
     microcodeAmd
     pkgs.linuxKernel.packages.linux_6_8.amdgpu-pro
+    edgetpu-compiler
   ];
   
   # Configure network proxy if necessary
