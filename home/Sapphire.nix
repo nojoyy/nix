@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./default.nix
     ./../modules/obs.nix
   ];
 

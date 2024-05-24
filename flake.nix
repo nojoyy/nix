@@ -16,7 +16,7 @@
     };
 
     hyprland = {
-      url = "github:hyprwm/Hyprland";
+      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -48,7 +48,6 @@
         inherit pkgs;
         modules = [
           ./home/Sapphire.nix
-          inputs.hyprland.homeManagerModules.default
         ];
       };
       
@@ -56,7 +55,6 @@
         inherit pkgs;
         modules = [ 
           ./home/Ruby.nix
-          inputs.hyprland.homeManagerModules.default
         ];
       };
     };
@@ -70,6 +68,7 @@
         ./hardware/Sapphire.nix
         inputs.stylix.nixosModules.stylix
       ];
+      specialArgs = { inherit inputs; };
     };
     
     nixosConfigurations.Ruby = nixpkgs.lib.nixosSystem {
@@ -81,6 +80,7 @@
         inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         inputs.stylix.nixosModules.stylix
       ];
+      specialArgs = { inherit inputs; };
     };
   };
 }

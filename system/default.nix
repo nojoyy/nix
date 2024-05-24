@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 
 {
 
@@ -11,6 +11,7 @@
     ./../modules/pipewire.nix
     ./../modules/polkit.nix
     ./../modules/ssh.nix
+    ./../modules/sddm.nix
   ];
   
   # Enable chachix for hyprland   
@@ -57,6 +58,11 @@
     tigervnc
   ];
 
+  # HYPRLAND
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  };
 
   # STYLIX
   stylix.image = /home/noah/dotfiles/hypr/wallpapers/sunset_city.jpg;

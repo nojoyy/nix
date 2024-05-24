@@ -92,9 +92,5 @@ in {
     autoNumlock = true;
     theme = themeName;
     };
-
-  # Enable hyprland system wide
-  programs.hyprland.enable = true;
-
 }
     

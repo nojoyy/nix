@@ -5,6 +5,11 @@
 { config, pkgs, ... }:
 
 {
+  # Additional Modules
+  imports = [
+    ./default.nix
+  ];
+  
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
