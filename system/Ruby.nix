@@ -21,9 +21,7 @@
     # https://github.com/linux-surface/linux-surface/issues/862
     "i915.enable_psr=0"
   ];
-  # Add the kernel modules such that we have a working keyboard for the 
-  # LUKS full disk encryption.
-  # https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption
+
   boot.initrd.kernelModules = [
     "surface_aggregator"
     "surface_aggregator_registry"
@@ -52,7 +50,6 @@
 
   # Enable brightness control via light
   programs.light.enable = true;
-  users.users.noah.extraGroups = [ "video" ];
 
   # Additional Packages
   environment.systemPackages = with pkgs; [

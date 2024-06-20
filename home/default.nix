@@ -10,7 +10,6 @@
   
   # General Home Manager Config
   home.username = "noah";
-  home.homeDirectory = "/home/noah/";
 
   #General Packages
   home.packages = with pkgs; [ 
@@ -18,6 +17,7 @@
     firefox
     keepassxc
     libreoffice-qt
+    filezilla
     
     # Shells, Terminals, and Shell Accessories
     zoxide
@@ -59,17 +59,15 @@
   # };
 
   # Clear tofi cache to update desktop entries
-  home.activation = {
-    # https://github.com/philj56/tofi/issues/115#issuecomment-1701748297
-    regenerateTofiCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-                       tofi_cache=${config.xdg.cacheHome}/tofi-drun
-                       [[ -f "$tofi_cache" ]] && rm "$tofi_cache"
-                       '';
-  };
+  # home.activation = {
+  #   # https://github.com/philj56/tofi/issues/115#issuecomment-1701748297
+  #   regenerateTofiCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  #                      tofi_cache=${config.xdg.cacheHome}/tofi-drun
+  #                      [[ -f "$tofi_cache" ]] && rm "$tofi_cache"
+  #                      '';
+  # };
 
-  # STYLIX
   stylix.targets.emacs.enable = true;
-  stylix.targets.firefox.enable = true;
 
   # Session Variables
   home.sessionVariables = {

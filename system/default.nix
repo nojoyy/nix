@@ -54,7 +54,7 @@
     unzip
     rpi-imager
     cachix
-    tigervnc
+    ags
   ];
 
   # HYPRLAND
@@ -63,36 +63,50 @@
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 
+  # WAYDROID
+  virtualisation.waydroid.enable = true;
+
   # STYLIX
-  stylix.base16Scheme = {
-  base00 = "1C2023"; # ----
-  base01 = "393F45"; # ---
-  base02 = "565E65"; # --
-  base03 = "747C84"; # -
-  base04 = "ADB3BA"; # +
-  base05 = "C7CCD1"; # ++
-  base06 = "DFE2E5"; # +++
-  base07 = "F3F4F5"; # ++++
-  base08 = "C7AE95"; # orange
-  base09 = "C7C795"; # yellow
-  base0A = "AEC795"; # poison green
-  base0B = "95C7AE"; # turquois
-  base0C = "95AEC7"; # aqua
-  base0D = "AE95C7"; # purple
-  base0E = "C795AE"; # pink
-  base0F = "C79595"; # light red
-  };
+  stylix = {
+    enable = true;
 
-  stylix.fonts = {
-    monospace = {
-      package = pkgs.nerdfonts.override {fonts = ["FiraCode"];};
-      name = "FiraCode Nerd Font";
-    };
-    sansSerif = {
-      package = pkgs.fira-sans;
-      name = "Fira Sans";
-    };
-  };
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/horizon-dark.yaml";
 
-  stylix.image = /home/noah/dotfiles/hypr/wallpapers/contemplate.jpg;
+
+    # base16Scheme = {
+    #   base00 = "1C1E26";
+    #   base01 = "232530";
+    #   base02 = "2E303E";
+    #   base03 = "6F6F70";
+    #   base04 = "9DA0A2";
+    #   base05 = "CBCED0";
+    #   base06 = "DCDFE4";
+    #   base07 = "E3E6EE";
+    #   base08 = "E93C58";
+    #   base09 = "E58D7D";
+    #   base0A = "EFB993";
+    #   base0B = "EFAF8E";
+    #   base0C = "24A8B4";
+    #   base0D = "DF5273";
+    #   base0E = "B072D1";
+    #   base0F = "E4A382";
+    # };
+    
+
+    fonts = {
+      monospace = {
+        package = pkgs.nerdfonts.override {fonts = ["FiraCode"];};
+        name = "FiraCode Nerd Font";
+      };
+      sansSerif = {
+        package = pkgs.fira-sans;
+        name = "Fira Sans";
+      };
+      serif = config.stylix.fonts.sansSerif;
+    };
+
+    homeManagerIntegration.autoImport = true;
+
+    image = /home/noah/dotfiles/hypr/wallpapers/contemplate.jpg;
+  };
 }

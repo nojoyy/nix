@@ -16,7 +16,6 @@
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
   home.packages = with pkgs ; [
-    orca-slicer
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

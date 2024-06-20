@@ -42,26 +42,6 @@
       };
 
   in {
-    # Home Manager Configurations
-    homeConfigurations = {
-      "noah@Sapphire" = inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          ./home/Sapphire.nix
-          inputs.stylix.homeManagerModules.stylix
-        ];
-      };
-      
-      "noah@Ruby" = inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [ 
-          ./home/Ruby.nix
-          inputs.stylix.homeManagerModules.stylix
-        ];
-      };
-    };
-    
-    # Nixos configurations
     nixosConfigurations.Sapphire = nixpkgs.lib.nixosSystem {
       inherit pkgs;
       system = "x86_64-linux";
@@ -69,6 +49,12 @@
         ./system/Sapphire.nix
         ./hardware/Sapphire.nix
         inputs.stylix.nixosModules.stylix
+        inputs.home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.noah = import ./home/Sapphire.nix;
+        }
       ];
       specialArgs = { inherit inputs; };
     };
@@ -81,6 +67,12 @@
         ./hardware/Ruby.nix
         inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         inputs.stylix.nixosModules.stylix
+        inputs.home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.noah = import ./home/Ruby.nix;
+        }
       ];
       specialArgs = { inherit inputs; };
     };

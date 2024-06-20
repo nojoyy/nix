@@ -15,6 +15,7 @@
     # Terminal
     foot
     neofetch
+    fastfetch
 
     # GNOME Menus/Icons
     gnome-menus
