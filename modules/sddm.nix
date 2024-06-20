@@ -54,9 +54,6 @@ let
           rev = "e817d4b27981080cd3b398fe928619ffa16c52e7";
           hash = "sha256-XmhTVs/1Hzrs+FBRbFEOSIFOrRp0VTPwIJmSa2EgIeo=";
         };
-          themeIni = [
-            { section = "General"; key = "background"; value = /mnt/carbon/images/wg/compartment.jpg; }
-          ];
       };
         deps = with pkgs; [];
     };
@@ -72,9 +69,6 @@ let
             rev = "836cf153cd03d04c4f9795a1c5e9748c06860805";
             hash = "sha256-QDHnCgbCzRd0Ma559xtwOwzkQ/6Yj9zuCjFuFStcshM=";
           };
-          themeIni = [
-            { section = "General"; key = "background"; value = /mnt/carbon/images/wg/compartment.jpg; }
-          ];
         };
         deps = with pkgs; [];
       };

@@ -48,6 +48,7 @@
         inherit pkgs;
         modules = [
           ./home/Sapphire.nix
+          inputs.stylix.homeManagerModules.stylix
         ];
       };
       
@@ -55,6 +56,7 @@
         inherit pkgs;
         modules = [ 
           ./home/Ruby.nix
+          inputs.stylix.homeManagerModules.stylix
         ];
       };
     };
