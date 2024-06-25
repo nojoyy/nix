@@ -1,11 +1,10 @@
 { config, pkgs, ... }:
 
 {
-
   imports = [
-    ./default.nix
+    ./../../homeManagerModules/default.nix
   ];
-  
+
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -16,6 +15,27 @@
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
   home.packages = with pkgs ; [
+
+    # Gaming
+    discord
+
+    # CAD/Printing
+    orca-slicer
+    prusa-slicer
+    freecad
+
+    # Minecract
+    prismlauncher
+
+    (retroarch.override {
+      cores = with libretro; [
+        snes9x
+        dolphin
+      ];
+    })
+
+    # Programming
+    nodejs
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -48,6 +68,9 @@
   #
   #  /etc/profiles/per-user/noah/etc/profile.d/hm-session-vars.sh
   #
+  home.sessionVariables = {
+    # EDITOR = "emacs";
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

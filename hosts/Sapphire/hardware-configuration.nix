@@ -34,11 +34,6 @@
       fsType = "ext4";
     };
 
-  fileSystems."/mnt/carbon" =
-    { device = "//192.168.0.106/vault";
-      fsType = "cifs";
-    };
-
   swapDevices =
     [ { device = "/dev/disk/by-uuid/7b6edb62-3373-4794-853a-7918af9e964d"; }
     ];

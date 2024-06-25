@@ -4,8 +4,8 @@
 
   # Default Modules
   imports = [
-    ./../modules/pcmanfm.nix
-    ./../modules/hyprland.nix
+    ./../homeManagerModules/pcmanfm.nix
+    ./../homeManagerModules/hyprland.nix
   ];
   
   # General Home Manager Config
@@ -59,13 +59,13 @@
   # };
 
   # Clear tofi cache to update desktop entries
-  # home.activation = {
-  #   # https://github.com/philj56/tofi/issues/115#issuecomment-1701748297
-  #   regenerateTofiCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-  #                      tofi_cache=${config.xdg.cacheHome}/tofi-drun
-  #                      [[ -f "$tofi_cache" ]] && rm "$tofi_cache"
-  #                      '';
-  # };
+  home.activation = {
+    # https://github.com/philj56/tofi/issues/115#issuecomment-1701748297
+    regenerateTofiCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+                       tofi_cache=${config.xdg.cacheHome}/tofi-drun
+                       [[ -f "$tofi_cache" ]] && rm "$tofi_cache"
+                       '';
+  };
 
   stylix.targets.emacs.enable = true;
 

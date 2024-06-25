@@ -2,16 +2,14 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
 
   # Sapphire Imports
   imports = [
-    ./default.nix
-    ./../modules/v4l2loopback.nix
-    ./../modules/docker.nix
-    ./../modules/steam.nix
+    ./../../nixosModules
+    ./../../nixosModules/docker.nix
   ];
   
   boot.loader = {
@@ -39,15 +37,18 @@
   # opengl
   hardware.opengl = {
     enable = true;
-    driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [
       amdvlk
+      rocmPackages.clr.icd
     ];
     extraPackages32 = with pkgs; [
       driversi686Linux.amdvlk
     ];
   };
+
+  steam.enable = true;
+  obs.enable = true;
 
   networking.hostName = "Sapphire";
 
@@ -58,7 +59,6 @@
     amdctl
     amdgpu_top
     microcodeAmd
-    pkgs.linuxKernel.packages.linux_6_8.amdgpu-pro
     edgetpu-compiler
   ];
   

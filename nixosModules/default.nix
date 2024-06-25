@@ -1,16 +1,15 @@
-{ config, inputs, pkgs, ... }:
+{ pkgs, config, inputs, ... }:
 
 {
 
   # Additional Modules
   imports = [
-    ./locale.nix
-    ./users/noah.nix
-    ./graphical.nix
-    ./../modules/pipewire.nix
-    ./../modules/polkit.nix
-    ./../modules/ssh.nix
-    ./../modules/sddm.nix
+    ./../system/locale.nix
+    ./../system/users/noah.nix
+    ./../system/graphical.nix
+    ./core
+    ./obs.nix
+    ./steam.nix
   ];
   
   # Enable chachix for hyprland   
@@ -18,6 +17,8 @@
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
+
+  home-manager.backupFileExtension = "~/.backup";
 
   # Add QEMU/VM Support
   virtualisation.libvirtd.enable = true;
@@ -51,6 +52,7 @@
     cmake
     vlc
     obsidian
+    zip
     unzip
     rpi-imager
     cachix
@@ -107,6 +109,6 @@
 
     homeManagerIntegration.autoImport = true;
 
-    image = /home/noah/dotfiles/hypr/wallpapers/contemplate.jpg;
+    image = /home/noah/dotfiles/hypr/wallpapers/sunset_city.jpg;
   };
 }

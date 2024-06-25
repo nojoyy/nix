@@ -46,14 +46,14 @@
       inherit pkgs;
       system = "x86_64-linux";
       modules = [
-        ./system/Sapphire.nix
-        ./hardware/Sapphire.nix
+        ./hosts/Sapphire/hardware-configuration.nix
+        ./hosts/Sapphire/configuration.nix
         inputs.stylix.nixosModules.stylix
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.noah = import ./home/Sapphire.nix;
+          home-manager.users.noah = import ./hosts/Sapphire/home.nix;
         }
       ];
       specialArgs = { inherit inputs; };
@@ -63,15 +63,15 @@
       inherit pkgs;
       system = "x86_64-linux";
       modules = [
-        ./system/Ruby.nix
-        ./hardware/Ruby.nix
+        ./hosts/Ruby/hardware-configuration.nix
+        ./hosts/Ruby/configuration.nix
         inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         inputs.stylix.nixosModules.stylix
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.noah = import ./home/Ruby.nix;
+          home-manager.users.noah = import ./hosts/Ruby/home.nix;
         }
       ];
       specialArgs = { inherit inputs; };

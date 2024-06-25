@@ -7,7 +7,7 @@
 {
   # Additional Modules
   imports = [
-    ./default.nix
+    ./../../nixosModules/default.nix
   ];
   
   boot.loader.grub.device = "nodev";
