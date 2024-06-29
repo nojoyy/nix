@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 {
-  # Set your time zone.
+    # Set your time zone.
   time.timeZone = "America/Kentucky/Louisville";
 
   # Select internationalisation properties.
@@ -9,4 +9,5 @@
   console = {
     useXkbConfig = true;
   };
+
 }

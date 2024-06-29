@@ -30,13 +30,15 @@
     # Misc Utils
     gimp
     lazygit
-    
-    emacs-pgtk
    ];
 
   # Enable Emacs
-  services.emacs.package = pkgs.emacs-pgtk;
   services.emacs.enable = true;
+  services.emacs.package = (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages ( epkgs: with epkgs; [
+        vterm # vterm needs to pre compiled
+        treesit-grammars.with-all-grammars # as well as treesit grammars
+      ]);
+
 
   # wlogout
   programs.wlogout.enable = true;
@@ -66,8 +68,6 @@
                        [[ -f "$tofi_cache" ]] && rm "$tofi_cache"
                        '';
   };
-
-  stylix.targets.emacs.enable = true;
 
   # Session Variables
   home.sessionVariables = {

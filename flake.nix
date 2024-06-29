@@ -23,13 +23,14 @@
     stylix.url = "github:danth/stylix"; 
     
     nixos-hardware.url = "github:tracteurblinde/nixos-hardware/surface-linux-6.8.1";
+
+    nil.url = "github:oxalica/nil";
   };
 
   outputs = {nixpkgs, ...}@inputs: 
 
     let 
       system = "x86_64-linux";
-
 
       pkgs = import nixpkgs {
         inherit system;

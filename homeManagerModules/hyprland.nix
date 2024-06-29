@@ -3,7 +3,6 @@
 {
   home.packages = with pkgs; [
     # Window manager
-    hyprpaper
     hyprlock
     dunst
     tofi
@@ -31,6 +30,8 @@
       source = ~/.config/hypr/external.conf
       '';
   };
+
+  stylix.targets.hyprland.enable = false;
 
   xdg.portal = {
     enable = true;

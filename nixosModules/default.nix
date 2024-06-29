@@ -4,14 +4,14 @@
 
   # Additional Modules
   imports = [
-    ./../system/locale.nix
-    ./../system/users/noah.nix
-    ./../system/graphical.nix
+    ./../users/noah.nix
+    ./ai
     ./core
+    ./development
     ./obs.nix
     ./steam.nix
   ];
-  
+
   # Enable chachix for hyprland   
   nix.settings = {
     substituters = ["https://hyprland.cachix.org"];
@@ -46,17 +46,13 @@
 
   # System level package
   environment.systemPackages = with pkgs; [
-    vim 
-    wget
-    git
     cmake
     vlc
     obsidian
-    zip
-    unzip
     rpi-imager
     cachix
     ags
+    xdg-desktop-portal
   ];
 
   # HYPRLAND
@@ -67,6 +63,15 @@
 
   # WAYDROID
   virtualisation.waydroid.enable = true;
+
+  # EMACS DAEMON
+  services.emacs = {
+    enable = true;
+    package = (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages ( epkgs: with epkgs; [
+        vterm # vterm needs to pre compiled
+        treesit-grammars.with-all-grammars # as well as treesit grammars
+      ]);
+  };
 
   # STYLIX
   stylix = {
@@ -109,6 +114,6 @@
 
     homeManagerIntegration.autoImport = true;
 
-    image = /home/noah/dotfiles/hypr/wallpapers/sunset_city.jpg;
+    image = /home/noah/.dotfiles/hypr/wallpapers/sunset_city.jpg;
   };
 }

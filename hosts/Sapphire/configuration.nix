@@ -2,27 +2,15 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 
 {
 
   # Sapphire Imports
   imports = [
     ./../../nixosModules
-    ./../../nixosModules/docker.nix
   ];
   
-  boot.loader = {
-    grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      useOSProber = true;
-    };
-    efi = {
-      canTouchEfiVariables = true;
-    };
-  };
 
   # AMD Proprietary drivers
   boot.initrd.kernelModules = [ "amdgpu" ];
@@ -34,7 +22,7 @@
     "video=DP-2:2560x1440@75"
   ];
 
-  # opengl
+  # opengl 
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
@@ -48,18 +36,27 @@
   };
 
   steam.enable = true;
+  docker.enable = true;
   obs.enable = true;
+  lsp.enable = true;
+  js-dev.enable = true;
+  ollama.enable = true;
+
+  grub = {
+    enable = true;
+    useOSProber = true;
+  };
 
   networking.hostName = "Sapphire";
 
   services.hardware.openrgb.enable = true;
-
 
   environment.systemPackages = with pkgs; [
     amdctl
     amdgpu_top
     microcodeAmd
     edgetpu-compiler
+    clinfo
   ];
   
   # Configure network proxy if necessary
