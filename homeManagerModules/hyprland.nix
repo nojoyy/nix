@@ -3,6 +3,7 @@
 {
   home.packages = with pkgs; [
     # Window manager
+    hyprpaper
     hyprlock
     dunst
     tofi

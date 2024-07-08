@@ -1,4 +1,4 @@
-{ pkgs, config, inputs, ... }:
+{ pkgs, config, inputs, lib, ... }:
 
 {
 
@@ -8,8 +8,11 @@
     ./ai
     ./core
     ./development
+    ./emacs.nix
     ./obs.nix
     ./steam.nix
+    ./../carbon.nix
+    ./vm.nix
   ];
 
   # Enable chachix for hyprland   
@@ -30,7 +33,7 @@
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 4d --keep 3";
-    flake = "/home/noah/.nixos/";
+    flake = "/home/noah/nix/";
   };
 
   services.gvfs.enable = true;
@@ -55,23 +58,25 @@
     xdg-desktop-portal
   ];
 
+  xdg.portal.config.common.default = "*";
+
   # HYPRLAND
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 
+  # ENABLE X-SERVER
+  services.xserver = {
+    enable = true;
+    xkb.layout = "us";
+  };
+
   # WAYDROID
   virtualisation.waydroid.enable = true;
-
+  
   # EMACS DAEMON
-  services.emacs = {
-    enable = true;
-    package = (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages ( epkgs: with epkgs; [
-        vterm # vterm needs to pre compiled
-        treesit-grammars.with-all-grammars # as well as treesit grammars
-      ]);
-  };
+  emacs.enable = lib.mkDefault true;
 
   # STYLIX
   stylix = {
@@ -114,6 +119,6 @@
 
     homeManagerIntegration.autoImport = true;
 
-    image = /home/noah/.dotfiles/hypr/wallpapers/sunset_city.jpg;
+    image = /home/noah/dotfiles/hypr/wallpapers/sunset_city.jpg;
   };
 }

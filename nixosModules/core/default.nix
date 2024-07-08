@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./graphical.nix
     ./grub.nix
     ./locale.nix
     ./pipewire.nix

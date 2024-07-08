@@ -22,10 +22,9 @@
     "video=DP-2:2560x1440@75"
   ];
 
-  # opengl 
-  hardware.opengl = {
+  # opengl - renamed to graphics
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
     extraPackages = with pkgs; [
       amdvlk
       rocmPackages.clr.icd
@@ -41,6 +40,7 @@
   lsp.enable = true;
   js-dev.enable = true;
   ollama.enable = true;
+  vm.enable = true;
 
   grub = {
     enable = true;
@@ -57,6 +57,8 @@
     microcodeAmd
     edgetpu-compiler
     clinfo
+
+    filezilla
   ];
   
   # Configure network proxy if necessary
