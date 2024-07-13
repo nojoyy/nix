@@ -7,13 +7,9 @@
 {
   # Additional Modules
   imports = [
-    ./../../nixosModules/default.nix
+    ./../../nixosModules
   ];
   
-  boot.loader.grub.device = "nodev";
-  boot.loader.grub.efiSupport = true;
-  boot.loader.grub.useOSProber = true;
-
     # Boot kernel parameters:
   boot.kernelParams = [
     # Mitigate screen flickering, see:
@@ -42,6 +38,15 @@
   boot.blacklistedKernelModules = [
     "surface_gpe"
   ];
+
+  lsp.enable = true;
+  js-dev.enable = true;
+  vm.enable = true;
+
+  grub = {
+    enable = true;
+    useOSProber = true;
+  };
 
   networking.hostName = "Ruby";
 
