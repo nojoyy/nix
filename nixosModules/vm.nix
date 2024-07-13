@@ -10,9 +10,13 @@
     
     # Add QEMU/VM Support
     virtualisation.libvirtd.enable = true;
+    
     programs.virt-manager.enable = true;
     users.users.noah.extraGroups = [ "libvirtd" ];
 
+    # Enable USB redirection
+    virtualisation.spiceUSBRedirection.enable = true;
+    
     environment.systemPackages = with pkgs; [
       virt-viewer
     ];

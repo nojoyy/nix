@@ -58,7 +58,10 @@
     edgetpu-compiler
     clinfo
 
+    xorg.xhost
+    
     filezilla
+    ethtool # used to set up wol
   ];
   
   # Configure network proxy if necessary
