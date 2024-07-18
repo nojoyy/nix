@@ -10,6 +10,7 @@
   config = lib.mkIf config.js-dev.enable {
       environment.systemPackages = with pkgs; [
         nodejs
+        insomnia # for debugging http requests
       ];
   };
 }

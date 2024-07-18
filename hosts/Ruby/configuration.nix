@@ -43,6 +43,8 @@
   js-dev.enable = true;
   vm.enable = true;
 
+  stylix.image = /home/noah/Documents/System/wallpapers/contemplate.png;
+
   grub = {
     enable = true;
     useOSProber = true;
