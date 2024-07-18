@@ -14,7 +14,7 @@
   #General Packages
   home.packages = with pkgs; [ 
     # Desktop
-    firefox
+    librewolf
     keepassxc
     libreoffice-qt
     filezilla

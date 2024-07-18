@@ -64,7 +64,7 @@
     ethtool # used to set up wol
   ];
 
-  stylix.image = /home/noah/dotfiles/hypr/wallpapers/sunset_city.jpg;
+  stylix.image = /home/noah/Documents/system/wallpapers/sunset_city.jpg;
   
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
