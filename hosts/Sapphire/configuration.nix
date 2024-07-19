@@ -60,7 +60,6 @@
 
     xorg.xhost
     
-    filezilla
     ethtool # used to set up wol
   ];
 

@@ -13,11 +13,6 @@
     # Image Viewer
     qimgv
 
-    # Terminal
-    foot
-    neofetch
-    fastfetch
-
     # GNOME Menus/Icons
     gnome-menus
     gnome.adwaita-icon-theme

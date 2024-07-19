@@ -19,17 +19,8 @@
     libreoffice-qt
     filezilla
     
-    # Shells, Terminals, and Shell Accessories
-    zoxide
-    fzf
-    zellij
-
-    # GNU Stuff 
-    stow
-
     # Misc Utils
     gimp
-    lazygit
    ];
 
   # Enable Emacs
@@ -38,7 +29,6 @@
         vterm # vterm needs to pre compiled
         treesit-grammars.with-all-grammars # as well as treesit grammars
       ]);
-
 
   # wlogout
   programs.wlogout.enable = true;
@@ -70,8 +60,21 @@
   };
 
   # Session Variables
+  # Home Manager can also manage your environment variables through
+  # 'home.sessionVariables'. If you don't want to manage your shell through Home
+  # Manager then you have to manually source 'hm-session-vars.sh' located at
+  # either
+  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  # or
+  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+  # or
+  #  /etc/profiles/per-user/noah/etc/profile.d/hm-session-vars.sh
+
   home.sessionVariables = {
     EDITOR = "emacsclient";
     GTK_USE_PORTAL = "1";
   };
+
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
 }

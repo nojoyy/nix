@@ -8,6 +8,6 @@
     ./polkit.nix
     ./sddm.nix
     ./ssh.nix
-    ./terminal-utils.nix
+    ./terminal.nix
   ];
 }
