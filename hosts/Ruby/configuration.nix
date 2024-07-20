@@ -57,6 +57,7 @@
 
   # Enable brightness control via light
   programs.light.enable = true;
+  users.users.noah.extraGroups = [ "video" ];
 
   # Additional Packages
   environment.systemPackages = with pkgs; [
