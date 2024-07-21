@@ -37,8 +37,20 @@
         name = "Fira Sans";
         };
       serif = config.stylix.fonts.sansSerif;
+      sizes = {
+        terminal = 12;
+        applications = 12;
+        desktop = 10;
+        popups = 12;
+      };
     };
-    
+
+    cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 24;
+    };
+
     # enable home manager integration
     homeManagerIntegration.autoImport = true;
   };

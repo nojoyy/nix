@@ -11,6 +11,7 @@
       environment.systemPackages = with pkgs; [
         nodejs
         insomnia # for debugging http requests
+        chromium # for testing alongside gecko
       ];
   };
 }

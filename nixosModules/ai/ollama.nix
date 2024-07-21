@@ -5,9 +5,6 @@ let
   cfg = config.ollama;
   ollamaPackage = pkgs.ollama.override {
     acceleration = "rocm";
-    linuxPackages = config.boot.kernelPackages // {
-      nvidia_x11 = config.hardware.nvidia.package; # not sure if needed
-    };
   };
 
 in

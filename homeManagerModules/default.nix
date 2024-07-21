@@ -4,8 +4,8 @@
 
   # Default Modules
   imports = [
-    ./../homeManagerModules/pcmanfm.nix
-    ./../homeManagerModules/hyprland.nix
+    ./hyprland.nix
+    ./fm
   ];
   
   # General Home Manager Config

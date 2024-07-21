@@ -1,10 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   home.packages = with pkgs; [
     # Window manager
     swww
-    hyprpaper
     hyprlock
     dunst
     tofi
@@ -21,6 +20,7 @@
   # Enable Hyprland
   wayland.windowManager.hyprland = {
     enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     xwayland.enable = true;
     # pull from existing config
     extraConfig = ''
@@ -28,7 +28,8 @@
       '';
   };
 
-  stylix.targets.hyprland.enable = false;
+  # Let swww control wallpapers
+  services.hyprpaper.enable = lib.mkForce false;
 
   xdg.portal = {
     enable = true;

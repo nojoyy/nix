@@ -18,6 +18,7 @@
     # Tools
     fzf
     lf
+    ripdrag
     lsd
     stow
     zoxide
@@ -28,6 +29,7 @@
 
     # Terminal Emulators
     foot
+    kitty
     
     # Terminal Multiplexors
     tmux
