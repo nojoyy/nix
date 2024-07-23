@@ -15,9 +15,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Tracking issue with orcaslicer
     hyprland = {
-      url = "https://github.com/hyprwm/Hyprland/releases/download/v0.41.1/source-v0.41.1.tar.gz";
+      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
