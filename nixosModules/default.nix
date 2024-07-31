@@ -1,7 +1,6 @@
 { pkgs, config, inputs, lib, ... }:
 
 {
-
   # Additional Modules
   imports = [
     ./../users/noah.nix
@@ -71,6 +70,12 @@
   services.xserver = {
     enable = true;
     xkb.layout = "us";
+  };
+
+  # KANATA
+  services.kanata = {
+    enable = true;
+    keyboards.default.configFile = /home/noah/dotfiles/kanata/config.kbd;
   };
 
   # WAYDROID

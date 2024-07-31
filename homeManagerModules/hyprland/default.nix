@@ -21,11 +21,12 @@
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    xwayland.enable = true;
-    # pull from existing config
-    extraConfig = ''
-      source = ~/.config/hypr/external.conf
-      '';
+    settings = {
+      source = [
+        "~/nix/homeManagerModules/hyprland/config/hyprland.conf"
+        "~/nix/homeManagerModules/hyprland/config/monitors.conf"
+      ];
+    };
   };
 
   # Let swww control wallpapers

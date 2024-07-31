@@ -16,6 +16,7 @@
     starship
 
     # Tools
+    ripgrep
     fzf
     lf
     ripdrag

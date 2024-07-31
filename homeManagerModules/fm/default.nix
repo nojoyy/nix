@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./lf.nix
+    ./yazi.nix
     ./pcmanfm.nix
   ];
 }

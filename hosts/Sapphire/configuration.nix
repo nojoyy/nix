@@ -59,8 +59,6 @@
     clinfo
 
     xorg.xhost
-    yazi
-    
     ethtool # used to set up wol
   ];
 

@@ -28,6 +28,12 @@
     prismlauncher
   ];
 
+  modules = {
+    emacs.enable = true;
+    yazi.enable = true;
+    zsh.enable = true;
+  };
+
   programs.librewolf = {
     enable = true;
     settings = {
