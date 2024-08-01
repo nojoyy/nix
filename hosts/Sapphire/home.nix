@@ -30,6 +30,7 @@
 
   modules = {
     emacs.enable = true;
+    waybar.enable = true;
     yazi.enable = true;
     zsh.enable = true;
   };

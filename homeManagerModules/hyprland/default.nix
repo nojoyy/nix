@@ -7,7 +7,6 @@
     hyprlock
     dunst
     tofi
-    waybar
 
     # Image Viewer
     qimgv

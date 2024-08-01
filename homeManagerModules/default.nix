@@ -8,6 +8,7 @@
     ./fm
     ./emacs
     ./zsh
+    ./waybar
   ];
   
   # General Home Manager Config
