@@ -34,6 +34,9 @@
     ];
   };
 
+  # QMK
+  hardware.keyboard.qmk.enable = true;
+
   steam.enable = true;
   docker.enable = true;
   obs.enable = true;

@@ -17,16 +17,24 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Add plugins
-zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
+
+zinit ice wait lucid
+zinit light zsh-users/zsh-syntax-highlighting
+
+zinit ice wait lucid
 zinit light zsh-users/zsh-autosuggestions
 
+zinit ice wait lucid
 zinit light Aloxaf/fzf-tab
 
-zinit cdreplay -q
+# Reload on cd if needed
+function chpwd() {
+    zinit cdreplay -q
+}
 
 # History
-HISTSIZE=5000
+HISTSIZE=2500
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
@@ -58,6 +66,6 @@ function yy() {
 }
 
 # Shell Integration
+eval "$(starship init zsh)" # starship prompt
 eval "$(fzf --zsh)" # fzf for history + completions
 eval "$(zoxide init zsh)" # zoxide integration
-eval "$(starship init zsh)" # starship prompt

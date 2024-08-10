@@ -2,6 +2,7 @@
 
 let
   module = config.modules.waybar;
+  timezone = "America/Kentucky/Louisville";
 
 in {
   options = {
@@ -31,13 +32,15 @@ in {
           
           "clock#time" = {
             interval = 10;
-            format = "{:%H:%M}";
-            tooltp = false;
+            format = "{:%I:%M %p}";
+            timezone = timezone;
+            tooltip = false;
           };
           
           "clock#date" = {
             interval = 20;
             format = "{:%e %B %Y}";
+            timezone = timezone;
             tooltip = false;
           };
           

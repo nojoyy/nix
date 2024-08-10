@@ -9,7 +9,8 @@ in {
   };
 
   config = lib.mkIf module.enable {
-    xdg.configFile."zsh/.zshrc".source = ./.zshrc;
+    xdg.configFile."zsh/.zshrc".source = ./zshrc;
+    xdg.configFile."starship.toml".source = ./starship.toml;
 
     programs.zsh = {
       enable = true;

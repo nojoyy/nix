@@ -20,17 +20,17 @@ in {
         };
          opener = {
            edit = [
-             { exec = "emacsclient -nw \"$@\""; block=true; for = "unix"; }
+             { run = "emacsclient -nw \"$@\""; block=true; for = "unix"; }
            ];
          };
       };
       
       keymap = {
         manager.prepend_keymap = [
-          { exec = "yank --cut"; on = ["d"]; }
-          { exec = "unyank"; on = ["D"]; }
-          { exec = "remove"; on = ["x"]; }
-          { exec = "remove --permanently"; on = ["X"]; }
+          { run = "yank --cut"; on = ["d"]; }
+          { run = "unyank"; on = ["D"]; }
+          { run = "remove"; on = ["x"]; }
+          { run = "remove --permanently"; on = ["X"]; }
         ];
       };
     };
