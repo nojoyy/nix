@@ -152,8 +152,21 @@
           ([backtab] . corfu-previous))
   :init
   (global-corfu-mode)
-  (corfu-history-mode)
-  )
+  (corfu-history-mode))
+
+(use-package emacs
+  :custom
+  (tab-always-indent 'complete))
+
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
 
 (use-package marginalia
   :after vertico
@@ -262,8 +275,10 @@
 
 (use-package tree-sitter
   :ensure t
+  :hook
+  (tree-sitter-after-on-hook . tree-sitter-hl-mode)
   :init
- (global-tree-sitter-mode))
+  (global-tree-sitter-mode))
 ;; install langs
 (use-package tree-sitter-langs
   :ensure t)
@@ -275,7 +290,7 @@
   :mode
   ("\\.ts\\'" . typescript-ts-mode)
   ("\\.tsx\\'" . tsx-ts-mode)
-  ("\\.js\\'" . typescript-ts-mode)
+  ("\\.js\\'" . js-ts-mode)
   ("\\.jsx\\'" . tsx-ts-mode))
 
 (use-package eglot
@@ -292,9 +307,10 @@
   :hook
   (nix-ts-mode . eglot-ensure))
 
-(use-package prettier
+(use-package apheleia
   :init
-  (global-prettier-mode))
+  (setq-default indent-tabs-mode nil)
+  (apheleia-global-mode +1))
 
 (use-package org
   :config
