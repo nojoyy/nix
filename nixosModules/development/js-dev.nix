@@ -10,6 +10,7 @@
       environment.systemPackages = with pkgs; [
 	eslint_d
         nodejs
+        deno
 	nodePackages.typescript-language-server
 	nodePackages.prettier
         bruno # for debugging http requests
