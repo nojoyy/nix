@@ -18,22 +18,28 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
-(use-package evil
-  :hook ((prog-mode text-mode) . display-line-numbers-mode)
-  :custom
-  (evil-want-integration t)
-  (evil-want-keybinding nil)
-  (evil-want-C-i-jump nil)
-  (evil-respect-visual-line-mode t)
-  (evil-want-Y-yank-to-eol t)
-  :init
-  (evil-mode))
+(defun display-relative-line-numbers ()
+  (setq display-line-numbers 'relative)
+  (display-line-numbers-mode 1))
 
-;; Keybind collection for evil
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+  (use-package evil
+    :hook ((prog-mode text-mode) . 'display-line-numbers-mode)
+    :custom
+    (evil-want-integration t)
+    (evil-want-keybinding nil)
+    (evil-want-C-i-jump nil)
+    (evil-respect-visual-line-mode t)
+    (evil-want-Y-yank-to-eol t)
+    :init
+    (evil-mode)
+    :config
+    (setq display-line-numbers 'relative))
+
+  ;; Keybind collection for evil
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
 
 (use-package evil
   :custom
@@ -60,6 +66,10 @@
     ">" '(:ignore t :wk "goto")
     "> r" '(recentf :wk "goto recent file")
     "> m" '(bookmark :wk "goto bookmark")
+    "f" '(:ignore t :wk "find")
+    "f f" '(find-file :wk "find file")
+    "f r" '(recentf :wk "find recent")
+    "f m" '(bookmark :wk "find bookmark")
     "x" '(execute-extended-command :wk "M-x")
     "C-/" '(comment-line :wk "comment lines"))
 
@@ -206,9 +216,9 @@
   (dashboard-center-content t)
   (dashboard-vertically-center-content t)
   (dashboard-items '((recents . 8)
-    		 (bookmarks . 5)
-    		 (projects . 5)
-    		 (agenda . 5)))
+  		   (bookmarks . 5)
+  		   (projects . 5)
+  		   (agenda . 5)))
   (dashboard-navigation-cycle t) ;; cycle through nav headers
   ;; dashboard icons
   (dashboard-display-icons-p t)
@@ -222,29 +232,29 @@
   :init
   (doom-modeline-mode 1))
 
-;;create font default
-(set-face-attribute 'default nil
-  :font "FiraCodeNerdFont"
-  :weight 'regular)
+(use-package emacs
+  :config
+  (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 120))
 
-;;make comments italicized
-(set-face-attribute 'font-lock-comment-face nil
-  :slant 'italic)
-
-;;make keywords italicized
-(set-face-attribute 'font-lock-keyword-face nil
-  :slant 'italic)
-
-;;add font to default
-(add-to-list 'default-frame-alist '(font . "FiraCode-12"))
-
-(set-face-attribute 'variable-pitch nil
-                    :font "FiraSans"
-                    :height 325
-                    :weight 'regular)
-
-;;set line spacing
-(setq-default line-spacing 0.20)
+;; ligature support
+(use-package ligature
+  :config  ;; Enable the "www" ligature in every possible major mode
+  (ligature-set-ligatures 't '("www"))
+  ;; Enable all Cascadia Code ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                     ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                     "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                     "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                     "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                     "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                     "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                     "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                     ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                     "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                     "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                     "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                     "\\\\" "://"))
+  (global-ligature-mode))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -253,10 +263,13 @@
   :init
       (recentf-mode 1))
 
-(save-place-mode 1)
-(global-auto-revert-mode 1) ;; Revert buffers if file is edited outside of emacs instance
-(setq backup-directory-alist `(("." . "~/.temp"))
-      backup-by-copying t)
+(use-package emacs
+  :config
+  (save-place-mode 1)
+  (global-auto-revert-mode 1) ;; Revert buffers if file is edited outside of emacs instance
+  :custom
+  (backup-directory-alist `(("." . "~/.temp"))
+        backup-by-copying t))
 
 (use-package magit
   :config
@@ -283,8 +296,10 @@
 (use-package tree-sitter-langs
   :ensure t)
 
-(add-hook 'prog-mode 'electric-pair-mode)
-(add-hook 'prog-mode 'electric-quote-mode)
+(use-package emacs
+  :hook
+  (prog-mode . electric-pair-mode)
+  (prog-mode . electric-quote-mode))
 
 (use-package tree-sitter
   :mode
@@ -316,9 +331,68 @@
   :config
   (require 'org-tempo)
   (nj/leader-keys
-    "o" '(:ignore t :wk "org-mode")
-    "o c" '(:ignore t :wk "org code")
-    "o c o" '(org-edit-special :wk "org edit src code")))
+    "o" '(:ignore t :wk "org")
+    "o e" '(org-edit-special :wk "edit")))
+
+(defun org-set-agenda-files-recursively (dirs)
+  "Set org agenda files recursively from a list of DIRS."
+  (setq org-agenda-files
+        (apply 'append ;; make resulting lists of lists into one list
+               (mapcar (lambda (dir) ;; map input list of dirs
+                         (directory-files-recursively dir "\.org$"))
+                       dirs))))
+
+(use-package org
+  :config
+  (nj/leader-keys
+    "o a" '(org-agenda :wk "agenda"))
+  (org-set-agenda-files-recursively '("~/projects/" "~/org/"))
+  :custom
+  (org-agenda-custom-commands
+   '(("p" "Planning"
+      ((tags-todo "+@planning"
+                  ((org-agenda-overriding-header "Planning Tasks")))
+       (tags-todo "-{.*}"
+                  ((org-agenda-overriding-header "Untagged Tasks")))))
+
+     ("i" "Inbox"
+      ((todo ""
+             ((org-agenda-files '("~/org/inbox.org"))
+              (org-agenda-overriding-header "Unprocessed Inbox Items"))))))))
+
+(use-package org
+  :config
+  (nj/leader-keys
+    "o c" '(org-capture :wk "capture"))
+  :custom
+  (org-capture-templates
+   '(("t" "Todo" entry
+      (file "~/org/inbox.org")
+      "* TODO %?"))))
+
+(use-package org
+  :config
+  (nj/leader-keys
+    "o q" '(org-set-tag-command :wk "set tags"))
+  :custom
+  (org-tag-alist
+   '(
+     ;; Settings
+     ("@home" . "?H")
+     ("@work" ."?W")
+     ("@car" . "?A")
+
+     ;; Devices
+     ("@computer" . "?C")
+     ("@phone" . "?P")
+     ("@server" . "?S")
+
+     ;; Task Types
+     ("@planning" . "?p")
+     ("@development" . "?d")
+     ("@errands" . "?r")
+     ("@service" . "?s")
+     ("@creative" . "?c"))))
 
 (use-package org-auto-tangle
   :defer t
