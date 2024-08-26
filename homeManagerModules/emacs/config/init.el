@@ -370,6 +370,24 @@
       (file "~/org/inbox.org")
       "* TODO %?"))))
 
+(defun org-refile-in-file ()
+  "Refile item inside current org file"
+  (interactive)
+  (setq org-refile-targets nil)
+  (org-refile))
+
+(defun org-refile-in-agenda ()
+  "Refile item inside org agenda file"
+  (interactive)
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+  (org-refile))
+
+(use-package org
+  :config
+  (nj/leader-keys
+    "o r f" '(org-refile-in-file :wk "refile in file")
+    "o r a" '(org-refile-in-agenda :wk "refile in agenda file")))
+
 (use-package org
   :config
   (nj/leader-keys

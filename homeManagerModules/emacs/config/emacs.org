@@ -61,6 +61,7 @@ Vi emulation layer. Adds vim emulation to emacs in all programming and text edit
 #+end_src
 
 ** Undo/Redo
+Implement undo redo for evil using undofu. This allows for undo branching and branch hopping if need be.
 #+begin_src emacs-lisp
   (use-package evil
     :custom
@@ -76,7 +77,7 @@ Vi emulation layer. Adds vim emulation to emacs in all programming and text edit
 
 * Keybinds
 ** General
-Leader key definition and easy keybinds
+Leader key definition and easy keybinds. I have defined a lot of various keybinds here that I don’t think belong anywhere else.
 #+begin_src emacs-lisp
   (use-package general
     :config
@@ -249,7 +250,7 @@ Allows for more information for vertico buffers
 
 * Look and Feel
 ** Icons
-Icon Support
+Icon Support. Use nerd icons for maximum terminal goodness!!!
 #+begin_src emacs-lisp
   (use-package nerd-icons)
 
@@ -281,6 +282,7 @@ Doom Theming
 #+end_src
 
 ** Dashboard
+Main landing page. Works great with other packages like recentf, org agenda, and projectile. Supplies shortcuts to recent and popular files.
 #+begin_src emacs-lisp
   (use-package dashboard
     :ensure t
@@ -305,6 +307,7 @@ Doom Theming
 #+end_src
 
 ** Doom Modeline
+Better looking modeline. The modeline is the bottom bar of emacs and really determines the look and feel of your Emacs setup. There is also a powerline port that is popular as well.
 #+begin_src emacs-lisp
     (use-package doom-modeline
       :init
@@ -312,7 +315,7 @@ Doom Theming
 #+end_src
 
 ** Font Config
-General UI Font Config
+Font config. I am using Fira Code mostly for ligature support, but I recently discovered that there is no italic variant of the font to apply to comments. Standard ligature.el setup here as well.
 #+begin_src emacs-lisp
   (use-package emacs
     :config
@@ -341,7 +344,7 @@ General UI Font Config
 
 
 ** Rainbow Delimiters
-Applies rainbow effect to delimiters and groups to sort out nesting errors
+Applies rainbow effect to delimiters and groups to sort out nesting errors. This is especially useful when working in lisp-like languages.
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
@@ -370,6 +373,7 @@ Applies rainbow effect to delimiters and groups to sort out nesting errors
 
 * Development
 ** Magit
+Git wrapper/client/porcelain for Emacs. Works great with evil-collection.
 #+begin_src emacs-lisp
   (use-package magit
     :config
@@ -380,6 +384,7 @@ Applies rainbow effect to delimiters and groups to sort out nesting errors
 
 
 ** Projectile
+Tool for project management. Used to grep projects, find files in projects, and much more. I am only scratching the surface here.
 #+begin_src emacs-lisp
   (use-package project) ;; needed for fix with eglot
     
@@ -393,6 +398,7 @@ Applies rainbow effect to delimiters and groups to sort out nesting errors
 
 
 ** Tree-Sitter
+Excellent tool for parsing grammars. Built into emacs, used for syntax highlighting and extensible language modes.
 #+begin_src emacs-lisp
   (use-package tree-sitter
     :ensure t
@@ -416,6 +422,7 @@ Applies rainbow effect to delimiters and groups to sort out nesting errors
 
 ** Languages
 *** EMCA
+Mostly typescript, use treesitter and deno
 #+begin_src emacs-lisp
   (use-package tree-sitter
     :mode
@@ -431,6 +438,7 @@ Applies rainbow effect to delimiters and groups to sort out nesting errors
 #+end_src
 
 *** Nix
+Use nix tree sitter mode, as well as setup nil, a Language Server for Nix.
 #+begin_src emacs-lisp
   (use-package nix-ts-mode
     :mode "\\.nix\\'")
@@ -444,13 +452,14 @@ Applies rainbow effect to delimiters and groups to sort out nesting errors
 
 
 ** Formating
-Alpheleia is a package designed to hook into multiple code formating tools such as Prettier
+Alpheleia is a package designed to hook into multiple code formating tools such as Prettier. It executes bash scripts to launch the formatters, so make sure they are properly installed and in the PATH.
 #+begin_src emacs-lisp
   (use-package apheleia
     :init
     (setq-default indent-tabs-mode nil)
     (apheleia-global-mode +1))
 #+end_src
+
 
 * Org Mode
 The ever powerful
@@ -464,6 +473,7 @@ The ever powerful
 #+end_src
 
 ** Agenda
+Org agenda provides a quick and extensible way to view your scheduled task. It can be configured with custom commands or even extended via a query language like org-ql. Tagging comes in useful here.
 #+begin_src emacs-lisp
   (defun org-set-agenda-files-recursively (dirs)
     "Set org agenda files recursively from a list of DIRS."
@@ -492,7 +502,9 @@ The ever powerful
                 (org-agenda-overriding-header "Unprocessed Inbox Items"))))))))
 #+end_src
 
+
 ** Captures
+Captures provide an easy way of intelligently capturing thoughts, tasks, references, and more. Custom capture templates are an awesome way to leverage org, you can find plenty of examples on the Org Mode Wiki.
 #+begin_src emacs-lisp
   (use-package org
     :config
@@ -505,7 +517,31 @@ The ever powerful
         "* TODO %?"))))
 #+end_src
 
+** Refile
+Refiling allows easy migration of any Org item to a specific header.
+I wanted to maintain the default refile functionality while also adding functionality to quickly categorize inbox tasks, so I set up some simple functions to set the refile targets accordingly.
+#+begin_src emacs-lisp
+  (defun org-refile-in-file ()
+    "Refile item inside current org file"
+    (interactive)
+    (setq org-refile-targets nil)
+    (org-refile))
+
+  (defun org-refile-in-agenda ()
+    "Refile item inside org agenda file"
+    (interactive)
+    (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+    (org-refile))
+
+  (use-package org
+    :config
+    (nj/leader-keys
+      "o r f" '(org-refile-in-file :wk "refile in file")
+      "o r a" '(org-refile-in-agenda :wk "refile in agenda file")))
+#+end_src
+
 ** Tags
+Tags are a great way to sort headings, but more applicably todos, by type to quickly poll for them in an agenda view. Common tags can be a defined and easily applied on any Org Item by using org-set-tag-command anf the defined hotkey.
 #+begin_src emacs-lisp
   (use-package org
     :config
@@ -532,16 +568,19 @@ The ever powerful
        ("@creative" . "?c"))))
 #+end_src
 
+
 ** Auto Tangle
-Tangle source blocks on org document save
+Allows for any literate programming projects to auto tangle all source blocks on save.
+To have an org mode buffer tangle at save, you must define auto_tangle: t in the header args. This can come back to bite you, as sometimes saving my commit a mistake unknowingly.
 #+begin_src emacs-lisp
   (use-package org-auto-tangle
     :defer t
     :hook (org-mode . org-auto-tangle-mode))
 #+end_src
 
+
 ** Bullets
-Replace header **'s with rendered bullet points
+Replace standard * headers with defined unicode bullets
 #+begin_src emacs-lisp
   (use-package org-bullets
     :hook (org-mode . org-bullets-mode)

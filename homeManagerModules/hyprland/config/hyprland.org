@@ -9,7 +9,6 @@
 #+begin_src hypr
 $terminal = footclient
 $browser = librewolf
-$fileManager = pcmanfm
 $dmenu = tofi-drun | xargs hyprctl dispatch exec --
 $waybar = ~/.config/waybar/launch.sh
 #+end_src
@@ -171,7 +170,6 @@ $mainMod = SUPER
 #+begin_src hypr
 bind = $mainMod, Q, exec, $terminal
 bind = $mainMod, B, exec, $browser
-bind = $mainMod SHIFT, F, exec, $fileManager
 
 bind = $mainMod, R, exec, $dmenu
 
