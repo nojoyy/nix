@@ -308,6 +308,16 @@
   (tsx-ts-mode . eglot-ensure)
   (typescript-ts-mode . eglot-ensure))
 
+(add-to-list 'eglot-server-programs '((js-mode typescript-mode) . (eglot-deno "deno" "lsp")))
+
+  (defclass eglot-deno (eglot-lsp-server) ()
+    :documentation "A custom class for deno lsp.")
+
+  (cl-defmethod eglot-initialization-options ((server eglot-deno))
+    "Passes through required deno initialization options"
+    (list :enable t
+    :lint t))
+
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
 
