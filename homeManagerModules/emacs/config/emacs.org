@@ -36,28 +36,23 @@ Package Management via straight.el
 * Evil Mode
 Vi emulation layer. Adds vim emulation to emacs in all programming and text editing buffers. Evil collection is a collection of keybind packages designed to integrate vim keybinds into popular emacs packages such as magit.
 #+begin_src emacs-lisp
-    (defun display-relative-line-numbers ()
-      (setq display-line-numbers 'relative)
-      (display-line-numbers-mode 1))
-      
-      (use-package evil
-        :hook ((prog-mode text-mode) . 'display-line-numbers-mode)
-        :custom
-        (evil-want-integration t)
-        (evil-want-keybinding nil)
-        (evil-want-C-i-jump nil)
-        (evil-respect-visual-line-mode t)
-        (evil-want-Y-yank-to-eol t)
-        :init
-        (evil-mode)
-        :config
-        (setq display-line-numbers 'relative))
+  (use-package evil
+    :hook ((prog-mode text-mode) . display-line-numbers-mode)
+    :custom
+    (display-line-numbers-type 'relative)
+    (evil-want-integration t)
+    (evil-want-keybinding nil)
+    (evil-want-C-i-jump nil)
+    (evil-respect-visual-line-mode t)
+    (evil-want-Y-yank-to-eol t)
+    :init
+    (evil-mode))
 
-      ;; Keybind collection for evil
-      (use-package evil-collection
-        :after evil
-        :config
-        (evil-collection-init))
+  ;; Keybind collection for evil
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
 #+end_src
 
 ** Undo/Redo
@@ -472,7 +467,7 @@ The ever powerful
       "o e" '(org-edit-special :wk "edit")))
 #+end_src
 
-** Agenda
+** [[https://orgmode.org/manual/Agenda-Views.html][Agenda]]
 Org agenda provides a quick and extensible way to view your scheduled task. It can be configured with custom commands or even extended via a query language like org-ql. Tagging comes in useful here.
 #+begin_src emacs-lisp
   (defun org-set-agenda-files-recursively (dirs)
@@ -499,11 +494,13 @@ Org agenda provides a quick and extensible way to view your scheduled task. It c
        ("i" "Inbox"
         ((todo ""
                ((org-agenda-files '("~/org/inbox.org"))
-                (org-agenda-overriding-header "Unprocessed Inbox Items"))))))))
+                (org-agenda-overriding-header "Unprocessed Inbox Items")))))
+
+       ("N" "Search" search ""))))
 #+end_src
 
 
-** Captures
+** [[https://orgmode.org/manual/Capture.html][Capture]]
 Captures provide an easy way of intelligently capturing thoughts, tasks, references, and more. Custom capture templates are an awesome way to leverage org, you can find plenty of examples on the Org Mode Wiki.
 #+begin_src emacs-lisp
   (use-package org
@@ -519,26 +516,34 @@ Captures provide an easy way of intelligently capturing thoughts, tasks, referen
 
 ** Refile
 Refiling allows easy migration of any Org item to a specific header.
-I wanted to maintain the default refile functionality while also adding functionality to quickly categorize inbox tasks, so I set up some simple functions to set the refile targets accordingly.
 #+begin_src emacs-lisp
-  (defun org-refile-in-file ()
-    "Refile item inside current org file"
-    (interactive)
-    (setq org-refile-targets nil)
-    (org-refile))
-
-  (defun org-refile-in-agenda ()
-    "Refile item inside org agenda file"
-    (interactive)
-    (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-    (org-refile))
-
   (use-package org
     :config
     (nj/leader-keys
       "o r f" '(org-refile-in-file :wk "refile in file")
       "o r a" '(org-refile-in-agenda :wk "refile in agenda file")))
 #+end_src
+
+*** Refile in Current Buffer/Org File
+This is defualt functionality
+#+begin_src emacs-lisp
+  (defun org-refile-in-file ()
+    "Refile item inside current org file"
+    (interactive)
+    (setq org-refile-targets nil)
+    (org-refile))
+#+end_src
+
+*** Refile in Org Agenda File
+Used for refiling tasks to agenda files
+#+begin_src emacs-lisp
+  (defun org-refile-in-agenda ()
+    "Refile item inside org agenda file"
+    (interactive)
+    (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+    (org-refile))
+#+end_src
+
 
 ** Tags
 Tags are a great way to sort headings, but more applicably todos, by type to quickly poll for them in an agenda view. Common tags can be a defined and easily applied on any Org Item by using org-set-tag-command anf the defined hotkey.
@@ -566,6 +571,19 @@ Tags are a great way to sort headings, but more applicably todos, by type to qui
        ("@errands" . "?r")
        ("@service" . "?s")
        ("@creative" . "?c"))))
+#+end_src
+
+
+** [[https://orgmode.org/manual/TODO-Extensions.html][Todos]]
+Todos can be defined with custom states using org todo keywords, the pipe delimiter seperates TODO type tasks from DONE type ones.
+You can also assign hotkeys to todo types as well, which will change the functionality from cycling to direct toggling.
+#+begin_src emacs-lisp
+  (use-package org
+    :config
+    (nj/leader-keys
+      "o t" '(org-todo :wk "todo"))
+    :custom
+    (org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)"))))
 #+end_src
 
 

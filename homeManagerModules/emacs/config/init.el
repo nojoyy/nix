@@ -18,28 +18,23 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
-(defun display-relative-line-numbers ()
-  (setq display-line-numbers 'relative)
-  (display-line-numbers-mode 1))
+(use-package evil
+  :hook ((prog-mode text-mode) . display-line-numbers-mode)
+  :custom
+  (display-line-numbers-type 'relative)
+  (evil-want-integration t)
+  (evil-want-keybinding nil)
+  (evil-want-C-i-jump nil)
+  (evil-respect-visual-line-mode t)
+  (evil-want-Y-yank-to-eol t)
+  :init
+  (evil-mode))
 
-  (use-package evil
-    :hook ((prog-mode text-mode) . 'display-line-numbers-mode)
-    :custom
-    (evil-want-integration t)
-    (evil-want-keybinding nil)
-    (evil-want-C-i-jump nil)
-    (evil-respect-visual-line-mode t)
-    (evil-want-Y-yank-to-eol t)
-    :init
-    (evil-mode)
-    :config
-    (setq display-line-numbers 'relative))
-
-  ;; Keybind collection for evil
-  (use-package evil-collection
-    :after evil
-    :config
-    (evil-collection-init))
+;; Keybind collection for evil
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
 
 (use-package evil
   :custom
@@ -358,7 +353,9 @@
      ("i" "Inbox"
       ((todo ""
              ((org-agenda-files '("~/org/inbox.org"))
-              (org-agenda-overriding-header "Unprocessed Inbox Items"))))))))
+              (org-agenda-overriding-header "Unprocessed Inbox Items")))))
+
+     ("N" "Search" search ""))))
 
 (use-package org
   :config
@@ -369,6 +366,12 @@
    '(("t" "Todo" entry
       (file "~/org/inbox.org")
       "* TODO %?"))))
+
+(use-package org
+  :config
+  (nj/leader-keys
+    "o r f" '(org-refile-in-file :wk "refile in file")
+    "o r a" '(org-refile-in-agenda :wk "refile in agenda file")))
 
 (defun org-refile-in-file ()
   "Refile item inside current org file"
@@ -381,12 +384,6 @@
   (interactive)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
   (org-refile))
-
-(use-package org
-  :config
-  (nj/leader-keys
-    "o r f" '(org-refile-in-file :wk "refile in file")
-    "o r a" '(org-refile-in-agenda :wk "refile in agenda file")))
 
 (use-package org
   :config
@@ -411,6 +408,13 @@
      ("@errands" . "?r")
      ("@service" . "?s")
      ("@creative" . "?c"))))
+
+(use-package org
+  :config
+  (nj/leader-keys
+    "o t" '(org-todo :wk "todo"))
+  :custom
+  (org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)"))))
 
 (use-package org-auto-tangle
   :defer t
