@@ -513,6 +513,14 @@ Org agenda provides a quick and extensible way to view your scheduled task. It c
        ("N" "Search" search ""))))
 #+end_src
 
+** Archive
+Setup a global archive for completed agenda tasks. This has the benefit of being 
+#+begin_src emacs-lisp
+  (use-package org
+    :custom
+    (org-archive-address "~/org/archive.org::%s"))
+#+end_src
+
 
 ** [[https://orgmode.org/manual/Capture.html][Capture]]
 Captures provide an easy way of intelligently capturing thoughts, tasks, references, and more. Custom capture templates are an awesome way to leverage org, you can find plenty of examples on the Org Mode Wiki.
