@@ -434,7 +434,9 @@ Excellent tool for parsing grammars. Built into emacs, used for syntax highlight
 **** Deno
 Enable deno lsp with eglot; taken from deno documentation
 #+begin_src emacs-lisp
-  (add-to-list 'eglot-server-programs '((js-mode typescript-mode) . (eglot-deno "deno" "lsp")))
+  (use-package eglot
+    :config
+    (add-to-list 'eglot-server-programs '((js-mode typescript-mode) . (eglot-deno "deno" "lsp")))
 
     (defclass eglot-deno (eglot-lsp-server) ()
       :documentation "A custom class for deno lsp.")
@@ -442,7 +444,7 @@ Enable deno lsp with eglot; taken from deno documentation
     (cl-defmethod eglot-initialization-options ((server eglot-deno))
       "Passes through required deno initialization options"
       (list :enable t
-      :lint t))
+	    :lint t)))
 #+end_src
 
 
@@ -467,6 +469,14 @@ Alpheleia is a package designed to hook into multiple code formating tools such 
     :init
     (setq-default indent-tabs-mode nil)
     (apheleia-global-mode +1))
+#+end_src
+
+** Yasnippet
+Snippet manager for emacs
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :config
+    (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
 #+end_src
 
 
@@ -573,7 +583,7 @@ Tags are a great way to sort headings, but more applicably todos, by type to qui
   (use-package org
     :config
     (nj/leader-keys
-      "o q" '(org-set-tag-command :wk "set tags"))
+      "o q" '(org-set-tags-command :wk "set tags"))
     :custom
     (org-tag-alist
      '(
@@ -592,7 +602,13 @@ Tags are a great way to sort headings, but more applicably todos, by type to qui
        ("@development" . "?d")
        ("@errands" . "?r")
        ("@service" . "?s")
-       ("@creative" . "?c"))))
+       ("@creative" . "?c")
+
+       ;; Events
+       ("@birthday" . "?B")
+       ("@wedding" . "?W")
+       ("@anniversary" . "?V")
+       )))
 #+end_src
 
 
@@ -605,7 +621,7 @@ You can also assign hotkeys to todo types as well, which will change the functio
     (nj/leader-keys
       "o t" '(org-todo :wk "todo"))
     :custom
-    (org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)"))))
+    (org-todo-keywords '((sequence "TODO(t)" "ACTIVE(a)" "WAITING(w)" "|" "DONE(d)"))))
 #+end_src
 
 

@@ -308,7 +308,9 @@
   (tsx-ts-mode . eglot-ensure)
   (typescript-ts-mode . eglot-ensure))
 
-(add-to-list 'eglot-server-programs '((js-mode typescript-mode) . (eglot-deno "deno" "lsp")))
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '((js-mode typescript-mode) . (eglot-deno "deno" "lsp")))
 
   (defclass eglot-deno (eglot-lsp-server) ()
     :documentation "A custom class for deno lsp.")
@@ -316,7 +318,7 @@
   (cl-defmethod eglot-initialization-options ((server eglot-deno))
     "Passes through required deno initialization options"
     (list :enable t
-    :lint t))
+	  :lint t)))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
@@ -331,6 +333,10 @@
   :init
   (setq-default indent-tabs-mode nil)
   (apheleia-global-mode +1))
+
+(use-package yasnippet
+  :config
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
 
 (use-package org
   :config
@@ -368,6 +374,10 @@
      ("N" "Search" search ""))))
 
 (use-package org
+  :custom
+  (org-archive-address "~/org/archive.org::%s"))
+
+(use-package org
   :config
   (nj/leader-keys
     "o c" '(org-capture :wk "capture"))
@@ -398,7 +408,7 @@
 (use-package org
   :config
   (nj/leader-keys
-    "o q" '(org-set-tag-command :wk "set tags"))
+    "o q" '(org-set-tags-command :wk "set tags"))
   :custom
   (org-tag-alist
    '(
@@ -417,14 +427,20 @@
      ("@development" . "?d")
      ("@errands" . "?r")
      ("@service" . "?s")
-     ("@creative" . "?c"))))
+     ("@creative" . "?c")
+
+     ;; Events
+     ("@birthday" . "?B")
+     ("@wedding" . "?W")
+     ("@anniversary" . "?V")
+     )))
 
 (use-package org
   :config
   (nj/leader-keys
     "o t" '(org-todo :wk "todo"))
   :custom
-  (org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)"))))
+  (org-todo-keywords '((sequence "TODO(t)" "ACTIVE(a)" "WAITING(w)" "|" "DONE(d)"))))
 
 (use-package org-auto-tangle
   :defer t
