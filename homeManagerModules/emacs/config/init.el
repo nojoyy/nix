@@ -28,6 +28,7 @@
   (evil-respect-visual-line-mode t)
   (evil-want-Y-yank-to-eol t)
   :init
+  (global-visual-line-mode)
   (evil-mode))
 
 ;; Keybind collection for evil
@@ -149,7 +150,7 @@
   (corfu-cycle t)  ;; Enable cycling for `corfu-next' and `corfu-previous'.
   (corfu-auto t)  ;; Enable auto completion.
   (corfu-auto-prefix 2)
-  (corfu-auto-delay 0.2)
+  (corfu-auto-delay 0)
   :bind (:map corfu-map
           ("TAB" . corfu-next)
           ([tab] . corfu-next)
@@ -339,26 +340,19 @@
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
 
 (use-package org
+  :hook (org-mode . org-indent-mode)
   :config
   (require 'org-tempo)
   (nj/leader-keys
     "o" '(:ignore t :wk "org")
     "o e" '(org-edit-special :wk "edit")))
 
-(defun org-set-agenda-files-recursively (dirs)
-  "Set org agenda files recursively from a list of DIRS."
-  (setq org-agenda-files
-        (apply 'append ;; make resulting lists of lists into one list
-               (mapcar (lambda (dir) ;; map input list of dirs
-                         (directory-files-recursively dir "\.org$"))
-                       dirs))))
-
 (use-package org
   :config
   (nj/leader-keys
     "o a" '(org-agenda :wk "agenda"))
-  (org-set-agenda-files-recursively '("~/projects/" "~/org/"))
   :custom
+  (org-agenda-files (directory-files-recursively org-directory "\.org$"))
   (org-agenda-custom-commands
    '(("p" "Planning"
       ((tags-todo "+@planning"
@@ -370,6 +364,11 @@
       ((todo ""
              ((org-agenda-files '("~/org/inbox.org"))
               (org-agenda-overriding-header "Unprocessed Inbox Items")))))
+
+     ("P" "Projects"
+      ((todo ""
+      ((org-agenda-files (directory-files-recursively "~/org/projects" "\.org$")
+                         ((org-agenda-overriding-header "Projects")))))))
 
      ("N" "Search" search ""))))
 
@@ -413,26 +412,26 @@
   (org-tag-alist
    '(
      ;; Settings
-     ("@home" . "?H")
-     ("@work" ."?W")
-     ("@car" . "?A")
+     ("@home" . ?H)
+     ("@work" . ?W)
+     ("@car" . ?A)
 
      ;; Devices
-     ("@computer" . "?C")
-     ("@phone" . "?P")
-     ("@server" . "?S")
+     ("@computer" . ?C)
+     ("@phone" . ?P)
+     ("@server" . ?S)
 
      ;; Task Types
-     ("@planning" . "?p")
-     ("@development" . "?d")
-     ("@errands" . "?r")
-     ("@service" . "?s")
-     ("@creative" . "?c")
+     ("@planning" . ?p)
+     ("@development" . ?d)
+     ("@errands" . ?r)
+     ("@service" . ?s)
+     ("@creative" . ?c)
 
      ;; Events
-     ("@birthday" . "?B")
-     ("@wedding" . "?W")
-     ("@anniversary" . "?V")
+     ("@birthday" . ?B)
+     ("@wedding" . ?W)
+     ("@anniversary" . ?V)
      )))
 
 (use-package org
