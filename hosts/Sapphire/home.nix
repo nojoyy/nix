@@ -30,6 +30,7 @@
 
   modules = {
     emacs.enable = true;
+    emacs.org-sync.enable = true;
     waybar.enable = true;
     yazi.enable = true;
     zsh.enable = true;
