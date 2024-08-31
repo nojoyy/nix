@@ -10,7 +10,6 @@
   imports = [
     ./../../nixosModules
   ];
-  
 
   # AMD Proprietary drivers
   boot.initrd.kernelModules = [ "amdgpu" ];
@@ -42,6 +41,7 @@
   obs.enable = true;
   lsp.enable = true;
   js-dev.enable = true;
+  csharp.enable = true;
   ollama.enable = true;
   vm.enable = true;
 
