@@ -102,10 +102,12 @@
   :ensure t
   :bind (:map vertico-map
   	    ("C-j" . vertico-next)
-  	    ("C-k" . vertico-previous))
+  	    ("C-k" . vertico-previous)
+              ("<tab>" . vertico-insert))
   :custom
   (vertico-cycle t)
   (vertico-count 10)
+  (vertico resize t)
   :init
   (vertico-mode))
 
@@ -117,6 +119,9 @@
 ;; mode.  Vertico commands are hidden in normal buffers. This setting is
 ;; useful beyond Vertico.
 (read-extended-command-predicate #'command-completion-default-include-p)
+(read-file-name-completion-ignore-case t)
+(read-buffer-completion-ignore-case t)
+(completion-ignore-case t)
 :init
 ;; Add prompt indicator to `completing-read-multiple'.
 ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
@@ -178,7 +183,8 @@
   :after vertico
   :ensure t
   :custom 
-    (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+  (marginalia-align 'right)
+  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :init
   (marginalia-mode))
 
@@ -193,7 +199,7 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-horizon t))
+  (load-theme 'doom-tokyo-night t))
 
 (use-package emacs
   :init
@@ -201,6 +207,8 @@
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
   :custom
+  (scroll-margin 6)
+  (scroll-conservatively 40)
   (inhibit-startup-message t))
 
 (use-package dashboard
@@ -225,6 +233,8 @@
   )
 
 (use-package doom-modeline
+  :custom
+  (doom-modeline-total-line-number t)
   :init
   (doom-modeline-mode 1))
 
@@ -257,7 +267,7 @@
 
 (use-package recentf
   :init
-      (recentf-mode 1))
+  (recentf-mode 1))
 
 (use-package emacs
   :config
@@ -282,6 +292,14 @@
     "p" '(projectile-command-map :wk "projectile"))
   (setq projectile-project-search-path '("~/projects/")))
 
+(use-package rg) ;; ripgrep for use with projectile
+
+(use-package treemacs)
+(use-package treemacs-evil)
+(use-package treemacs-nerd-icons
+  :config
+  (treemacs-load-theme "nerd-icons"))
+
 (use-package tree-sitter
   :ensure t
   :hook
@@ -304,10 +322,10 @@
   ("\\.js\\'" . js-ts-mode)
   ("\\.jsx\\'" . tsx-ts-mode))
 
-(use-package eglot
-  :hook
-  (tsx-ts-mode . eglot-ensure)
-  (typescript-ts-mode . eglot-ensure))
+;; (use-package eglot
+;;   :hook
+;;   (tsx-ts-mode . eglot-ensure)
+;;   (typescript-ts-mode . eglot-ensure))
 
 (use-package eglot
   :config
@@ -351,6 +369,7 @@
   :config
   (nj/leader-keys
     "o a" '(org-agenda :wk "agenda"))
+  (visual-fill-mode)
   :custom
   (org-agenda-files (directory-files-recursively org-directory "\.org$"))
   (org-agenda-custom-commands
@@ -373,8 +392,12 @@
      ("N" "Search" search ""))))
 
 (use-package org
+  :config
+  (nj/leader-keys
+    "o x" '(:ignore t :wk "archive")
+    "o x a" '(org-archive-subtree-default :wk "archive default"))
   :custom
-  (org-archive-address "~/org/archive.org::%s"))
+  (org-archive-location "~/org/archive.org::* %s"))
 
 (use-package org
   :config
@@ -383,8 +406,14 @@
   :custom
   (org-capture-templates
    '(("t" "Todo" entry
-      (file "~/org/inbox.org")
-      "* TODO %?"))))
+      (file "inbox.org")
+      "* TODO %?")
+
+     ("c" "Contact Info")
+     ("cF" "Family" entry
+      (file+headline "life/contacts.org" "Family")
+      "* %^{Name SURNAME}\n :PROPERTIES:\n :RELATIONSHIP: %^{Relationship}\n :PHONE: %^{Number}\n :EMAIL: %^{Email}\n :BORN: %^{Birthday}t\n :END:\n%?")
+     )))
 
 (use-package org
   :config
@@ -403,6 +432,13 @@
   (interactive)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
   (org-refile))
+
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory "~/org/notes")
+  :config
+  (org-roam-setup))
 
 (use-package org
   :config
@@ -439,7 +475,8 @@
   (nj/leader-keys
     "o t" '(org-todo :wk "todo"))
   :custom
-  (org-todo-keywords '((sequence "TODO(t)" "ACTIVE(a)" "WAITING(w)" "|" "DONE(d)"))))
+  (org-todo-keywords '((sequence "TODO(t)" "ACTIVE(a)" "WAITING(w)" "|" "DONE(d)")))
+  (org-log-done 'time))
 
 (use-package org-auto-tangle
   :defer t

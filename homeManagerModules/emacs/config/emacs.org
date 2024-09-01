@@ -1,12 +1,12 @@
 #+TITLE: New Emacs Config
 #+AUTO_TANGLE: t
 #+PROPERTY: header-args:emacs-lisp :tangle ./init.el 
-
 * Early Init
 Set early init vars for straight.el
 #+begin_src emacs-lisp :tangle ./early-init.el
 (setq package-enable-at-startup nil)
 #+end_src
+
 
 * Package Management
 Package Management via straight.el
@@ -140,10 +140,12 @@ Completion interface, replacement for Ivy
     :ensure t
     :bind (:map vertico-map
   	      ("C-j" . vertico-next)
-  	      ("C-k" . vertico-previous))
+  	      ("C-k" . vertico-previous)
+                ("<tab>" . vertico-insert))
     :custom
     (vertico-cycle t)
     (vertico-count 10)
+    (vertico resize t)
     :init
     (vertico-mode))
 #+end_src
@@ -158,6 +160,9 @@ Useful configuration for emacs
   ;; mode.  Vertico commands are hidden in normal buffers. This setting is
   ;; useful beyond Vertico.
   (read-extended-command-predicate #'command-completion-default-include-p)
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (completion-ignore-case t)
   :init
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
@@ -238,7 +243,8 @@ Allows for more information for vertico buffers
     :after vertico
     :ensure t
     :custom 
-      (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+    (marginalia-align 'right)
+    (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
     :init
     (marginalia-mode))
 #+end_src
@@ -266,7 +272,7 @@ Doom Theming
 #+begin_src emacs-lisp
   (use-package doom-themes
     :config
-    (load-theme 'doom-horizon t))
+    (load-theme 'doom-tokyo-night t))
 
   (use-package emacs
     :init
@@ -274,8 +280,11 @@ Doom Theming
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
     :custom
+    (scroll-margin 6)
+    (scroll-conservatively 40)
     (inhibit-startup-message t))
 #+end_src
+
 
 ** Dashboard
 Main landing page. Works great with other packages like recentf, org agenda, and projectile. Supplies shortcuts to recent and popular files.
@@ -302,13 +311,17 @@ Main landing page. Works great with other packages like recentf, org agenda, and
     )
 #+end_src
 
+
 ** Doom Modeline
 Better looking modeline. The modeline is the bottom bar of emacs and really determines the look and feel of your Emacs setup. There is also a powerline port that is popular as well.
 #+begin_src emacs-lisp
-    (use-package doom-modeline
-      :init
-      (doom-modeline-mode 1))
+  (use-package doom-modeline
+    :custom
+    (doom-modeline-total-line-number t)
+    :init
+    (doom-modeline-mode 1))
 #+end_src
+
 
 ** Font Config
 Font config. I am using Fira Code mostly for ligature support, but I recently discovered that there is no italic variant of the font to apply to comments. Standard ligature.el setup here as well.
@@ -351,7 +364,7 @@ Applies rainbow effect to delimiters and groups to sort out nesting errors. This
 #+begin_src emacs-lisp
   (use-package recentf
     :init
-  	(recentf-mode 1))
+    (recentf-mode 1))
 #+end_src
 
 
@@ -390,8 +403,20 @@ Tool for project management. Used to grep projects, find files in projects, and 
     (nj/leader-keys ;; keybinds
       "p" '(projectile-command-map :wk "projectile"))
     (setq projectile-project-search-path '("~/projects/")))
+
+  (use-package rg) ;; ripgrep for use with projectile
 #+end_src
 
+
+** Treemacs
+Directory tree view, akin to vscode
+#+begin_src emacs-lisp
+  (use-package treemacs)
+  (use-package treemacs-evil)
+  (use-package treemacs-nerd-icons
+    :config
+    (treemacs-load-theme "nerd-icons"))
+#+end_src
 
 ** Tree-Sitter
 Excellent tool for parsing grammars. Built into emacs, used for syntax highlighting and extensible language modes.
@@ -416,6 +441,7 @@ Excellent tool for parsing grammars. Built into emacs, used for syntax highlight
     (prog-mode . electric-quote-mode))
 #+end_src
 
+
 ** Languages
 *** EMCA
 #+begin_src emacs-lisp
@@ -426,10 +452,10 @@ Excellent tool for parsing grammars. Built into emacs, used for syntax highlight
     ("\\.js\\'" . js-ts-mode)
     ("\\.jsx\\'" . tsx-ts-mode))
 
-  (use-package eglot
-    :hook
-    (tsx-ts-mode . eglot-ensure)
-    (typescript-ts-mode . eglot-ensure))
+  ;; (use-package eglot
+  ;;   :hook
+  ;;   (tsx-ts-mode . eglot-ensure)
+  ;;   (typescript-ts-mode . eglot-ensure))
 #+end_src
 
 **** Deno
@@ -472,6 +498,7 @@ Alpheleia is a package designed to hook into multiple code formating tools such 
     (apheleia-global-mode +1))
 #+end_src
 
+
 ** Yasnippet
 Snippet manager for emacs
 #+begin_src emacs-lisp
@@ -500,6 +527,7 @@ Org agenda provides a quick and extensible way to view your scheduled task. It c
     :config
     (nj/leader-keys
       "o a" '(org-agenda :wk "agenda"))
+    (visual-fill-mode)
     :custom
     (org-agenda-files (directory-files-recursively org-directory "\.org$"))
     (org-agenda-custom-commands
@@ -522,28 +550,40 @@ Org agenda provides a quick and extensible way to view your scheduled task. It c
        ("N" "Search" search ""))))
 #+end_src
 
+
 ** Archive
 Setup a global archive for completed agenda tasks. This has the benefit of being 
 #+begin_src emacs-lisp
-  (use-package org
-    :custom
-    (org-archive-address "~/org/archive.org::%s"))
+    (use-package org
+      :config
+      (nj/leader-keys
+        "o x" '(:ignore t :wk "archive")
+        "o x a" '(org-archive-subtree-default :wk "archive default"))
+      :custom
+      (org-archive-location "~/org/archive.org::* %s"))
 #+end_src
 
 
 ** [[https://orgmode.org/manual/Capture.html][Capture]]
 Captures provide an easy way of intelligently capturing thoughts, tasks, references, and more. Custom capture templates are an awesome way to leverage org, you can find plenty of examples on the Org Mode Wiki.
 #+begin_src emacs-lisp
-  (use-package org
-    :config
-    (nj/leader-keys
-      "o c" '(org-capture :wk "capture"))
-    :custom
-    (org-capture-templates
-     '(("t" "Todo" entry
-        (file "~/org/inbox.org")
-        "* TODO %?"))))
+    (use-package org
+      :config
+      (nj/leader-keys
+        "o c" '(org-capture :wk "capture"))
+      :custom
+      (org-capture-templates
+       '(("t" "Todo" entry
+          (file "inbox.org")
+          "* TODO %?")
+
+         ("c" "Contact Info")
+         ("cF" "Family" entry
+          (file+headline "life/contacts.org" "Family")
+          "* %^{Name SURNAME}\n :PROPERTIES:\n :RELATIONSHIP: %^{Relationship}\n :PHONE: %^{Number}\n :EMAIL: %^{Email}\n :BORN: %^{Birthday}t\n :END:\n%?")
+         )))
 #+end_src
+
 
 ** Refile
 Refiling allows easy migration of any Org item to a specific header.
@@ -575,6 +615,16 @@ Used for refiling tasks to agenda files
     (org-refile))
 #+end_src
 
+
+** Roam
+#+begin_src emacs-lisp
+  (use-package org-roam
+    :ensure t
+    :custom
+    (org-roam-directory "~/org/notes")
+    :config
+    (org-roam-setup))
+#+end_src
 
 ** Tags
 Tags are a great way to sort headings, but more applicably todos, by type to quickly poll for them in an agenda view. Common tags can be a defined and easily applied on any Org Item by using org-set-tag-command anf the defined hotkey.
@@ -614,12 +664,13 @@ Tags are a great way to sort headings, but more applicably todos, by type to qui
 ** [[https://orgmode.org/manual/TODO-Extensions.html][Todos]]
 Todos can be defined with custom states using org todo keywords, the pipe delimiter seperates TODO type tasks from DONE type ones. You can also assign hotkeys to todo types as well, which will change the functionality from cycling to direct toggling.
 #+begin_src emacs-lisp
-  (use-package org
-    :config
-    (nj/leader-keys
-      "o t" '(org-todo :wk "todo"))
-    :custom
-    (org-todo-keywords '((sequence "TODO(t)" "ACTIVE(a)" "WAITING(w)" "|" "DONE(d)"))))
+    (use-package org
+      :config
+      (nj/leader-keys
+        "o t" '(org-todo :wk "todo"))
+      :custom
+      (org-todo-keywords '((sequence "TODO(t)" "ACTIVE(a)" "WAITING(w)" "|" "DONE(d)")))
+      (org-log-done 'time))
 #+end_src
 
 
