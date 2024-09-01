@@ -5,26 +5,25 @@
   stylix = {
     enable = lib.mkDefault true;
     
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/horizon-dark.yaml";
-    # base16Scheme = {
-    #   base00 = "1C1E26";
-    #   base01 = "232530";
-    #   base02 = "2E303E";
-    #   base03 = "6F6F70";
-    #   base04 = "9DA0A2";
-    #   base05 = "CBCED0";
-    #   base06 = "DCDFE4";
-    #   base07 = "E3E6EE";
-    #   base08 = "E93C58";
-    #   base09 = "E58D7D";
-    #   base0A = "EFB993";
-    #   base0B = "EFAF8E";
-    #   base0C = "24A8B4";
-    #   base0D = "DF5273";
-    #   base0E = "B072D1";
-    #   base0F = "E4A382";
-    # };
-    
+    # based on tokyo night dark
+    base16Scheme = {
+      base00 = "#1a1b26";
+      base01 = "#24283b";
+      base02 = "#414868";
+      base03 = "#9aa5ce";
+      base04 = "#a9b1d6";
+      base05 = "#cfc9c2";
+      base06 = "#c0caf5";
+      base07 = "#bb9af7";
+      base08 = "#f7768e";
+      base09 = "#ff9e64";
+      base0A = "#e0af68";
+      base0B = "#9ece6a";
+      base0C = "#2ac3de";
+      base0D = "#7dcfff";
+      base0E = "#7aa2f7";
+      base0F = "#b4f9f8";
+    };
     
     # font configuration
     fonts = {

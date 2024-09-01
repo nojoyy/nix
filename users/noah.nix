@@ -4,7 +4,7 @@
   users.users.noah = {
     extraGroups = [ "wheel" "networkmanager" "audio" "pipewire" "uinput" ];
     isNormalUser = true;
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   programs.fish.enable = true;
