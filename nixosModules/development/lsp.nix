@@ -1,12 +1,13 @@
 { pkgs, lib, config, ... }:
 
-{
+let module = config.modules.lsp;
 
+in {
   options = {
-    lsp.enable = lib.mkEnableOption "enable lsp";
+    modules.lsp.enable = lib.mkEnableOption "enable lsp";
   };
   
-  config = lib.mkIf config.lsp.enable {
+  config = lib.mkIf module.enable {
     environment.systemPackages = with pkgs; [
       nil # nix language server
       #deno # runtime and supplies lsp

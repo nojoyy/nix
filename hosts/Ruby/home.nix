@@ -14,6 +14,13 @@
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
+  modules = {
+    emacs.enable = true;
+    emacs.org-sync.enable = true;
+    waybar.enable = true;
+    yazi.enable = true;
+  };
+
   home.packages = with pkgs ; [
   ];
 

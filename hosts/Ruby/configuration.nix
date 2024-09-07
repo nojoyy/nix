@@ -39,9 +39,11 @@
     "surface_gpe"
   ];
 
-  lsp.enable = true;
-  js-dev.enable = true;
-  vm.enable = true;
+  modules = {
+    lsp.enable = true;
+    js-dev.enable = true;
+    vm.enable = true;
+  };
 
   stylix.image = /home/noah/Documents/System/wallpapers/contemplate.png;
 

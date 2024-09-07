@@ -2,21 +2,18 @@
 
 let
 
-  cfg = config.ollama;
+  module = config.modules.ollama;
   ollamaPackage = pkgs.ollama.override {
     acceleration = "rocm";
   };
 
-in
-{
+in {
 
   options = {
-    ollama = {
-      enable = lib.mkEnableOption "ollama server for local llm";
-    };
+      modules.ollama.enable = lib.mkEnableOption "ollama server for local llm";
   };
   
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf module.enable {
 
     systemd.services.ollama = {
       description = "Server for local large language models";

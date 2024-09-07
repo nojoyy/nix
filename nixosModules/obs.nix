@@ -1,12 +1,14 @@
 { pkgs, lib, config, ... }:
 
-{
+let module = config.modules.obs;
+
+in {
   options = {
-    obs.enable = lib.mkEnableOption "enable obs";
+    modules.obs.enable = lib.mkEnableOption "enable obs";
   };
   
 
-  config = lib.mkIf config.obs.enable {
+  config = lib.mkIf module.enable {
     
     environment.systemPackages = [
       (pkgs.wrapOBS {

@@ -36,14 +36,16 @@
   # QMK
   hardware.keyboard.qmk.enable = true;
 
-  steam.enable = true;
-  docker.enable = true;
-  obs.enable = true;
-  lsp.enable = true;
-  js-dev.enable = true;
-  csharp.enable = true;
-  ollama.enable = true;
-  vm.enable = true;
+  modules = {
+    steam.enable = true;
+    docker.enable = true;
+    obs.enable = true;
+    lsp.enable = true;
+    js-dev.enable = true;
+    csharp.enable = true;
+    ollama.enable = true;
+    vm.enable = true;
+  };
 
   grub = {
     enable = true;

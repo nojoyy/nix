@@ -1,12 +1,13 @@
 { pkgs, lib, config, ... }:
 
-{
-  
+let module = config.modules.vm;
+
+in {
   options = {
-    vm.enable = lib.mkEnableOption "enable virtual machines";
+    modules.vm.enable = lib.mkEnableOption "enable virtual machines";
   };
 
-  config = lib.mkIf config.vm.enable {
+  config = lib.mkIf module.enable {
     
     # Add QEMU/VM Support
     virtualisation.libvirtd.enable = true;

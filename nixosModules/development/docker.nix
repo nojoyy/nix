@@ -1,11 +1,13 @@
 { pkgs, lib, config, ... }:
 
-{
+let module = config.modules.docker;
+
+in {
   options = {
-    docker.enable = lib.mkEnableOption "enable docker";
+    modules.docker.enable = lib.mkEnableOption "enable docker";
   };
 
-  config = lib.mkIf config.docker.enable {
+  config = lib.mkIf module.enable {
     virtualisation.docker.enable = true;
     users.users.noah.extraGroups = [ "docker" ];
   };
