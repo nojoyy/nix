@@ -463,7 +463,7 @@ Enable deno lsp with eglot; taken from deno documentation
 #+begin_src emacs-lisp
   (use-package eglot
     :config
-    (add-to-list 'eglot-server-programs '((js-mode typescript-mode) . (eglot-deno "deno" "lsp")))
+    (add-to-list 'eglot-server-programs '((js-ts-mode typescript-ts-mode) . (eglot-deno "deno" "lsp")))
 
     (defclass eglot-deno (eglot-lsp-server) ()
       :documentation "A custom class for deno lsp.")
@@ -518,6 +518,14 @@ The ever powerful
     (nj/leader-keys
       "o" '(:ignore t :wk "org")
       "o e" '(org-edit-special :wk "edit")))
+
+  (use-package org-modern
+    :hook (org-mode . org-modern-mode)
+    :custom
+    (org-modern-todo nil)
+    (org-modern-tag nil)
+    (org-modern-timestamp nil)
+    (org-modern-star 'replace))
 #+end_src
 
 ** [[https://orgmode.org/manual/Agenda-Views.html][Agenda]]
@@ -527,7 +535,6 @@ Org agenda provides a quick and extensible way to view your scheduled task. It c
     :config
     (nj/leader-keys
       "o a" '(org-agenda :wk "agenda"))
-    (visual-fill-mode)
     :custom
     (org-agenda-files (directory-files-recursively org-directory "\.org$"))
     (org-agenda-custom-commands
@@ -567,54 +574,37 @@ Setup a global archive for completed agenda tasks. This has the benefit of being
 ** [[https://orgmode.org/manual/Capture.html][Capture]]
 Captures provide an easy way of intelligently capturing thoughts, tasks, references, and more. Custom capture templates are an awesome way to leverage org, you can find plenty of examples on the Org Mode Wiki.
 #+begin_src emacs-lisp
-    (use-package org
-      :config
-      (nj/leader-keys
-        "o c" '(org-capture :wk "capture"))
-      :custom
-      (org-capture-templates
-       '(("t" "Todo" entry
-          (file "inbox.org")
-          "* TODO %?")
+  (use-package org
+    :config
+    (nj/leader-keys
+      "o c" '(org-capture :wk "capture"))
+    :custom
+    (org-capture-templates
+     '(("t" "Task Entries")
+       ("tq" "Quick Task" entry
+        (file+olp+datetree "inbox.org")
+        "* TODO %^{Task}\n%?")
+       ("tr" "Reference Task" entry
+        (file+olp+datetree "inbox.org")
+        "* TODO %^{Task}\n%A\n%?")
 
-         ("c" "Contact Info")
-         ("cF" "Family" entry
-          (file+headline "life/contacts.org" "Family")
-          "* %^{Name SURNAME}\n :PROPERTIES:\n :RELATIONSHIP: %^{Relationship}\n :PHONE: %^{Number}\n :EMAIL: %^{Email}\n :BORN: %^{Birthday}t\n :END:\n%?")
-         )))
+       ("c" "Contact Info")
+       ("cF" "Family" entry
+        (file+headline "life/contacts.org" "Family")
+        "* %^{Name SURNAME}\n :PROPERTIES:\n :RELATIONSHIP: %^{Relationship}\n :PHONE: %^{Number}\n :EMAIL: %^{Email}\n :BORN: %^{Birthday}t\n :END:\n%?")
+       )))
 #+end_src
-
 
 ** Refile
 Refiling allows easy migration of any Org item to a specific header.
 #+begin_src emacs-lisp
   (use-package org
+    :custom
+    (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
     :config
     (nj/leader-keys
-      "o r f" '(org-refile-in-file :wk "refile in file")
-      "o r a" '(org-refile-in-agenda :wk "refile in agenda file")))
+      "o r" '(org-refile :wk "refile")))
 #+end_src
-
-*** Refile in Current Buffer/Org File
-This is defualt functionality
-#+begin_src emacs-lisp
-  (defun org-refile-in-file ()
-    "Refile item inside current org file"
-    (interactive)
-    (setq org-refile-targets nil)
-    (org-refile))
-#+end_src
-
-*** Refile in Org Agenda File
-Used for refiling tasks to agenda files
-#+begin_src emacs-lisp
-  (defun org-refile-in-agenda ()
-    "Refile item inside org agenda file"
-    (interactive)
-    (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-    (org-refile))
-#+end_src
-
 
 ** Roam
 #+begin_src emacs-lisp
@@ -623,7 +613,14 @@ Used for refiling tasks to agenda files
     :custom
     (org-roam-directory "~/org/notes")
     :config
+    (nj/leader-keys
+      "o n" '(:ignore t :wk "org note")
+      "o n f" '(org-roam-node-find :wk "org note find")
+      "o n i" '(org-roam-node-insert :wk "org note insert")
+      )
     (org-roam-setup))
+
+  (use-package org-roam-ui)
 #+end_src
 
 ** Tags
@@ -684,12 +681,112 @@ To have an org mode buffer tangle at save, you must define auto_tangle: t in the
 #+end_src
 
 
-** Bullets
-Replace standard * headers with defined unicode bullets
-#+begin_src emacs-lisp
-  (use-package org-bullets
-    :hook (org-mode . org-bullets-mode)
-    :custom
-    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+* Open Ai API Client
+Client for OpenAI. Major credit to [[https://gist.github.com/Gavinok/a18e0b2dac74e4ae67df35e45a170f7f][Gavin Freeborn]].
+#+begin_src emacs-lisp :tangle ./openai.el
+  (require 'seq)
+  (eval-when-compile
+    (require 'cl-lib)
+    (require 'subr-x)
+    (require 'env)
+    (require 'json))
+
+  (defvar openai-buffer "*OpenAI*"
+    "Buffer used for OpenAI Responses")
+
+  (defvar openai-model "mistral-small-latest"
+    "Buffer used for OpenAI Responses")
+
+  (define-error 'openai-response-error "Response error for OpenAi Package")
+  (define-error 'openai-parsing-error "Error parsing response from OpenAi")
+
+    ;;;###autoload
+  (defun openai-prompt (prompt callback)
+    "Query OpenAI with PROMPT and pass PROMPT and RESPONSE into CALLBACK"
+    (interactive (list (read-string "Prompt OpenAI with: ")
+                       (lambda (prompt response)
+                         (openai-simulate-chat prompt response))))
+    (openai--request prompt callback))
+
+  (defun openai--extract-from-query (response)
+    "Extract the meat and potatoes from and OpenAI RESPONSE Query"
+    (condition-case err
+        (let* ((choices (assoc-default 'choices response))
+               (first-choice (seq-first choices))
+               (message (assoc-default 'message first-choice))
+               (content (assoc-default 'content message)))
+          (string-trim content)
+          content) ;; return content
+      (error
+       (signal 'openai-parsing-error err))))
+
+  (defun openai--parse-and-handle-response (status prompt callback)
+    "Parse the JSON response from the OpenAI API. Ingore STATUS and pass the RESULT and PROMPT to CALLBACK"
+    (ignore status)
+    (goto-char 0)
+    (re-search-forward "^$")
+    (let ((json-response (buffer-substring-no-properties (point) (point-max))))
+      (condition-case err
+          (let ((parsed-response (json-read-from-string json-response)))
+            (funcall callback prompt (openai--extract-from-query parsed-response))) ;; return parsed-response
+        (error
+         (message "JSON Parsing Error: %s" (error-message-string err))))))
+
+  (defun openai--request (prompt callback)
+    "Make async request to OpenAI client using PROMPT. The RESPONSE is then parsed for content and handled in CALLBACK."
+    (let* ((api-key (getenv "OPENAI_API_KEY"))
+           (url-request-method (encode-coding-string "POST" 'us-ascii))
+           (url-request-extra-headers `(("Content-Type" . "application/json")
+                  		      	      ("Authorization" . ,(format "Bearer %s" api-key))))
+           (url-request-data (json-encode
+                              `((model . ,openai-model)
+                                (messages . [((role . "user") (content . ,prompt))])
+                                (max_tokens . 1000) ; You can adjust this as needed
+                                (temperature . 0))))) ; Adjusted temperature value
+      (cl-assert (not (string= "" api-key))
+                 t
+                 "Current contents of the environmental variable OPENAI_API_KEY
+                  are '%s' which is not an appropriate OpenAI token please ensure
+                  you have the correctly set the OPENAI_API_KEY variable"
+                 api-key)
+      (url-retrieve
+       "https://api.mistral.ai/v1/chat/completions"
+       'openai--parse-and-handle-response (list prompt callback))))
+
+  (defun openai-simulate-chat (prompt response)
+    "Simulates OpenAI Chat Style in dedicated buffer."
+    (let ((buf (get-buffer-create openai-buffer)))
+      (with-current-buffer buf
+        (goto-char (point-max)) ;; goto end of buffer
+        (insert "User: " prompt "\n\n" openai-model ": " response "\n\n")
+        (help-mode)
+        (setq buffer-read-only nil))
+      (display-buffer buf)))
+
+  (defvar openai-mode-font-lock-keywords
+    '(("\\bUser:\\b"
+       (0 'font-lock-bold-face t)
+       (1 'font-lock-keyword-face t))
+      ("\\bResponse:\\b"
+       (0 'font-lock-bold-face t)
+       (1 'font-lock-keyword-face t))))
+
+  (defvar openai-mode-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kdb "q") 'delete-window
+                  map)))
+
+  (define-derived-mode openai-mode help-mode "OpenAI Mode"
+    "Mode for handling OpenAI responses.")
+
+  (provide 'openai)
 #+end_src
+
+#+begin_src emacs-lisp 
+  (add-to-list 'load-path "~/nix/homeManagerModules/emacs/config/")
+  (require 'openai)
+#+end_src
+
+
+
 
