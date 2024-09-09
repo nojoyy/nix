@@ -40,6 +40,7 @@
     steam.enable = true;
     docker.enable = true;
     obs.enable = true;
+    postgre.enable = true;
     lsp.enable = true;
     js-dev.enable = true;
     csharp.enable = true;
