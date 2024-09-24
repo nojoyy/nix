@@ -22,6 +22,10 @@ in {
     services.gitea = {
       enable = true;
 
+      settings.server = {
+        HTTP_PORT = 2000;
+      };
+
       database = {
         type = "postgres";
         host = "127.0.0.1:5432";
@@ -29,8 +33,6 @@ in {
         user = "gitea";
         password = "gitPass";
       };
-
-      httpPort = 3000;
     };
   };
 }

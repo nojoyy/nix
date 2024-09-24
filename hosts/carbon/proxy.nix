@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 {
   services.nginx = {
@@ -8,7 +8,7 @@
       # gitea instance
       "git.noahjoyner.com" = {
         enableACME = true;
-        forceSSL = true;
+        # forceSSL = true;
         locations."/" = {
           extraConfig = ''
   proxy_set_header Host $host;
@@ -16,14 +16,14 @@
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_set_header X-Forwarded-Proto $scheme;
           '';
-          proxyPass = "http://localhost:3000";
+          proxyPass = "http://localhost:2000";
         };
       };
 
       # webpage
       "www.noahjoyner.com" = {
         enableACME = true;   # Automatically manage SSL (using Let's Encrypt).
-        forceSSL = true;     # Redirect HTTP to HTTPS.
+        # forceSSL = true;     # Redirect HTTP to HTTPS.
         
         root = "/home/noah/www/default/";
         
@@ -37,7 +37,12 @@
 
   security.acme = {
     acceptTerms = true;
-    defaults.email = "njoydev@proton.me";
+    defaults = {
+      email = "njoydev@proton.me";
+      # dnsProvider = "cloudflare";
+      # group = "nginx";
+      # environmentFile = "/home/noah/cloudflare";
+    };
     certs = {
       "git.noahjoyner.com" = {
         domain = "git.noahjoyner.com";

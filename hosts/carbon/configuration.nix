@@ -61,7 +61,6 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 3000 ];
     allowPing = true;
   };
 }
