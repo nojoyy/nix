@@ -13,7 +13,7 @@
 
     # GNOME Menus/Icons
     gnome-menus
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
   ];
 
   # Enable Hyprland
@@ -32,6 +32,7 @@
   services.hyprpaper.enable = lib.mkForce false;
 
   xdg.portal = {
+    config.common.default = "*";
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
   };

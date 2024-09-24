@@ -50,7 +50,6 @@
 
   grub = {
     enable = true;
-    useOSProber = true;
   };
 
   networking.hostName = "Sapphire";

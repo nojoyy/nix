@@ -17,6 +17,7 @@ in {
     environment.systemPackages = with pkgs; [
       lutris
       mangohud
+      protonup-qt
     ];
   };
 }

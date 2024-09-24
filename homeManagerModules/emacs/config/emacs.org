@@ -1,15 +1,65 @@
 #+TITLE: New Emacs Config
 #+AUTO_TANGLE: t
 #+PROPERTY: header-args:emacs-lisp :tangle ./init.el 
-* Early Init
-Set early init vars for straight.el
+#+OPTIONS: toc:2
+
+* Table of Contents :TOC:
+- [[#package-management][Package Management]]
+  - [[#early-init][Early Init]]
+  - [[#straight][Straight]]
+- [[#editing][Editing]]
+  - [[#evil-mode][Evil Mode]]
+  - [[#undo][Undo]]
+- [[#keybinds][Keybinds]]
+  - [[#general][General]]
+  - [[#which-key][Which-Key]]
+- [[#completion][Completion]]
+  - [[#vertico][Vertico]]
+  - [[#history][History]]
+  - [[#orderless][Orderless]]
+  - [[#corfu][Corfu]]
+  - [[#marginalia][Marginalia]]
+- [[#look-and-feel][Look and Feel]]
+  - [[#icons][Icons]]
+  - [[#dashboard][Dashboard]]
+  - [[#theming][Theming]]
+  - [[#tweaks][Tweaks]]
+  - [[#doom-modeline][Doom Modeline]]
+  - [[#font-config][Font Config]]
+  - [[#rainbow-delimiters][Rainbow Delimiters]]
+- [[#organization][Organization]]
+- [[#misc-modes][Misc Modes]]
+  - [[#novel][Nov.el]]
+- [[#development][Development]]
+  - [[#magit][Magit]]
+  - [[#projectile][Projectile]]
+  - [[#treemacs][Treemacs]]
+  - [[#tree-sitter][Tree-Sitter]]
+  - [[#tweaks-1][Tweaks]]
+  - [[#languages][Languages]]
+  - [[#formating][Formating]]
+  - [[#yasnippet][Yasnippet]]
+- [[#org-mode][Org Mode]]
+  - [[#agenda][Agenda]]
+  - [[#archive][Archive]]
+  - [[#capture][Capture]]
+  - [[#refile][Refile]]
+  - [[#roam][Roam]]
+  - [[#table-of-contents][Table of Contents]]
+  - [[#tags][Tags]]
+  - [[#todos][Todos]]
+  - [[#auto-tangle][Auto Tangle]]
+- [[#open-ai-api-client][Open Ai API Client]]
+
+* Package Management
+** Early Init
+Set early init vars for straight.el. This will ensure correct versioning for Org Mode.
 #+begin_src emacs-lisp :tangle ./early-init.el
 (setq package-enable-at-startup nil)
 #+end_src
 
-
-* Package Management
-Package Management via straight.el
+** Straight
+Package Management via straight.el. Setup with use-package in mind.
 #+begin_src emacs-lisp
   (defvar bootstrap-version)
   (let ((bootstrap-file
@@ -33,7 +83,8 @@ Package Management via straight.el
 #+end_src
 
 
-* Evil Mode
+* Editing
+** Evil Mode
 Vi emulation layer. Adds vim emulation to emacs in all programming and text editing buffers. Evil collection is a collection of keybind packages designed to integrate vim keybinds into popular emacs packages such as magit.
 #+begin_src emacs-lisp
   (use-package evil
@@ -54,9 +105,18 @@ Vi emulation layer. Adds vim emulation to emacs in all programming and text edit
     :after evil
     :config
     (evil-collection-init))
+
+  ;; Evil Org - Mostly For Agenda
+  (use-package evil-org
+    :after evil org
+    :hook
+    (org-mode . evil-org-mode)
+    :config
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
 #+end_src
 
-** Undo/Redo
+** Undo
 Implement undo redo for evil using undofu. This allows for undo branching and branch hopping if need be.
 #+begin_src emacs-lisp
   (use-package evil
@@ -267,25 +327,6 @@ Icon Support. Use nerd icons for maximum terminal goodness!!!
 #+end_src
 
 
-** Theme
-Doom Theming
-#+begin_src emacs-lisp
-  (use-package doom-themes
-    :config
-    (load-theme 'doom-tokyo-night t))
-
-  (use-package emacs
-    :init
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
-    :custom
-    (scroll-margin 6)
-    (scroll-conservatively 40)
-    (inhibit-startup-message t))
-#+end_src
-
-
 ** Dashboard
 Main landing page. Works great with other packages like recentf, org agenda, and projectile. Supplies shortcuts to recent and popular files.
 #+begin_src emacs-lisp
@@ -309,6 +350,29 @@ Main landing page. Works great with other packages like recentf, org agenda, and
     (dashboard-set-file-icons t)
     (dashboard-projects-backend 'projectile)
     )
+#+end_src
+
+
+** Theming
+via doom
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :config
+    (load-theme 'doom-tokyo-night t))
+#+end_src
+
+
+** Tweaks
+#+begin_src emacs-lisp
+  (use-package emacs
+    :init
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+    :custom
+    (scroll-margin 6)
+    (scroll-conservatively 40)
+    (inhibit-startup-message t))
 #+end_src
 
 
@@ -368,7 +432,7 @@ Applies rainbow effect to delimiters and groups to sort out nesting errors. This
 #+end_src
 
 
-* Misc
+* Misc Modes
 #+begin_src emacs-lisp
   (use-package emacs
     :config
@@ -377,6 +441,12 @@ Applies rainbow effect to delimiters and groups to sort out nesting errors. This
     :custom
     (backup-directory-alist `(("." . "~/.temp"))
           backup-by-copying t))
+#+end_src
+** Nov.el
+A mode for reading epubs. Rendering can be modified.
+#+begin_src emacs-lisp
+  (use-package nov
+    :after org) ;; required to maintain single org version
 #+end_src
 
 
@@ -595,16 +665,26 @@ Captures provide an easy way of intelligently capturing thoughts, tasks, referen
        )))
 #+end_src
 
+
 ** Refile
 Refiling allows easy migration of any Org item to a specific header.
 #+begin_src emacs-lisp
   (use-package org
     :custom
-    (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+    (org-refile-targets '((org-agenda-files :maxlevel . 3)))
     :config
     (nj/leader-keys
-      "o r" '(org-refile :wk "refile")))
+      "o r" '(:ignore t :wk "refile")
+      "o r f" '(org-refile :wk "refile")
+      "o r c" '(org-refile-copy :wk "refile copy")
+      ))
 #+end_src
+
+*** Refile Customization
+#+begin_src emacs-lisp
+
+#+end_src
+
 
 ** Roam
 #+begin_src emacs-lisp
@@ -623,8 +703,16 @@ Refiling allows easy migration of any Org item to a specific header.
   (use-package org-roam-ui)
 #+end_src
 
+
+** Table of Contents
+#+begin_src emacs-lisp
+  (use-package toc-org
+    :commands toc-org-enable
+    :hook (org-mode . toc-org-enable))
+#+end_src
+
 ** Tags
-Tags are a great way to sort headings, but more applicably todos, by type to quickly poll for them in an agenda view. Common tags can be a defined and easily applied on any Org Item by using org-set-tag-command anf the defined hotkey.
+Tags are a great way to sort headings, but more applicably todos, by type to quickly poll for them in an agenda view. Common tags can be a defined and easily applied on any Org Item by using org-set-tag-command and the defined hotkey.
 #+begin_src emacs-lisp
   (use-package org
     :config
@@ -785,6 +873,7 @@ Client for OpenAI. Major credit to [[https://gist.github.com/Gavinok/a18e0b2dac7
 #+begin_src emacs-lisp 
   (add-to-list 'load-path "~/nix/homeManagerModules/emacs/config/")
   (require 'openai)
+  (setenv "OPENAI_API_KEY" "36w5pX1w0J9aaslnofhIb2SMfu9ZjM04")
 #+end_src
 
 
