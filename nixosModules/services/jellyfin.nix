@@ -9,6 +9,12 @@ in {
   };
 
   config = lib.mkIf module.enable {
+
+    users.groups."media" = {
+      name = "media";
+      members = [ "jellyfin" "sonarr" "radarr" "jackett" "prowlarr" ];
+    };
+
     services.jellyfin = {
       enable = lib.mkDefault true;
       openFirewall = true;
@@ -28,5 +34,11 @@ in {
       enable = true;
       openFirewall = true;
     };
+
+    services.prowlarr = {
+      enable = true;
+      openFirewall = true;
+    };
+
   };
 }
