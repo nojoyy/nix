@@ -9,7 +9,7 @@
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "ohci_pci" "ehci_pci" "uas" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "overlay" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
@@ -32,6 +32,24 @@
   fileSystems."/mnt/tier-one" =
     { device = "/dev/disk/by-uuid/ed1e5881-de21-4fb0-ae4c-a75945e7b06b";
       fsType = "ext4";
+    };
+
+  fileSystems."/mnt/media-pool" =
+    {
+      device = "overlay";
+      fsType = "overlay";
+      options = [
+        "lowerdir=/mnt/tier-two"
+        "upperdir=/mnt/tier-one"
+        "workdir=/mnt/work"
+      ];
+    };
+
+  fileSystems."/mnt/work" =
+    {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [ "size=2000M" ];
     };
 
   swapDevices =
