@@ -8,7 +8,6 @@
       # gitea instance
       "git.noahjoyner.com" = {
         enableACME = true;
-        # forceSSL = true;
         locations."/" = {
           extraConfig = ''
   proxy_set_header Host $host;
@@ -20,10 +19,33 @@
         };
       };
 
+
+      # jellyfin instance
+      "media.noahjoyner.com" = {
+        enableACME = true;
+        locations."/" = {
+          # Additional headers for better security and operations
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+
+            # WebSocket support for Jellyfin (for Live Streaming, dashboard, etc.)
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+
+            client_max_body_size 0;  # Allow uploads/downloads with no size limits
+            proxy_buffering off;     # Disable buffering for proxied requests
+          '';
+          proxyPass = "http://localhost:8096";
+        };
+      };
+
       # webpage
       "www.noahjoyner.com" = {
         enableACME = true;   # Automatically manage SSL (using Let's Encrypt).
-        # forceSSL = true;     # Redirect HTTP to HTTPS.
         
         root = "/home/noah/www/default/";
         

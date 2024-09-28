@@ -15,6 +15,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    emacs-config = {
+      url = "git+https://git.noahjoyner.com/noah/emacs.git";
+      flake = false;
+    };
+
     hyprland = {
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,41 +48,62 @@
       };
 
   in {
-    nixosConfigurations.Sapphire = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.sapphire = nixpkgs.lib.nixosSystem {
       inherit pkgs;
       system = "x86_64-linux";
       modules = [
-        ./hosts/Sapphire/hardware-configuration.nix
-        ./hosts/Sapphire/configuration.nix
-        stylix.nixosModules.stylix
+        # system entrypoints
+        ./hosts/sapphire/hardware-configuration.nix
+        ./hosts/sapphire/configuration.nix
+
+        # home-manager setup
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.noah = import ./hosts/Sapphire/home.nix;
+          home-manager.users.noah = import ./hosts/sapphire/home.nix;
           home-manager.extraSpecialArgs = { inherit inputs; };
         }
+
+        # interacts with both home-manager and nix
+        stylix.nixosModules.stylix
       ];
       specialArgs = { inherit inputs; };
     };
     
-    nixosConfigurations.Ruby = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.ruby = nixpkgs.lib.nixosSystem {
       inherit pkgs;
       system = "x86_64-linux";
       modules = [
-        ./hosts/Ruby/hardware-configuration.nix
-        ./hosts/Ruby/configuration.nix
-        inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
-        stylix.nixosModules.stylix
+        # my entrypoints
+        ./hosts/ruby/hardware-configuration.nix
+        ./hosts/ruby/configuration.nix
+
+        # home-manager setup
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.noah = import ./hosts/Ruby/home.nix;
+          home-manager.users.noah = import ./hosts/ruby/home.nix;
           home-manager.extraSpecialArgs = { inherit inputs; };
         }
+
+        # interacts with both home-manager and nix
+        stylix.nixosModules.stylix
+
+        # hardware specific
+        inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
       ];
       specialArgs = { inherit inputs; };
+    };
+
+    nixosConfigurations.carbon = nixpkgs.lib.nixosSystem {
+      inherit pkgs;
+      system = "x86_64-linux";
+      modules = [
+        ./hosts/carbon/hardware-configuration.nix
+        ./hosts/carbon/configuration.nix
+      ];
     };
   };
 }
