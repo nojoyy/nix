@@ -36,18 +36,18 @@
 
   fileSystems."/mnt/media-pool" =
     {
-      device = "overlay";
+      device = "none";
       fsType = "overlay";
-      options = [
-        "lowerdir=/mnt/tier-two"
-        "upperdir=/mnt/tier-one"
-        "workdir=/mnt/work"
-      ];
+      overlay = {
+        lowerdir = [ "/mnt/tier-two" ];
+        upperdir = "/mnt/tier-one";
+        workdir = "/mnt/work";
+      };
     };
 
   fileSystems."/mnt/work" =
     {
-      device = "tmpfs";
+      device = "none";
       fsType = "tmpfs";
       options = [ "size=2000M" ];
     };
