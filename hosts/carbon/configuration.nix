@@ -5,6 +5,7 @@
     ./../../users/noah.nix
     ./proxy.nix
     ./../../nixosModules/services/gitea.nix
+    ./../../nixosModules/services/jellyfin.nix
   ];
 
   system.stateVersion = "23.11";
@@ -31,6 +32,7 @@
 
   modules = {
     gitea.enable = true;
+    services.media.enable = true;
   };
 
   # Samba Setup
