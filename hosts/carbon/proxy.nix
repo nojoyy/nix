@@ -39,16 +39,13 @@
     acceptTerms = true;
     defaults = {
       email = "njoydev@proton.me";
-      # dnsProvider = "cloudflare";
-      # group = "nginx";
-      # environmentFile = "/home/noah/cloudflare";
+      dnsProvider = "cloudflare";
+      group = "nginx";
+      environmentFile = "/home/noah/cloudflare";
     };
     certs = {
-      "git.noahjoyner.com" = {
-        domain = "git.noahjoyner.com";
-      };
-      "www.noahjoyner.com" = {
-        domain = "www.noahjoyner.com";
+      "noahjoyner.com" = {
+        domain = "*.noahjoyner.com";
       };
     };
   };
