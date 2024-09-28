@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, inputs, ... }:
 
 let module = config.modules.emacs;
 
@@ -35,8 +35,10 @@ in {
     };
     
     # Source init files
-    xdg.configFile."emacs/init.el".source = ./config/init.el;
-    xdg.configFile."emacs/early-init.el".source = ./config/early-init.el;
+    xdg.configFile."emacs" = {
+      source = inputs.emacs-config;
+      recursive = true;
+    };
     
     systemd.user.services.org-sync = lib.mkIf module.org-sync.enable {
       Unit = {
