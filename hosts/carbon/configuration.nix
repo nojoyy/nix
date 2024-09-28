@@ -16,10 +16,13 @@
     efiInstallAsRemovable = true;
   };
 
-  services.openssh.enable = true;
-  users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBRuZhMim1ysgzNXXNH98poyq55tYOOOynE+krGFxHbH noah@Sapphire"
-  ];
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
+  };
 
   environment.systemPackages = with pkgs; [
     git
