@@ -24,34 +24,6 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  # fileSystems."/mnt/tier-two" =
-  #   { device = "/dev/disk/by-uuid/1ace927e-f0e6-4e17-be4d-d29f2abdb806";
-  #     fsType = "ext4";
-  #   };
-
-  # fileSystems."/mnt/tier-one" =
-  #   { device = "/dev/disk/by-uuid/ed1e5881-de21-4fb0-ae4c-a75945e7b06b";
-  #     fsType = "ext4";
-  #   };
-
-  # fileSystems."/mnt/media-pool" =
-  #   {
-  #     device = "none";
-  #     fsType = "overlay";
-  #     overlay = {
-  #       lowerdir = [ "/mnt/tier-two" ];
-  #       upperdir = "/mnt/tier-one";
-  #       workdir = "/mnt/work";
-  #     };
-  #   };
-
-  # fileSystems."/mnt/work" =
-  #   {
-  #     device = "none";
-  #     fsType = "tmpfs";
-  #     options = [ "size=2000M" ];
-  #   };
-
   swapDevices =
     [ { device = "/dev/disk/by-uuid/46e93d61-00ee-4cd2-b0bb-4f1a38bbe835"; }
     ];

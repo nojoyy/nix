@@ -45,8 +45,8 @@
       global = {
         security = "user";
       };
-      "basic" = {
-        "path" = "/mnt/tier-zero";
+      "personal" = {
+        "path" = "/home/noah/share";
         "valid users" = "noah";
         "browseable" = "yes";
         "writeable" = "yes";
