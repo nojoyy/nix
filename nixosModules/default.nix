@@ -10,7 +10,6 @@
     ./emacs.nix
     ./obs.nix
     ./steam.nix
-    ./../carbon.nix
     ./vm.nix
     ./stylix.nix
   ];
