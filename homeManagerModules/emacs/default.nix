@@ -4,19 +4,19 @@ let module = config.modules.emacs;
 
 org-sync = pkgs.writeScriptBin "org-sync" ''
 #!/usr/bin/env bash
-
 ORG_DIR="$HOME/org"
 cd "$ORG_DIR"
 
 git checkout main
+git pull origin main --rebase 
 
 git add .
 
-git commit -m "Sync from $(hostname) at $(date '+%Y-%m-%d %H:%M:%S')" || true
-
-git pull --rebase origin main
+git commit -m "Auto-sync from $(hostname) at $(date '+%Y-%m-%d %H:%M:%S')" || echo "Nothing to commit."
 
 git push origin main
+
+echo "Sync completed"
 '';
 
 in {
@@ -33,13 +33,7 @@ in {
         treesit-grammars.with-all-grammars # as well as treesit grammars
       ]);
     };
-    
-    # Source init files
-    xdg.configFile."emacs" = {
-      source = inputs.emacs-config;
-      recursive = true;
-    };
-    
+
     systemd.user.services.org-sync = lib.mkIf module.org-sync.enable {
       Unit = {
         Description = "Org sync";

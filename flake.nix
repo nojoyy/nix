@@ -48,20 +48,20 @@
       };
 
   in {
-    nixosConfigurations.sapphire = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.Sapphire = nixpkgs.lib.nixosSystem {
       inherit pkgs;
       system = "x86_64-linux";
       modules = [
         # system entrypoints
-        ./hosts/sapphire/hardware-configuration.nix
-        ./hosts/sapphire/configuration.nix
+        ./hosts/Sapphire/hardware-configuration.nix
+        ./hosts/Sapphire/configuration.nix
 
         # home-manager setup
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.noah = import ./hosts/sapphire/home.nix;
+          home-manager.users.noah = import ./hosts/Sapphire/home.nix;
           home-manager.extraSpecialArgs = { inherit inputs; };
         }
 
@@ -71,20 +71,20 @@
       specialArgs = { inherit inputs; };
     };
     
-    nixosConfigurations.ruby = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.Ruby = nixpkgs.lib.nixosSystem {
       inherit pkgs;
       system = "x86_64-linux";
       modules = [
         # my entrypoints
-        ./hosts/ruby/hardware-configuration.nix
-        ./hosts/ruby/configuration.nix
+        ./hosts/Ruby/hardware-configuration.nix
+        ./hosts/Ruby/configuration.nix
 
         # home-manager setup
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.noah = import ./hosts/ruby/home.nix;
+          home-manager.users.noah = import ./hosts/Ruby/home.nix;
           home-manager.extraSpecialArgs = { inherit inputs; };
         }
 
@@ -97,12 +97,12 @@
       specialArgs = { inherit inputs; };
     };
 
-    nixosConfigurations.carbon = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.Carbon = nixpkgs.lib.nixosSystem {
       inherit pkgs;
       system = "x86_64-linux";
       modules = [
-        ./hosts/carbon/hardware-configuration.nix
-        ./hosts/carbon/configuration.nix
+        ./hosts/Carbon/hardware-configuration.nix
+        ./hosts/Carbon/configuration.nix
       ];
     };
   };

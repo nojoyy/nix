@@ -1,3 +1,0 @@
-[submodule "homeManagerModules/emacs/config"]
-	path = homeManagerModules/emacs/config
-	url = https://git.noahjoyner.com/noah/emacs.git

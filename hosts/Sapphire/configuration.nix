@@ -5,14 +5,17 @@
 { pkgs, ... }:
 
 {
-
   # Sapphire Imports
   imports = [
     ./../../nixosModules
   ];
 
-  # AMD Proprietary drivers
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  # Nintendo Hardware
+  boot.extraModprobeConfig = ''
+    options hid_nintendo hid-nintendo.quirks=0x0
+  '';
+
+  hardware.enableAllFirmware = true;
 
   # Enable for xserver
   services.xserver.videoDrivers = [ "amdgpu" ];
@@ -32,7 +35,7 @@
       driversi686Linux.amdvlk
     ];
   };
-
+  
   # QMK
   hardware.keyboard.qmk.enable = true;
 
@@ -49,11 +52,16 @@
 
   grub = {
     enable = true;
+    useOSProber = true;
   };
 
   networking.hostName = "Sapphire";
 
   services.hardware.openrgb.enable = true;
+
+  # adb
+  programs.adb.enable = true;
+  users.users.noah.extraGroups = ["adbusers"];
 
   environment.systemPackages = with pkgs; [
     amdctl
@@ -62,26 +70,14 @@
     edgetpu-compiler
     clinfo
 
+    hydroxide
+    
     xorg.xhost
     ethtool # used to set up wol
   ];
 
   stylix.image = /home/noah/images/wallpapers/sunset_city.jpg;
   
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
   system.stateVersion = "23.11"; # Don't touch this
-
 }
 
