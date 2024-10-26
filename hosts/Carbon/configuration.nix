@@ -29,12 +29,15 @@
     git
     vim
     hugo
-    vaultwarden
   ];
 
   modules = {
     gitea.enable = true;
     services.media.enable = true;
+  };
+
+  services.vaultwarden = {
+    enable = true;
   };
 
   # Samba Setup
