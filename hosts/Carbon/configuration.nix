@@ -29,6 +29,7 @@
     git
     vim
     hugo
+    vaultwarden
   ];
 
   modules = {
