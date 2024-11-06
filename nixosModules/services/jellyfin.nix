@@ -1,11 +1,11 @@
 { pkgs, lib, config, ... }:
 
-let module = config.modules.services.media;
+let module = config.modules.media;
 
 in {
 
   options = {
-    modules.services.media.enable = lib.mkEnableOption "enable media services";
+    modules.media.enable = lib.mkEnableOption "enable media services";
   };
 
   config = lib.mkIf module.enable {

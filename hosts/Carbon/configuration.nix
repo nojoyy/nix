@@ -5,6 +5,7 @@
     ./../../users/noah.nix
     ./proxy.nix
     ./../../nixosModules/services/gitea.nix
+    ./../../nixosModules/services/open-webui.nix
     ./../../nixosModules/services/jellyfin.nix
   ];
 
@@ -33,7 +34,8 @@
 
   modules = {
     gitea.enable = true;
-    services.media.enable = true;
+    media.enable = true;
+    open-webui.enable = true;
   };
 
   services.vaultwarden = {
