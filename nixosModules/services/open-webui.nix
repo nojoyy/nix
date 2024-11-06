@@ -12,7 +12,7 @@ in {
       enable = true;
       port = 7391;
       openFirewall = true;
-      environmentFile = /home/noah/.open-webui.env;
+      environmentFile = /home/noah/.webui.env;
     };
   };
 }
