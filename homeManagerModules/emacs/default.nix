@@ -12,7 +12,7 @@ git pull origin main --rebase
 
 git add .
 
-git commit -m "Auto-sync from $(hostname) at $(date '+%Y-%m-%d %H:%M:%S')" || echo "Nothing to commit."
+git commit -m "Auto-sync from $(hostname) at $(date '+%Y-%m-%d %H:%M:%S')"
 
 git push origin main
 

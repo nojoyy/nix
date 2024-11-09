@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   # Sapphire Imports
@@ -40,14 +40,15 @@
   hardware.keyboard.qmk.enable = true;
 
   modules = {
+    ollama.enable = true;
     steam.enable = true;
     docker.enable = true;
     obs.enable = true;
-    postgre.enable = true;
     lsp.enable = true;
     js-dev.enable = true;
     csharp.enable = true;
     vm.enable = true;
+    postgresql.enable = true;
   };
 
   grub = {
@@ -74,6 +75,8 @@
     
     xorg.xhost
     ethtool # used to set up wol
+
+    ledger
   ];
 
   stylix.image = /home/noah/images/wallpapers/sunset_city.jpg;

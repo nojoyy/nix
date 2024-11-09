@@ -70,6 +70,7 @@
         };
       };
 
+      # open webui
       "chat.noahjoyner.com" = {
         enableACME = true;
         locations."/" = {
