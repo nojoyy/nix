@@ -4,9 +4,7 @@
   imports = [
     ./../../users/noah.nix
     ./proxy.nix
-    ./../../nixosModules/services/gitea.nix
-    ./../../nixosModules/services/open-webui.nix
-    ./../../nixosModules/services/jellyfin.nix
+    ./../../nixosModules/services
   ];
 
   system.stateVersion = "23.11";

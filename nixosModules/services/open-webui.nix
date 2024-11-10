@@ -11,7 +11,6 @@ in {
     services.open-webui = {
       enable = true;
       port = 7391;
-      openFirewall = true;
       environmentFile = /home/noah/.webui.env;
     };
   };
