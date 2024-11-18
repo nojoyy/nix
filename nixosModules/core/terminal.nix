@@ -37,7 +37,6 @@
     zellij
 
     # Ricing
-    cava
     fastfetch
     neofetch
   ];

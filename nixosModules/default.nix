@@ -50,11 +50,14 @@
   environment.systemPackages = with pkgs; [
     cmake
     vlc
-    obsidian
-    rpi-imager
     cachix
-    ags
+
     xdg-desktop-portal
+
+    lmms
+
+    hunspell
+    aspell
   ];
 
   xdg.portal.config.common.default = "*";
@@ -62,7 +65,6 @@
   # HYPRLAND
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 
   # ENABLE X-SERVER

@@ -19,7 +19,6 @@
   # Enable Hyprland
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     settings = {
       source = [
         "~/nix/homeManagerModules/hyprland/config/hyprland.conf"
@@ -36,4 +35,6 @@
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
   };
+
+  stylix.targets.hyprland.enable = false;
 }
