@@ -11,21 +11,13 @@ in {
     services.dendrite = {
       enable = true;
       settings = {
-        domain = "matrix.noahjoyner.com";
-        database = {
-          connectionString = "file:/var/lib/dendrite/dendrite.db"; # SQLite for simplicity.
+        global = {
+          server_name = "matrix.noahjoyner.com";
+          database = {
+            connection_string = "file:/var/lib/dendrite/dendrite.db"; # SQLite for simplicity.
+          };
+          private_key = "/home/noah/matrix_key.pem";
         };
-        enableMetrics = true;
-        listeners = [
-          {
-            type = "http";
-            bind = "127.0.0.1:8008"; # Client API listener.
-          }
-          {
-            type = "http";
-            bind = "0.0.0.0:8448";
-          }
-        ];
       };
     };
   };
