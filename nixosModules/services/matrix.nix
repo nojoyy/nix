@@ -1,10 +1,10 @@
 { pkgs, config, lib, ... }:
 
-let module = config.modules.services.matrix;
+let module = config.modules.matrix;
 
 in {
   options = {
-    modules.services.matrix.enable = lib.mkEnableOption "enable dendrite - matrix homeserver";
+    modules.matrix.enable = lib.mkEnableOption "enable dendrite - matrix homeserver";
   };
 
   config = lib.mkIf module.enable {

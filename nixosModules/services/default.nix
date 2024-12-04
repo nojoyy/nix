@@ -7,6 +7,7 @@ in {
     ./gitea.nix
     ./jellyfin.nix
     ./open-webui.nix
+    ./matrix.nix
   ];
 
   environment.systemPackages = with pkgs; [
