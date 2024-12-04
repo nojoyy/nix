@@ -87,7 +87,7 @@
       # apis
       "api.noahjoyner.com" = {
         enableACME = true;
-        locations."/ollama" = {
+        locations."/" = {
           extraConfig = ''
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
