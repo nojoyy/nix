@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ...}:
+{ pkgs, lib, config, ... }:
 
 let module = config.modules.open-webui;
 

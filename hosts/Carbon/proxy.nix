@@ -84,6 +84,20 @@
         };
       };
 
+      # apis
+      "api.noahjoyner.com" = {
+        enableACME = true;
+        locations."/ollama" = {
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        '';
+          proxyPass = "http://192.168.0.142:11434/";
+        };
+      };
+
       # webpage
       "www.noahjoyner.com" = {
         enableACME = true;   # Automatically manage SSL (using Let's Encrypt).
@@ -94,6 +108,19 @@
         locations."/".extraConfig = ''
           try_files $uri $uri/ =404;
         '';
+      };
+
+      # matrix
+      "matrix.noahjoyner.com" = {
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://localhost:8008";
+          proxyWebsockets = true;
+        };
+        locations."/federation" = {
+          proxyPass = "http://localhost:8448";
+        };
       };
     };
   };
