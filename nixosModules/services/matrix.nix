@@ -10,21 +10,23 @@ in {
   config = lib.mkIf module.enable {
     services.dendrite = {
       enable = true;
-      domain = "matrix.noahjoyner.com";
-      database = {
-        connectionString = "file:/var/lib/dendrite/dendrite.db"; # SQLite for simplicity.
+      settings = {
+        domain = "matrix.noahjoyner.com";
+        database = {
+          connectionString = "file:/var/lib/dendrite/dendrite.db"; # SQLite for simplicity.
+        };
+        enableMetrics = true;
+        listeners = [
+          {
+            type = "http";
+            bind = "127.0.0.1:8008"; # Client API listener.
+          }
+          {
+            type = "http";
+            bind = "0.0.0.0:8448";
+          }
+        ];
       };
-      enableMetrics = true;
-      listeners = [
-        {
-          type = "http";
-          bind = "127.0.0.1:8008"; # Client API listener.
-        }
-        {
-          type = "http";
-          bind = "0.0.0.0:8448";
-        }
-      ];
     };
   };
 }
