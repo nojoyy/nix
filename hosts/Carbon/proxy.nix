@@ -19,7 +19,6 @@
         };
       };
 
-
       # jellyfin instance
       "media.noahjoyner.com" = {
         enableACME = true;
@@ -105,9 +104,26 @@
         root = "/home/noah/www/default/";
         
         # Serve static files
-        locations."/".extraConfig = ''
-          try_files $uri $uri/ =404;
-        '';
+        locations."/" = {
+          index = "index.html";
+          extraConfig = ''
+              try_files $uri $uri/ =404;
+          '';
+        };
+      };
+
+      "www.hawktuah.lifestyle" = {
+        enableACME = true;   # Automatically manage SSL (using Let's Encrypt).
+        
+        root = "/home/noah/www/default/";
+        
+        # Serve static files
+        locations."/" = {
+          index = "index.html";
+          extraConfig = ''
+              try_files $uri $uri/ =404;
+          '';
+        };
       };
 
       # matrix
@@ -136,6 +152,9 @@
     certs = {
       "noahjoyner.com" = {
         domain = "*.noahjoyner.com";
+      };
+      "hawktuah.lifestyle" = {
+        domain = "*.hawktuah.lifestyle";
       };
     };
   };
