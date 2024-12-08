@@ -112,20 +112,6 @@
         };
       };
 
-      "www.hawktuah.lifestyle" = {
-        enableACME = true;   # Automatically manage SSL (using Let's Encrypt).
-        
-        root = "/home/noah/www/default/";
-        
-        # Serve static files
-        locations."/" = {
-          index = "index.html";
-          extraConfig = ''
-              try_files $uri $uri/ =404;
-          '';
-        };
-      };
-
       # matrix
       "matrix.noahjoyner.com" = {
         enableACME = true;
@@ -152,9 +138,6 @@
     certs = {
       "noahjoyner.com" = {
         domain = "*.noahjoyner.com";
-      };
-      "hawktuah.lifestyle" = {
-        domain = "*.hawktuah.lifestyle";
       };
     };
   };

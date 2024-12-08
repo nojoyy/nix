@@ -34,7 +34,6 @@
     gitea.enable = true;
     media.enable = true;
     open-webui.enable = true;
-    matrix.enable = true;
   };
 
   services.vaultwarden = {
