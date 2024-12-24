@@ -1,11 +1,13 @@
 { pkgs, lib, config, ... }:
 
-{
+let module = config.modules.greetd;
+
+in {
   options = {
-    greetd.enable = lib.mkEnableOption "enable greetd dispay manager";
+    modules.greetd.enable = lib.mkEnableOption "enable greetd dispay manager";
   };
 
-  config = lib.mkIf config.greetd.enable {
+  config = lib.mkIf module.enable {
     services.greetd = {
       enable = true;
       settings = {
@@ -18,6 +20,7 @@
     environment.etc."greetd/environments".text = ''
       hyprland
       fish
+      bash
     '';
   };
 }

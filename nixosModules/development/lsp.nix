@@ -11,6 +11,7 @@ in {
     environment.systemPackages = with pkgs; [
       nil # nix language server
       #deno # runtime and supplies lsp
+      rust-analyzer
     ];
   };
 }

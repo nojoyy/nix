@@ -71,9 +71,6 @@
           home-manager.extraSpecialArgs = { inherit inputs; };
         }
 
-        # interacts with both home-manager and nix
-        stylix.nixosModules.stylix
-
         # hardware specific
         inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
       ];

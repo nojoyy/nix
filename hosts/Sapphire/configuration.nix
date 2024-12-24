@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 
 {
   # Sapphire Imports
@@ -39,6 +39,7 @@
   # QMK
   hardware.keyboard.qmk.enable = true;
 
+  # Module Toggling
   modules = {
     ollama.enable = true;
     steam.enable = true;
@@ -49,6 +50,10 @@
     csharp.enable = true;
     vm.enable = true;
     postgresql.enable = true;
+    emacs.enable = true;
+    sddm.enable = true;
+
+    stylix.enable = true;
   };
 
   grub = {
@@ -71,16 +76,22 @@
     edgetpu-compiler
     clinfo
 
+    fontconfig
+
     hydroxide
+
+    element-desktop
     
     xorg.xhost
     ethtool # used to set up wol
 
+    opentabletdriver
+    inkscape
+    krita
+    
     ledger
   ];
 
-  stylix.image = /home/noah/images/wallpapers/sunset_city.jpg;
-  
   system.stateVersion = "23.11"; # Don't touch this
 }
 

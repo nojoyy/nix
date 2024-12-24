@@ -74,17 +74,26 @@ let
       };
   };
 
-in {
-  # Install declared theme derivations
-  environment.systemPackages = packages;
+  module = config.modules.sddm;
 
-  # Enable and configure SDDM
-  services.displayManager.sddm = {
-    wayland.enable = true;
-    enable = true;
-    enableHidpi = true;
-    autoNumlock = true;
-    theme = themeName;
+in {
+
+  options = {
+    modules.sddm.enable = lib.mkEnableOption "enable sddm";
+  };
+
+  config = lib.mkIf module.enable {
+    # Install declared theme derivations
+    environment.systemPackages = packages;
+
+    # Enable and configure SDDM
+    services.displayManager.sddm = {
+      wayland.enable = true;
+      enable = true;
+      enableHidpi = true;
+      autoNumlock = true;
+      theme = themeName;
     };
+  };
 }
     

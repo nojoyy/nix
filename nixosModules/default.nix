@@ -76,12 +76,15 @@
   # KANATA
   services.kanata = {
     enable = true;
-    keyboards.default.configFile = /home/noah/dotfiles/kanata/config.kbd;
+    keyboards.default.config = ''
+      (defsrc
+        caps)
+    
+      (deflayermap (default-layer)
+        caps (tap-hold 100 75 esc lctrl))
+    '';
   };
 
   # WAYDROID
   virtualisation.waydroid.enable = true;
-  
-  # EMACS DAEMON
-  emacs.enable = lib.mkDefault true;
 }

@@ -16,17 +16,6 @@
     adwaita-icon-theme
   ];
 
-  # Enable Hyprland
-  wayland.windowManager.hyprland = {
-    enable = true;
-    settings = {
-      source = [
-        "~/nix/homeManagerModules/hyprland/config/hyprland.conf"
-        "~/nix/homeManagerModules/hyprland/config/monitors.conf"
-      ];
-    };
-  };
-
   # Let swww control wallpapers
   services.hyprpaper.enable = lib.mkForce false;
 
@@ -36,5 +25,4 @@
     extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
   };
 
-  stylix.targets.hyprland.enable = false;
 }

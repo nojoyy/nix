@@ -26,6 +26,8 @@
 
     # Minecract
     prismlauncher
+
+    drawing
   ];
 
   modules = {

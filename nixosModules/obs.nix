@@ -6,7 +6,6 @@ in {
   options = {
     modules.obs.enable = lib.mkEnableOption "enable obs";
   };
-  
 
   config = lib.mkIf module.enable {
     

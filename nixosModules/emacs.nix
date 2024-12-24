@@ -1,13 +1,16 @@
 { pkgs, lib, config, ... }:
 
-{
+let module = config.modules.emacs;
+
+in {
   options = {
-    emacs.enable = lib.mkEnableOption "enable emacs module";
+    modules.emacs.enable = lib.mkEnableOption "enable emacs module";
   };
 
-  config = lib.mkIf config.emacs.enable {
+  config = lib.mkIf module.enable {
     services.emacs = {
       enable = true;
+
       package = (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages ( epkgs: with epkgs; [
         treesit-grammars.with-all-grammars
         vterm 
