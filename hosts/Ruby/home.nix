@@ -21,6 +21,14 @@
     yazi.enable = true;
   };
 
+  programs.librewolf = {
+    enable = true;
+    settings = {
+      "webgl.disabled" = false;
+    };
+  };
+
+
   home.packages = with pkgs ; [
   ];
 

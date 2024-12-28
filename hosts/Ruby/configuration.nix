@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # Additional Modules
@@ -42,14 +42,13 @@
   modules = {
     lsp.enable = true;
     js-dev.enable = true;
-    vm.enable = true;
+    emacs.enable = true;
+    stylix.enable = true;
+    sddm.enable = true;
   };
-
-  stylix.image = /home/noah/Documents/System/wallpapers/contemplate.png;
 
   grub = {
     enable = true;
-    useOSProber = true;
   };
 
   networking.hostName = "Ruby";
@@ -60,6 +59,12 @@
   # Enable brightness control via light
   programs.light.enable = true;
   users.users.noah.extraGroups = [ "video" ];
+
+  # Thermal PID Loop
+  services.thermald.enable = true;
+
+  # Kernel Tunable
+  services.tlp.enable = true;
 
   # Additional Packages
   environment.systemPackages = with pkgs; [
