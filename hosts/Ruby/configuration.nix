@@ -54,7 +54,7 @@
   networking.hostName = "Ruby";
 
   # Enable touchpad support 
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # Enable brightness control via light
   programs.light.enable = true;
