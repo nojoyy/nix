@@ -113,9 +113,8 @@
       };
 
       # matrix
-      "matrix.noahjoyner.com" = {
+      "www.hawktuah.lifestyle" = {
         enableACME = true;
-        forceSSL = true;
         locations."/" = {
           proxyPass = "http://localhost:8008";
           proxyWebsockets = true;

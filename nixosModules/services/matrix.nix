@@ -8,11 +8,15 @@ in {
   };
 
   config = lib.mkIf module.enable {
+    # db setup
+    services.postgresql = {
+      enable = true;
+    };
     services.dendrite = {
       enable = true;
       settings = {
         global = {
-          server_name = "matrix.noahjoyner.com";
+          server_name = "www.hawktuah.lifestyle";
           database = {
             connection_string = "file:/var/lib/dendrite/dendrite.db"; # SQLite for simplicity.
           };
