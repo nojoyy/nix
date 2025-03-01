@@ -9,6 +9,7 @@ in {
 
   config = lib.mkIf module.enable {
     services.open-webui = {
+      package = pkgs.open-webui;
       enable = true;
       port = 7391;
       environmentFile = /home/noah/.webui.env;
