@@ -113,16 +113,16 @@
       };
 
       # matrix
-      "www.hawktuah.lifestyle" = {
-        enableACME = true;
-        locations."/" = {
-          proxyPass = "http://localhost:8008";
-          proxyWebsockets = true;
-        };
-        locations."/federation" = {
-          proxyPass = "http://localhost:8448";
-        };
-      };
+    #   "www.hawktuah.lifestyle" = {
+    #     enableACME = true;
+    #     locations."/" = {
+    #       proxyPass = "http://localhost:8008";
+    #       proxyWebsockets = true;
+    #     };
+    #     locations."/federation" = {
+    #       proxyPass = "http://localhost:8448";
+    #     };
+    #   };
     };
   };
 
