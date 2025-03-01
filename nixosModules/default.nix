@@ -27,7 +27,7 @@
   programs.virt-manager.enable = true;
   users.users.noah.extraGroups = [ "libvirtd" ];
   
-  # Nix Helper
+  # Nix Helper - cli utility for streamlined rebuilds
   programs.nh = {
     enable = true;
     clean.enable = true;
@@ -46,11 +46,15 @@
   # Fonts
   fonts.packages = with pkgs; [ fira-code font-awesome fira-code-nerdfont fira ];
 
-  # System level package
+  # System level packag
+  
   environment.systemPackages = with pkgs; [
     cmake
     vlc
     cachix
+
+    evtest
+    evdevremapkeys
 
     xdg-desktop-portal
 
@@ -58,6 +62,14 @@
 
     hunspell
     aspell
+
+    jq
+
+    libinput
+
+    libnotify
+
+    pcmanfm
   ];
 
   xdg.portal.config.common.default = "*";

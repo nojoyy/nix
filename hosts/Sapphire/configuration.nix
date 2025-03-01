@@ -85,13 +85,17 @@
     xorg.xhost
     ethtool # used to set up wol
 
-    opentabletdriver
+    sqlite
+    sqlitebrowser
+
     inkscape
     krita
     
     ledger
   ];
 
+  hardware.opentabletdriver.enable = true;
+    
   system.stateVersion = "23.11"; # Don't touch this
 }
 

@@ -28,6 +28,9 @@
     prismlauncher
 
     drawing
+
+    zotero
+    audacity
   ];
 
   modules = {

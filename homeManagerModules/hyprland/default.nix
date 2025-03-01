@@ -8,6 +8,8 @@
     dunst
     tofi
 
+    wev
+
     # Image Viewer
     qimgv
 
