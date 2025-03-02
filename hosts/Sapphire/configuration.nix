@@ -49,7 +49,6 @@ emacs.enable = true;
     obs.enable = true;
     lsp.enable = true;
     js-dev.enable = true;
-    csharp.enable = true;
     vm.enable = true;
     postgresql.enable = true;
     sddm.enable = true;
