@@ -9,8 +9,7 @@ in {
   
   config = lib.mkIf module.enable {
     environment.systemPackages = with pkgs; [
-      nil # nix language server
-      #deno # runtime and supplies lsp
+      nil
       rust-analyzer
     ];
   };

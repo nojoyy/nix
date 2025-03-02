@@ -8,7 +8,6 @@
     ./pipewire.nix
     ./polkit.nix
     ./sddm.nix
-    ./ssh.nix
-    ./terminal.nix
+    ./tty.nix
   ];
 }

@@ -3,15 +3,19 @@
 
   inputs = {
 
+    # use latest emacs
     emacs = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # declaritive ricing
     stylix.url = "github:danth/stylix"; 
     
+    # kernel build process for surface pro
     nixos-hardware.url = "github:tracteurblinde/nixos-hardware/surface-linux-6.8.1";
 
+    # lsp for nix
     nil.url = "github:oxalica/nil";
   };
 
@@ -33,7 +37,6 @@
   in {
     nixosConfigurations.Sapphire = nixpkgs.lib.nixosSystem {
       inherit pkgs;
-      system = "x86_64-linux";
       modules = [
         # system entrypoints
         ./hosts/Sapphire/hardware-configuration.nix
@@ -56,7 +59,6 @@
     
     nixosConfigurations.Ruby = nixpkgs.lib.nixosSystem {
       inherit pkgs;
-      system = "x86_64-linux";
       modules = [
         # my entrypoints
         ./hosts/Ruby/hardware-configuration.nix
@@ -82,7 +84,6 @@
 
     nixosConfigurations.Carbon = nixpkgs.lib.nixosSystem {
       inherit pkgs;
-      system = "x86_64-linux";
       modules = [
         ./hosts/Carbon/hardware-configuration.nix
         ./hosts/Carbon/configuration.nix

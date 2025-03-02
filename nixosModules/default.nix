@@ -43,27 +43,20 @@
   # Enable Nix Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # ssh
+  services.openssh.enable = true;
+
   # Fonts
   fonts.packages = with pkgs; [ fira-code font-awesome fira-code-nerdfont fira ];
 
-  # System level packag
-  
+  # System level packages
   environment.systemPackages = with pkgs; [
-    cmake
     vlc
     cachix
-
-    evtest
-    evdevremapkeys
 
     xdg-desktop-portal
 
     lmms
-
-    hunspell
-    aspell
-
-    jq
 
     libinput
 
@@ -72,20 +65,20 @@
     pcmanfm
   ];
 
-  xdg.portal.config.common.default = "*";
+  # xdg.portal.config.common.default = "*";
 
-  # HYPRLAND
+  # setup hyprland
   programs.hyprland = {
     enable = true;
   };
 
-  # ENABLE X-SERVER
+  # setup xserver (for legacy application to fallback from wayland)
   services.xserver = {
     enable = true;
     xkb.layout = "us";
   };
 
-  # KANATA
+  # keyboard remapping service
   services.kanata = {
     enable = true;
     keyboards.default.config = ''
@@ -96,7 +89,4 @@
         caps (tap-hold 100 75 esc lctrl))
     '';
   };
-
-  # WAYDROID
-  virtualisation.waydroid.enable = true;
 }

@@ -10,10 +10,8 @@ in {
   config = lib.mkIf module.enable {
     services.emacs = {
       enable = true;
-
       package = (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages ( epkgs: with epkgs; [
         treesit-grammars.with-all-grammars
-        vterm 
       ]);
     };
   };

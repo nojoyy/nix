@@ -38,7 +38,6 @@
     emacs.org-sync.enable = true;
     waybar.enable = true;
     yazi.enable = true;
-    zsh.enable = true;
   };
 
   programs.librewolf = {

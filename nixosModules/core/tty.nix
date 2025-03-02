@@ -16,9 +16,7 @@
     starship
 
     # Tools
-    ripgrep
     fzf
-    lf
     ripdrag
     lsd
     stow
@@ -26,18 +24,12 @@
 
     # Editors
     vim
-    neovim
 
     # Terminal Emulators
     foot
     kitty
     
-    # Terminal Multiplexors
-    tmux
-    zellij
-
     # Ricing
     fastfetch
-    neofetch
   ];
 }

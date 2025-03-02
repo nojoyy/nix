@@ -41,6 +41,8 @@
 
   # Module Toggling
   modules = {
+emacs.enable = true;
+
     ollama.enable = true;
     steam.enable = true;
     docker.enable = true;
@@ -50,7 +52,6 @@
     csharp.enable = true;
     vm.enable = true;
     postgresql.enable = true;
-    emacs.enable = true;
     sddm.enable = true;
 
     stylix.enable = true;

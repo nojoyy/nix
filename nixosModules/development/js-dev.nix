@@ -4,14 +4,11 @@ let module = config.modules.js-dev;
 
 in {
   options = {
-    modules.js-dev.enable = lib.mkEnableOption "enable node and other core js things";
-    # js-dev.lsp.enable = lib.mkEnableOption "enable lsp for js/ts"; #TODO figure out how to implement this
+    modules.js-dev.enable = lib.mkEnableOption "enable js-development helpers (linting, lsp, etc)";
   };
   config = lib.mkIf module.enable {
       environment.systemPackages = with pkgs; [
 	eslint_d
-        nodejs
-        deno
 	nodePackages.typescript-language-server
 	nodePackages.prettier
         bruno # for debugging http requests

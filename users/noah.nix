@@ -11,6 +11,5 @@
   users.groups.uinput.gid = lib.mkForce 993;
 
   programs.fish.enable = true;
-  programs.zsh.enable = true;
 }
     
