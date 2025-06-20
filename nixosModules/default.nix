@@ -12,6 +12,7 @@
     ./steam.nix
     ./vm.nix
     ./stylix.nix
+    ./minecraft.nix
   ];
 
   # Enable chachix for hyprland   
@@ -47,7 +48,7 @@
   services.openssh.enable = true;
 
   # Fonts
-  fonts.packages = with pkgs; [ fira-code font-awesome fira-code-nerdfont fira ];
+  fonts.packages = with pkgs; [ fira-code font-awesome nerd-fonts.fira-code fira ];
 
   # System level packages
   environment.systemPackages = with pkgs; [
@@ -63,6 +64,8 @@
     libnotify
 
     pcmanfm
+
+    git-credential-manager
   ];
 
   # xdg.portal.config.common.default = "*";

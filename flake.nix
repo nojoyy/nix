@@ -3,6 +3,14 @@
 
   inputs = {
 
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+    };
+
     # use latest emacs
     emacs = {
       url = "github:nix-community/emacs-overlay";

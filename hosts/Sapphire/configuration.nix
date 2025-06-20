@@ -41,10 +41,13 @@
 
   # Module Toggling
   modules = {
-emacs.enable = true;
+    emacs.enable = true;
 
     ollama.enable = true;
+    
     steam.enable = true;
+    minecraft.enable = true;
+
     docker.enable = true;
     obs.enable = true;
     lsp.enable = true;

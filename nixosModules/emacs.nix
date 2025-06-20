@@ -11,6 +11,7 @@ in {
     services.emacs = {
       enable = true;
       package = (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages ( epkgs: with epkgs; [
+        vterm
         treesit-grammars.with-all-grammars
       ]);
     };

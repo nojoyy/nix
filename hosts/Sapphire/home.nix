@@ -24,9 +24,6 @@
     prusa-slicer
     freecad
 
-    # Minecract
-    prismlauncher
-
     drawing
 
     zotero

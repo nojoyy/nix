@@ -37,7 +37,7 @@ in {
       # font configuration
       fonts = {
         monospace = {
-          package = pkgs.nerdfonts.override {fonts = ["FiraCode"];};
+          package = pkgs.nerd-fonts.fira-code;
           name = "FiraCode Nerd Font";
         };
         sansSerif = {
@@ -66,9 +66,6 @@ in {
         gtk.enable = true;
       };
 
-      homeManagerIntegration = {
-        autoImport = false;
-      };
     };
   };
 }
