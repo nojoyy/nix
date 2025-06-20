@@ -44,14 +44,10 @@
 
       "blog.noahjoyner.com" = {
         enableACME = true;
+        serverName="blog.noahjoyner.com";
+        root = "/home/noah/blog/public";
         locations."/" = {
-          extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-          '';
-          proxyPass = "http://localhost:1313";
+          tryFiles = "$uri $uri/ =404";
         };
       };
 

@@ -65,6 +65,8 @@
 
     pcmanfm
 
+    hugo
+
     git-credential-manager
   ];
 
