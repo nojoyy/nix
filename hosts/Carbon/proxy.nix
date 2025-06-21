@@ -71,9 +71,14 @@
         locations."/" = {
           extraConfig = ''
             proxy_set_header Host $host;
+            proxy_http_version 1.1;
+            proxy_buffering off;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Accel-Internal /internal-nginx-static-location;
         '';
           proxyPass = "http://localhost:7391";
         };
@@ -84,7 +89,7 @@
         enableACME = true;
         locations."/" = {
           extraConfig = ''
-            proxy_set_header Host $host;
+            proxy_set_header Host $host
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -93,20 +98,20 @@
         };
       };
 
-      # webpage
-      "www.noahjoyner.com" = {
-        enableACME = true;   # Automatically manage SSL (using Let's Encrypt).
+      # # webpage
+      # "www.noahjoyner.com" = {
+      #   enableACME = true;   # Automatically manage SSL (using Let's Encrypt).
         
-        root = "/home/noah/www/default/";
+      #   root = "/home/noah/www/default/";
         
-        # Serve static files
-        locations."/" = {
-          index = "index.html";
-          extraConfig = ''
-              try_files $uri $uri/ =404;
-          '';
-        };
-      };
+      #   # Serve static files
+      #   locations."/" = {
+      #     index = "index.html";
+      #     extraConfig = ''
+      #         try_files $uri $uri/ =404;
+      #     '';
+      #   };
+      # };
 
       # matrix
     #   "www.hawktuah.lifestyle" = {
