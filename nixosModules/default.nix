@@ -67,6 +67,11 @@
 
     hugo
 
+    gnupg
+    pass
+
+    pinentry-curses
+
     git-credential-manager
   ];
 
