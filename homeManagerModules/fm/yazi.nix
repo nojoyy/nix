@@ -15,7 +15,7 @@ in {
       enableFishIntegration = true;
 
       settings = {
-        manager = {
+        mgr = {
           show_symlink = true;
           ratio = [ 2 4 4];
         };

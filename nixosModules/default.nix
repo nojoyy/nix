@@ -26,6 +26,7 @@
   # Add QEMU/VM Support
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+  services.spice-vdagentd.enable = true;
   users.users.noah.extraGroups = [ "libvirtd" ];
   
   # Nix Helper - cli utility for streamlined rebuilds

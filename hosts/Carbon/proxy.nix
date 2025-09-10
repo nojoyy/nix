@@ -85,31 +85,28 @@
       };
 
       # apis
-      "api.noahjoyner.com" = {
-        enableACME = true;
-        locations."/" = {
-          extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        '';
-          proxyPass = "http://192.168.0.142:11434/";
-        };
-      };
+      # "api.noahjoyner.com" = {
+      #   enableACME = true;
+      #   locations."/" = {
+      #     extraConfig = ''
+      #       proxy_set_header Host $host;
+      #       proxy_set_header X-Real-IP $remote_addr;
+      #       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      #       proxy_set_header X-Forwarded-Proto $scheme;
+      #   '';
+      #     proxyPass = "http://192.168.0.142:11434/";
+      #   };
+      # };
 
       # webpage
       "www.noahjoyner.com" = {
         enableACME = true;   # Automatically manage SSL (using Let's Encrypt).
-        
-        root = "/home/noah/www/default/";
-        
-        # Serve static files
+        serverName = "www.noahjoyner.com";
+        root = "/var/www/main";
+        default = true;
+
         locations."/" = {
-          index = "index.html";
-          extraConfig = ''
-              try_files $uri $uri/ =404;
-          '';
+          tryFiles = "$uri $uri/ /index.html";
         };
       };
 

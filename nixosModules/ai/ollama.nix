@@ -21,7 +21,7 @@ in {
       after = [ "network.target" ];
       environment = {
         HOME = "%S/ollama";
-        OLLAMA_HOST = "0.0.0.0";
+        OLLAMA_HOST = "127.0.0.1";
         OLLAMA_MODELS = "/home/noah/.ollama/models";
         HSA_OVERRIDE_GFX_VERSION = "10.1.0";
       };
@@ -35,7 +35,7 @@ in {
     ];
 
     networking.firewall = {
-      allowedTCPPorts = [ 11434 ]; # expose default ollama port
+      allowedTCPPorts = [];
     };
   };
 }

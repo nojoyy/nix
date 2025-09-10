@@ -35,7 +35,9 @@
       driversi686Linux.amdvlk
     ];
   };
-  
+
+  networking.firewall.allowedTCPPorts = [ 5173 3000 ];
+
   # QMK
   hardware.keyboard.qmk.enable = true;
 
@@ -93,6 +95,11 @@
 
     inkscape
     krita
+
+    sunshine
+
+    guitarix
+    rakarrack
     
     ledger
   ];
