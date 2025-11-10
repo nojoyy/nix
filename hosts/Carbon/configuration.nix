@@ -34,6 +34,7 @@
     gitea.enable = true;
     media.enable = true;
     open-webui.enable = true;
+    shiori.enable = true;
   };
 
   services.vaultwarden = {

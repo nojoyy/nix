@@ -8,6 +8,7 @@ in {
     ./jellyfin.nix
     ./open-webui.nix
     ./matrix.nix
+    ./shiori.nix
   ];
 
   systemd.services.sveltekit-app = {
