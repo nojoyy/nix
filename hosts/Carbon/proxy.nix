@@ -100,13 +100,17 @@
 
       # webpage
       "www.noahjoyner.com" = {
-        enableACME = true;   # Automatically manage SSL (using Let's Encrypt).
+        enableACME = true;   
         serverName = "www.noahjoyner.com";
-        root = "/var/www/main";
-        default = true;
 
         locations."/" = {
-          tryFiles = "$uri $uri/ /index.html";
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_cache_bypass $http_upgrade;
+          '';
+          proxyPass = "http://localhost:3000";
         };
       };
 

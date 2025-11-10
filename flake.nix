@@ -25,9 +25,11 @@
 
     # lsp for nix
     nil.url = "github:oxalica/nil";
+
+    sveltekit-app.url = "path:/home/noah/site";
   };
 
-  outputs = {nixpkgs, home-manager, stylix, ...}@inputs: 
+  outputs = {nixpkgs, home-manager, stylix, sveltekit-app, ...}@inputs: 
 
     let 
       system = "x86_64-linux";
@@ -92,6 +94,7 @@
 
     nixosConfigurations.Carbon = nixpkgs.lib.nixosSystem {
       inherit pkgs;
+      specialArgs = { inherit sveltekit-app; };
       modules = [
         ./hosts/Carbon/hardware-configuration.nix
         ./hosts/Carbon/configuration.nix
