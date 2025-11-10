@@ -54,11 +54,13 @@
   # System level packages
   environment.systemPackages = with pkgs; [
     vlc
+    imv
+    mpv
+    zathura
+
     cachix
 
     xdg-desktop-portal
-
-    lmms
 
     libinput
 
@@ -68,12 +70,24 @@
 
     hugo
 
+    ripgrep
+
+    kdePackages.kdeconnect-kde
+
     gnupg
     pass
 
     pinentry-curses
 
     git-credential-manager
+
+    carla
+
+    languagetool
+
+    zulu
+
+    mullvad
   ];
 
   # xdg.portal.config.common.default = "*";

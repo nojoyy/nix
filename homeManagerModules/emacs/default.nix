@@ -3,7 +3,7 @@
 let module = config.modules.emacs;
 
 org-sync = pkgs.writeScriptBin "org-sync" ''
-#!/usr/bin/env bash
+#!/run/current-system/sw/bin/bash
 ORG_DIR="$HOME/org"
 cd "$ORG_DIR"
 
@@ -40,6 +40,10 @@ in {
       };
       Service = {
         Type = "oneshot";
+        Environment = [
+          "GCM_CREDENTIAL_STORE=cache"
+          "HOME=${config.home.homeDirectory}"
+        ];
         ExecStart = "${org-sync}/bin/org-sync";
       };
     };

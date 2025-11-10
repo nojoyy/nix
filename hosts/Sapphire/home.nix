@@ -17,7 +17,7 @@
   home.packages = with pkgs ; [
 
     # Gaming
-    discord
+    equicord
 
     # CAD/Printing
     orca-slicer
@@ -42,6 +42,10 @@
     settings = {
       "webgl.disabled" = false;
     };
+  };
+
+  programs.firefox = {
+    enable = true;
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

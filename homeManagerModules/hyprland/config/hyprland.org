@@ -8,7 +8,7 @@
 ** Set Default Programs
 #+begin_src hypr
 $terminal = footclient
-$browser = librewolf
+$browser = firefox
 $dmenu = tofi-drun | xargs hyprctl dispatch exec --
 $waybar = ~/.config/waybar/launch.sh
 #+end_src

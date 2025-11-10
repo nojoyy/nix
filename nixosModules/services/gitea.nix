@@ -42,6 +42,11 @@ in {
           DISABLE_REGISTRATION = true;
           ALLOW_ONLY_EXTERNAL_REGISTRATION = false;
         };
+
+        # Extend GCM Expiry
+        oauth2 = {
+          ACCESS_TOKEN_EXPIRATION_TIME = 86400;
+        };
       };
 
       # Database Setup

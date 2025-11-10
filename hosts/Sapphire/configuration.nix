@@ -28,11 +28,7 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      amdvlk
       rocmPackages.clr.icd
-    ];
-    extraPackages32 = with pkgs; [
-      driversi686Linux.amdvlk
     ];
   };
 
@@ -56,6 +52,7 @@
     js-dev.enable = true;
     vm.enable = true;
     postgresql.enable = true;
+    greetd.enable = false;
     sddm.enable = true;
 
     stylix.enable = true;
@@ -66,7 +63,17 @@
     useOSProber = true;
   };
 
-  networking.hostName = "Sapphire";
+  networking = {
+   hostName = "Sapphire"; 
+   interfaces = {
+     enp42s0 = {
+       wakeOnLan.enable = true;
+     };
+   };
+   firewall = {
+     allowedUDPPorts = [ 9 ];
+    };
+  };
 
   services.hardware.openrgb.enable = true;
 
@@ -77,7 +84,7 @@
   environment.systemPackages = with pkgs; [
     amdctl
     amdgpu_top
-    microcodeAmd
+    microcode-amd
     edgetpu-compiler
     clinfo
 
@@ -96,10 +103,10 @@
     inkscape
     krita
 
-    sunshine
-
     guitarix
     rakarrack
+
+    discord
     
     ledger
   ];
