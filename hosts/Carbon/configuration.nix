@@ -28,6 +28,8 @@
     git
     vim
     hugo
+
+    shiori
   ];
 
   modules = {
@@ -73,5 +75,6 @@
   networking.firewall = {
     enable = true;
     allowPing = true;
+    allowedTCPPorts = [ 6453 ];
   };
 }

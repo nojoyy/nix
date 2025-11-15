@@ -4,11 +4,12 @@ let myApp = sveltekit-app.packages.${pkgs.system}.sveltekit-app;
 
 in {
   imports = [
-    ./gitea.nix
+    # ./gitea.nix
     ./jellyfin.nix
     ./open-webui.nix
     ./matrix.nix
-    ./shiori.nix
+    # ./shiori.nix
+    ./postgres.nix
   ];
 
   systemd.services.sveltekit-app = {

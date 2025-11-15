@@ -19,6 +19,8 @@ in {
       initialScript = pkgs.writeScript "init.sql" ''
         CREATE USER gitea WITH PASSWORD gitPass;
         CREATE DATABASE gitea OWNER gitea;
+        CREATE USER shiori;
+        CREATE DATABASE shiori OWNER shiori;
       '';
     };
 
