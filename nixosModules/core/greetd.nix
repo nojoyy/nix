@@ -8,19 +8,16 @@ in {
   };
 
   config = lib.mkIf module.enable {
+    environment.systemPackages = with pkgs; [ greetd tuigreet ];
+    
     services.greetd = {
       enable = true;
       settings = {
-        deault_session = {
-          command = "${pkgs.hyprland}/bin/hyprland";
+        default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd hyprland";
         };
       };
+      useTextGreeter = true;
     };
-
-    environment.etc."greetd/environments".text = ''
-      hyprland
-      fish
-      bash
-    '';
   };
 }

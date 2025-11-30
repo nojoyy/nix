@@ -92,7 +92,7 @@ in {
       enable = true;
       enableHidpi = true;
       autoNumlock = true;
-      theme = themeName;
+      # theme = themeName;
     };
   };
 }

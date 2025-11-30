@@ -52,8 +52,8 @@
     js-dev.enable = true;
     vm.enable = true;
     postgresql.enable = true;
-    greetd.enable = false;
-    sddm.enable = true;
+    greetd.enable = true;
+    sddm.enable = false;
 
     stylix.enable = true;
   };
