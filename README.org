@@ -1,0 +1,807 @@
+#+TITLE: NixOS Configuration
+#+AUTHOR: Noah
+#+DATE: 2025-12-03
+#+OPTIONS: toc:3 num:nil
+
+#+BEGIN_QUOTE
+This documentation was AI-generated with Claude Code to provide comprehensive reference for the NixOS configuration.
+#+END_QUOTE
+
+* Overview
+
+A flake-based NixOS configuration managing three systems with declarative system configuration and Home Manager integration.
+
+This repository contains a complete NixOS configuration using flakes for three distinct systems:
+
+- *Sapphire*: Primary desktop workstation (AMD GPU, dual monitors, gaming, development)
+- *Ruby*: Microsoft Surface Pro laptop (Intel with Surface-specific kernel patches)
+- *Carbon*: Home server (Gitea, Jellyfin, Vaultwarden, Open WebUI, Shiori)
+
+** Key Features
+
+- *Flake-based*: Modern Nix flakes for reproducible builds
+- *Modular Design*: Reusable modules for easy configuration across hosts
+- *Home Manager*: User-level package management and dotfile configuration
+- *Stylix*: Declarative system-wide theming
+- *Wayland/Hyprland*: Modern compositor setup with greetd/tuigreet
+- *Services*: Self-hosted services with nginx reverse proxy
+
+* Repository Structure
+
+#+begin_example
+.
+├── flake.nix                  # Main flake entry point
+├── flake.lock                 # Locked dependency versions
+├── hosts/                     # Host-specific configurations
+│   ├── Sapphire/             # Desktop workstation
+│   │   ├── configuration.nix
+│   │   ├── home.nix
+│   │   └── hardware-configuration.nix
+│   ├── Ruby/                 # Surface Pro laptop
+│   │   ├── configuration.nix
+│   │   ├── home.nix
+│   │   └── hardware-configuration.nix
+│   └── Carbon/               # Home server
+│       ├── configuration.nix
+│       ├── proxy.nix         # Nginx reverse proxy config
+│       └── hardware-configuration.nix
+├── nixosModules/             # System-level modules
+│   ├── core/                 # Core system modules
+│   ├── development/          # Development tools
+│   ├── services/             # Self-hosted services
+│   └── ai/                   # AI/ML tools (Ollama)
+├── homeManagerModules/       # User-level modules
+│   ├── hyprland/            # Wayland compositor config
+│   ├── emacs/               # Emacs configuration
+│   ├── waybar/              # Status bar
+│   ├── fm/                  # File managers (lf, yazi, pcmanfm)
+│   └── zsh/                 # Shell configuration
+└── users/                    # User definitions
+    └── noah.nix
+#+end_example
+
+* Hosts
+
+** Sapphire (Desktop Workstation)
+
+*Hardware*: AMD GPU, dual 1440p@75Hz monitors, QMK keyboard, drawing tablet
+
+*Purpose*: Primary development and gaming machine
+
+*Configuration*: [[file:hosts/Sapphire/configuration.nix][hosts/Sapphire/configuration.nix]]
+
+*** Enabled Modules
+
+- =emacs= - Development environment
+- =ollama= - Local AI models
+- =steam= - Gaming platform
+- =minecraft= - Minecraft server
+- =obs= - Streaming/recording
+- =lsp= - Language servers for development
+- =js-dev= - JavaScript/TypeScript development tools
+- =vm= - QEMU/KVM virtualization
+- =postgresql= - Database development
+- =greetd= - TUI display manager
+- =stylix= - System-wide theming
+
+*** Special Features
+
+- AMD GPU drivers with ROCm support
+- Wake-on-LAN configured on =enp42s0=
+- OpenRGB for RGB lighting control
+- Android debugging (ADB) enabled
+- OpenTabletDriver for drawing tablet
+- Nintendo controller support
+- Dev ports open: 5173 (Vite), 3000 (general dev)
+
+*** Hardware Configuration
+
+#+begin_src nix
+# AMD GPU support
+hardware.graphics = {
+  enable = true;
+  extraPackages = with pkgs; [
+    rocmPackages.clr.icd
+  ];
+};
+
+# Dual monitor setup
+boot.kernelParams = [
+  "video=DP-1:2560x1440@75"
+  "video=DP-2:2560x1440@75"
+];
+
+# Wake-on-LAN
+networking.interfaces.enp42s0.wakeOnLan.enable = true;
+#+end_src
+
+** Ruby (Surface Pro Laptop)
+
+*Hardware*: Microsoft Surface Pro with Intel graphics
+
+*Purpose*: Portable development machine
+
+*Configuration*: [[file:hosts/Ruby/configuration.nix][hosts/Ruby/configuration.nix]]
+
+*** Enabled Modules
+
+- =emacs= - Development environment
+- =lsp= - Language servers
+- =js-dev= - Web development
+- =stylix= - System theming
+- =sddm= - Display manager (not greetd)
+
+*** Special Features
+
+- Custom Surface kernel (6.8.1) via nixos-hardware
+- Surface-specific kernel modules loaded at boot
+- =surface_gpe= module blacklisted (fixes suspend issues)
+- Screen flicker mitigation (=i915.enable_psr=0=)
+- Brightness control via =light= package
+- Thermal management (thermald + TLP)
+- Touchpad support enabled
+
+*** Surface-Specific Configuration
+
+#+begin_src nix
+# Screen flicker fix
+boot.kernelParams = [ "i915.enable_psr=0" ];
+
+# Surface control panel
+microsoft-surface.surface-control.enable = true;
+microsoft-surface.kernelVersion = "surface-devel";
+
+# Disable problematic suspend module
+boot.blacklistedKernelModules = [ "surface_gpe" ];
+
+# Surface-specific kernel modules
+boot.initrd.kernelModules = [
+  "surface_aggregator"
+  "surface_aggregator_registry"
+  "surface_aggregator_hub"
+  "surface_hid_core"
+  "surface_hid"
+  "pinctrl_tigerlake"
+  "intel_lpss"
+  "intel_lpss_pci"
+  "8250_dw"
+];
+
+# Thermal and power management
+services.thermald.enable = true;
+services.tlp.enable = true;
+
+# Brightness control
+programs.light.enable = true;
+users.users.noah.extraGroups = [ "video" ];
+#+end_src
+
+** Carbon (Home Server)
+
+*Hardware*: Server-grade system
+
+*Purpose*: Self-hosted services and reverse proxy
+
+*Configuration*: [[file:hosts/Carbon/configuration.nix][hosts/Carbon/configuration.nix]]
+
+*Proxy Config*: [[file:hosts/Carbon/proxy.nix][hosts/Carbon/proxy.nix]]
+
+*** Services Enabled
+
+- =gitea= - Git hosting
+- =media= (Jellyfin) - Media server
+- =open-webui= - AI chat interface
+- =shiori= - Bookmark manager
+- =vaultwarden= - Password manager
+- =nginx= - Reverse proxy with ACME/Let's Encrypt
+- =samba= - File sharing
+- =openssh= - SSH access (key-only authentication)
+
+*** Served Domains
+
+| Domain                  | Service      | Port |
+|-------------------------+--------------+------|
+| git.noahjoyner.com      | Gitea        | 2000 |
+| media.noahjoyner.com    | Jellyfin     | 8096 |
+| blog.noahjoyner.com     | Hugo (static) | -    |
+| vault.noahjoyner.com    | Vaultwarden  | 8222 |
+| chat.noahjoyner.com     | Open WebUI   | 7391 |
+| links.noahjoyner.com    | Shiori       | 6453 |
+| www.noahjoyner.com      | Main site    | 3000 |
+
+*** Security Configuration
+
+- SSH key-only authentication (no password login)
+- Automatic ACME SSL certificates via Cloudflare DNS
+- Firewall enabled with specific port allowances
+
+#+begin_src nix
+# SSH hardening
+services.openssh = {
+  enable = true;
+  settings = {
+    PasswordAuthentication = false;
+    PermitRootLogin = "no";
+  };
+};
+
+# Firewall
+networking.firewall = {
+  enable = true;
+  allowPing = true;
+  allowedTCPPorts = [ 22 80 443 6453 ];
+};
+#+end_src
+
+*** Samba File Sharing
+
+#+begin_src nix
+services.samba = {
+  enable = true;
+  openFirewall = true;
+  settings = {
+    global = {
+      security = "user";
+    };
+    "personal" = {
+      "path" = "/home/noah/share";
+      "valid users" = "noah";
+      "browseable" = "yes";
+      "writeable" = "yes";
+    };
+  };
+};
+#+end_src
+
+* Modules
+
+** Core Modules (nixosModules/core/)
+
+*** Display Managers
+
+**** greetd + tuigreet
+
+A minimal, text-based login manager that launches Hyprland.
+
+*Package Info*:
+- *greetd*: v0.10.3 - Minimal and flexible login manager daemon
+- *tuigreet*: v0.9.1 - Graphical console greeter for greetd
+
+*Configuration*: [[file:nixosModules/core/greetd.nix][nixosModules/core/greetd.nix]]
+
+*Enable*: Set =modules.greetd.enable = true;= in host configuration
+
+***** Features
+
+- Lightweight and fast
+- Terminal-based interface
+- Automatically launches Hyprland
+- Shows system time
+
+***** Usage
+
+On system boot, you'll see a TUI prompt where you enter your username and password. After authentication, Hyprland starts automatically.
+
+***** Configuration Example
+
+#+begin_src nix
+services.greetd = {
+  enable = true;
+  settings = {
+    default_session = {
+      command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd hyprland";
+    };
+  };
+};
+#+end_src
+
+**** SDDM
+
+A graphical display manager with theme support (currently used on Ruby).
+
+*Configuration*: [[file:nixosModules/core/sddm.nix][nixosModules/core/sddm.nix]]
+
+*Enable*: Set =modules.sddm.enable = true;=
+
+***** Features
+
+- Wayland support enabled
+- HiDPI support
+- Auto-numlock
+- Custom theme support (abstractdark, simplicity)
+
+***** Theme Configuration
+
+The module includes pre-configured themes that can be activated by uncommenting the =theme= line in the configuration.
+
+Available themes:
+- *abstractdark*: Dark, abstract theme
+- *simplicity*: Clean, minimal theme
+
+*** Other Core Modules
+
+- *grub*: Bootloader configuration with optional OS-Prober
+- *locale*: System locale and timezone settings
+- *pipewire*: Modern audio server
+- *polkit*: Privilege escalation framework
+- *tty*: Console configuration
+
+** Development Modules (nixosModules/development/)
+
+- *docker*: Container runtime
+- *lsp*: Language servers (nil for Nix, etc.)
+- *js-dev*: Node.js, npm, TypeScript toolchain
+- *postgresql*: PostgreSQL database server
+
+** AI Modules (nixosModules/ai/)
+
+- *ollama*: Local large language model server
+
+** Service Modules (nixosModules/services/)
+
+- *gitea*: Self-hosted Git service
+- *jellyfin*: Media server
+- *open-webui*: Web interface for AI models
+- *shiori*: Bookmark manager
+- *postgres*: PostgreSQL for services (Gitea, Shiori)
+- *matrix*: Matrix chat server (commented out)
+
+** Other System Modules
+
+- *emacs*: Emacs with overlay for latest version
+- *stylix*: System-wide theming framework
+- *steam*: Steam gaming platform
+- *minecraft*: Minecraft server
+- *obs*: OBS Studio for streaming
+- *vm*: QEMU/KVM virtualization
+
+* Quick Start
+
+** Initial Setup
+
+1. *Clone the repository*:
+   #+begin_src bash
+   git clone <your-repo-url> ~/nix
+   cd ~/nix
+   #+end_src
+
+2. *Update inputs*:
+   #+begin_src bash
+   nix flake update
+   #+end_src
+
+3. *Build for your host*:
+   #+begin_src bash
+   sudo nixos-rebuild switch --flake .#<hostname>
+   #+end_src
+
+   Replace =<hostname>= with =Sapphire=, =Ruby=, or =Carbon=.
+
+** Using nh (Nix Helper)
+
+This configuration includes =nh=, a CLI utility for streamlined rebuilds:
+
+#+begin_src bash
+# Rebuild and switch
+nh os switch
+
+# Test without switching
+nh os test
+
+# Boot into new config
+nh os boot
+
+# Clean old generations (keeps last 3, anything newer than 4 days)
+nh clean all
+#+end_src
+
+*Configuration*: [[file:nixosModules/default.nix::programs.nh][nixosModules/default.nix (line 32)]]
+
+#+begin_src nix
+programs.nh = {
+  enable = true;
+  clean.enable = true;
+  clean.extraArgs = "--keep-since 4d --keep 3";
+  flake = "/home/noah/nix/";
+};
+#+end_src
+
+** Managing Modules
+
+To enable/disable modules in a host configuration:
+
+#+begin_src nix
+modules = {
+  emacs.enable = true;
+  steam.enable = false;
+  greetd.enable = true;
+};
+#+end_src
+
+** Updating the System
+
+#+begin_src bash
+# Update flake inputs
+nix flake update
+
+# Rebuild with new inputs
+nh os switch
+#+end_src
+
+* Display Managers
+
+This configuration supports two display managers with recent changes favoring greetd.
+
+** Migration: SDDM → greetd
+
+*Recent Change* (Nov 30, 2025): Sapphire switched from SDDM to greetd+tuigreet for a more minimal, keyboard-focused login experience.
+
+*Commit*: =7343dac= - "switched from sddm to greetd w/ tui greet"
+
+** Choosing a Display Manager
+
+*** Use greetd+tuigreet if you want:
+
+- Minimal resource usage
+- Text-based login
+- Fast boot times
+- No GUI overhead
+
+*** Use SDDM if you want:
+
+- Graphical login screen
+- Theme customization
+- Mouse-driven login
+- Visual polish
+
+** Configuration Examples
+
+*** greetd (Sapphire)
+
+#+begin_src nix
+modules = {
+  greetd.enable = true;
+  sddm.enable = false;
+};
+#+end_src
+
+*** SDDM (Ruby)
+
+#+begin_src nix
+modules = {
+  sddm.enable = true;
+  # greetd not configured
+};
+#+end_src
+
+* Services
+
+** Carbon Services Overview
+
+All services on Carbon are proxied through nginx with automatic HTTPS via ACME.
+
+*Shared Postgres Database*:
+Services like Gitea and Shiori share a PostgreSQL instance to reduce resource usage.
+
+*Fixed Issue* (Nov 15, 2025): Resolved database conflicts between Shiori and Gitea when sharing postgres.
+
+*Commit*: =af99346= - "fixed issues with shiori and gitea sharing postgres"
+
+** Service Configuration
+
+Service modules are located in =nixosModules/services/= and enabled via:
+
+#+begin_src nix
+modules = {
+  gitea.enable = true;
+  media.enable = true;
+  open-webui.enable = true;
+  shiori.enable = true;
+};
+#+end_src
+
+** Nginx Reverse Proxy
+
+The proxy configuration ([[file:hosts/Carbon/proxy.nix][hosts/Carbon/proxy.nix]]) handles:
+
+- Automatic ACME certificate acquisition via Cloudflare DNS
+- WebSocket support for services that need it
+- Proper headers for security and functionality
+- Static file serving for the blog
+
+*** ACME Configuration
+
+#+begin_src nix
+security.acme = {
+  acceptTerms = true;
+  defaults = {
+    email = "njoydev@proton.me";
+    dnsProvider = "cloudflare";
+    group = "nginx";
+    environmentFile = "/home/noah/cloudflare";
+  };
+  certs = {
+    "noahjoyner.com" = {
+      domain = "*.noahjoyner.com";
+    };
+  };
+};
+#+end_src
+
+*Note*: You'll need a =/home/noah/cloudflare= file with Cloudflare API credentials:
+
+#+begin_example
+CF_API_EMAIL=your-email@example.com
+CF_API_KEY=your-api-key
+#+end_example
+
+*** Example Virtual Host Configuration
+
+#+begin_src nix
+# Gitea instance
+"git.noahjoyner.com" = {
+  enableACME = true;
+  locations."/" = {
+    extraConfig = ''
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    '';
+    proxyPass = "http://localhost:2000";
+  };
+};
+#+end_src
+
+* Home Manager
+
+Home Manager manages user-level packages and dotfiles.
+
+** Structure
+
+- *Base*: [[file:homeManagerModules/default.nix][homeManagerModules/default.nix]] - Common packages and settings
+- *Hyprland*: Wayland compositor configuration
+- *Emacs*: Editor configuration
+- *Waybar*: Status bar for Hyprland
+- *File Managers*: lf (terminal), yazi (terminal), pcmanfm (GUI)
+- *Zsh*: Shell configuration (though Fish is the default shell)
+
+** User Packages
+
+Common packages installed for the user:
+
+- KeePassXC - Password manager
+- LibreOffice - Office suite
+- FileZilla - FTP client
+- GIMP - Image editor
+- Hunspell - Spell checking
+
+*Configuration*: [[file:homeManagerModules/default.nix::home.packages][homeManagerModules/default.nix (line 13)]]
+
+** Per-Host Home Manager
+
+Each host has its own =home.nix= that imports modules specific to that machine:
+
+- *Sapphire*: Full desktop environment (Hyprland, Waybar, file managers)
+- *Ruby*: Portable setup with the same tools
+
+*** Home Manager in Flake
+
+#+begin_src nix
+home-manager.nixosModules.home-manager
+{
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.noah = import ./hosts/Sapphire/home.nix;
+  home-manager.extraSpecialArgs = { inherit inputs; };
+}
+#+end_src
+
+** Session Variables
+
+#+begin_src nix
+home.sessionVariables = {
+  EDITOR = "emacsclient";
+  GTK_USE_PORTAL = "1";
+};
+#+end_src
+
+* Development
+
+** Flake Inputs
+
+- *nixpkgs*: NixOS package set (nixos-unstable channel)
+- *home-manager*: User environment management
+- *emacs*: Emacs overlay for latest version
+- *stylix*: Declarative system theming
+- *nixos-hardware*: Hardware-specific configurations (Surface Pro)
+- *nil*: Nix language server
+
+** Known Issues
+
+*** Local Build Paths
+
+*Issue*: The flake has a commented-out input for =sveltekit-app= pointing to a local path (=/home/noah/site=). This breaks portability across systems.
+
+*Current Workaround*: The input is commented out in the repository but uncommented on Carbon for local development.
+
+*Commit Note* (Nov 15, 2025): "updated to better match Carbon - basically I am using a local build using dream2nix on Carbon, but the path is not the same on the other computers. therefore, I am leaving them commented out on the repo..."
+
+*Commit*: =6816131=
+
+*TODO*: Use a more portable solution like path overlays or separate the local development flake from the repository flake.
+
+** Adding a New Host
+
+1. *Create host directory*:
+   #+begin_src bash
+   mkdir -p hosts/NewHost
+   #+end_src
+
+2. *Generate hardware config*:
+   #+begin_src bash
+   nixos-generate-config --show-hardware-config > hosts/NewHost/hardware-configuration.nix
+   #+end_src
+
+3. *Create configuration*:
+   #+begin_src nix
+   # hosts/NewHost/configuration.nix
+   { pkgs, ... }:
+   {
+     imports = [ ./../../nixosModules ];
+
+     networking.hostName = "NewHost";
+
+     modules = {
+       emacs.enable = true;
+       greetd.enable = true;
+     };
+
+     system.stateVersion = "23.11";
+   }
+   #+end_src
+
+4. *Create home config*:
+   #+begin_src nix
+   # hosts/NewHost/home.nix
+   { ... }:
+   {
+     imports = [
+       ./../../homeManagerModules
+     ];
+
+     home.stateVersion = "23.11";
+   }
+   #+end_src
+
+5. *Add to flake.nix*:
+   #+begin_src nix
+   nixosConfigurations.NewHost = nixpkgs.lib.nixosSystem {
+     inherit pkgs;
+     modules = [
+       ./hosts/NewHost/hardware-configuration.nix
+       ./hosts/NewHost/configuration.nix
+
+       home-manager.nixosModules.home-manager
+       {
+         home-manager.useGlobalPkgs = true;
+         home-manager.useUserPackages = true;
+         home-manager.users.noah = import ./hosts/NewHost/home.nix;
+         home-manager.extraSpecialArgs = { inherit inputs; };
+       }
+
+       stylix.nixosModules.stylix
+     ];
+     specialArgs = { inherit inputs; };
+   };
+   #+end_src
+
+6. *Build*:
+   #+begin_src bash
+   nh os switch
+   #+end_src
+
+** Creating a New Module
+
+1. *Create module file*:
+   #+begin_src bash
+   # For a system module
+   touch nixosModules/my-module.nix
+
+   # For a home-manager module
+   touch homeManagerModules/my-module.nix
+   #+end_src
+
+2. *Write module*:
+   #+begin_src nix
+   { pkgs, lib, config, ... }:
+
+   let module = config.modules.my-module;
+
+   in {
+     options = {
+       modules.my-module.enable = lib.mkEnableOption "enable my module";
+     };
+
+     config = lib.mkIf module.enable {
+       environment.systemPackages = with pkgs; [
+         # packages here
+       ];
+     };
+   }
+   #+end_src
+
+3. *Import in default.nix*:
+   #+begin_src nix
+   # nixosModules/default.nix
+   imports = [
+     # ... other imports
+     ./my-module.nix
+   ];
+   #+end_src
+
+4. *Enable in host config*:
+   #+begin_src nix
+   modules.my-module.enable = true;
+   #+end_src
+
+** Useful Commands
+
+*** Package and Option Search
+
+#+begin_src bash
+# Search for packages
+nix search nixpkgs <package-name>
+
+# Search for options
+nix search nixpkgs#nixosOptions <option-name>
+#+end_src
+
+*** Flake Management
+
+#+begin_src bash
+# Check flake
+nix flake check
+
+# Show flake info
+nix flake show
+
+# Update specific input
+nix flake update nixpkgs
+#+end_src
+
+*** Garbage Collection
+
+#+begin_src bash
+# Garbage collect old generations
+nix-collect-garbage -d
+
+# List generations
+nix-env --list-generations
+
+# Delete specific generation
+nix-env --delete-generations 14
+#+end_src
+
+*** System Management
+
+#+begin_src bash
+# Rollback to previous generation
+nixos-rebuild switch --rollback
+
+# Boot into specific generation
+nixos-rebuild boot --rollback
+#+end_src
+
+* Additional Resources
+
+- [[https://nixos.org/manual/nixos/stable/][NixOS Manual]]
+- [[https://nix-community.github.io/home-manager/][Home Manager Manual]]
+- [[https://nixos.org/guides/nix-pills/][Nix Pills]]
+- [[https://wiki.hyprland.org/][Hyprland Wiki]]
+- [[https://github.com/danth/stylix][Stylix Documentation]]
+- [[https://sr.ht/~kennylevinsen/greetd/][greetd Homepage]]
+
+* License
+
+This configuration is personal and provided as-is for reference. Feel free to use and adapt for your own systems.
