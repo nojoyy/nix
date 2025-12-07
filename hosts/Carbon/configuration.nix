@@ -37,6 +37,7 @@
     media.enable = true;
     open-webui.enable = true;
     shiori.enable = true;
+    recipe-manager.enable = true;
   };
 
   services.vaultwarden = {

@@ -26,6 +26,12 @@
     # lsp for nix
     nil.url = "github:oxalica/nil";
 
+    # recipe manager app
+    recipe-manager = {
+      url = "git+https://git.noahjoyner.com/noah/recipe-manager.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # sveltekit-app
     # sveltekit-app.url = "/home/noah/site";
   };
@@ -33,6 +39,7 @@
   outputs = {nixpkgs,
     home-manager,
     stylix,
+    recipe-manager,
     # sveltekit-app,
     ...
   }@inputs: 
@@ -101,6 +108,7 @@
     nixosConfigurations.Carbon = nixpkgs.lib.nixosSystem {
       inherit pkgs;
       specialArgs = {
+        inherit recipe-manager;
         # inherit sveltekit-app;
       };
       modules = [
