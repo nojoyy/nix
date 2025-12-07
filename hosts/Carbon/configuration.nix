@@ -37,7 +37,10 @@
     media.enable = true;
     open-webui.enable = true;
     shiori.enable = true;
-    recipe-manager.enable = true;
+    recipe-manager = {
+      enable = true;
+      port = 3000;
+    };
   };
 
   services.vaultwarden = {
