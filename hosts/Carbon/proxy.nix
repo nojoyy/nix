@@ -8,6 +8,7 @@
       # gitea instance
       "git.noahjoyner.com" = {
         enableACME = true;
+        forceSSL = true;
         locations."/" = {
           extraConfig = ''
   proxy_set_header Host $host;
@@ -22,6 +23,7 @@
       # jellyfin instance
       "media.noahjoyner.com" = {
         enableACME = true;
+        forceSSL = true;
         locations."/" = {
           # Additional headers for better security and operations
           extraConfig = ''
@@ -42,18 +44,10 @@
         };
       };
 
-      "blog.noahjoyner.com" = {
-        enableACME = true;
-        serverName="blog.noahjoyner.com";
-        root = "/home/noah/blog/public";
-        locations."/" = {
-          tryFiles = "$uri $uri/ =404";
-        };
-      };
-
       # vaultwarden server
       "vault.noahjoyner.com" = {
         enableACME = true;
+        forceSSL = true;
         locations."/" = {
           extraConfig = ''
             proxy_set_header Host $host;
@@ -68,6 +62,7 @@
       # open webui
       "chat.noahjoyner.com" = {
         enableACME = true;
+        forceSSL = true;
         locations."/" = {
           extraConfig = ''
             proxy_set_header Host $host;
@@ -87,6 +82,7 @@
       # shiori
       "links.noahjoyner.com" = {
         enableACME = true;
+        forceSSL = true;
         locations."/" = {
           extraConfig = ''
             proxy_set_header Host $host;
