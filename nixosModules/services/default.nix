@@ -1,4 +1,4 @@
-{ pkgs, lib, config, recipe-manager ? null, ... }:
+{ pkgs, lib, config, recipe-manager ? null, site ? null, ... }:
 
 {
   imports = [
@@ -9,5 +9,6 @@
     # ./shiori.nix
     ./postgres.nix
     ./recipe-manager.nix
+    ./website.nix
   ];
 }

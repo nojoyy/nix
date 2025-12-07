@@ -41,6 +41,10 @@
       enable = true;
       port = 3000;
     };
+    site = {
+      enable = true;
+      port = 3005;
+    };
   };
 
   services.vaultwarden = {

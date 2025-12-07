@@ -32,15 +32,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # sveltekit-app
-    # sveltekit-app.url = "/home/noah/site";
+    # personal website
+    site = {
+      url = "git+https://git.noahjoyner.com/noah/site.git?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {nixpkgs,
     home-manager,
     stylix,
     recipe-manager,
-    # sveltekit-app,
+    site,
     ...
   }@inputs: 
 
@@ -108,8 +111,7 @@
     nixosConfigurations.Carbon = nixpkgs.lib.nixosSystem {
       inherit pkgs;
       specialArgs = {
-        inherit recipe-manager;
-        # inherit sveltekit-app;
+        inherit recipe-manager site;
       };
       modules = [
         ./hosts/Carbon/hardware-configuration.nix
