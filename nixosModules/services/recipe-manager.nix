@@ -16,7 +16,7 @@ in {
 
       port = lib.mkOption {
         type = lib.types.port;
-        default = 3001;
+        default = 3000;
         description = "Port for the Recipe Manager backend API";
       };
     };

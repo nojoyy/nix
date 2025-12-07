@@ -112,22 +112,6 @@
       #   };
       # };
 
-      # webpage
-      "www.noahjoyner.com" = {
-        enableACME = true;   
-        serverName = "www.noahjoyner.com";
-
-        locations."/" = {
-          extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header Connection 'upgrade';
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_cache_bypass $http_upgrade;
-          '';
-          proxyPass = "http://localhost:3000";
-        };
-      };
-
       # matrix
     #   "www.hawktuah.lifestyle" = {
     #     enableACME = true;
