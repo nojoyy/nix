@@ -24,6 +24,13 @@ in {
 
   config = lib.mkIf cfg.enable {
 
+    # Secrets (managed by agenix)
+    age.secrets.recipe-manager-invite-code = {
+      file = ../../secrets/recipe-manager-invite-code.age;
+      owner = "recipe-manager";
+      group = "recipe-manager";
+    };
+
     # PostgreSQL database setup
     services.postgresql = {
       enable = lib.mkDefault true;
@@ -62,6 +69,7 @@ in {
       environment = {
         DATABASE_URL = "postgresql://recipe_manager@localhost/recipe_manager";
         RUST_LOG = "info";
+        INVITE_CODE_FILE = config.age.secrets.recipe-manager-invite-code.path;
       };
 
       serviceConfig = {

@@ -26,6 +26,12 @@
     # lsp for nix
     nil.url = "github:oxalica/nil";
 
+    # age-encrypted secrets management
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # recipe manager app
     recipe-manager = {
       url = "git+https://git.noahjoyner.com/noah/recipe-manager.git";
@@ -42,6 +48,7 @@
   outputs = {nixpkgs,
     home-manager,
     stylix,
+    agenix,
     recipe-manager,
     site,
     ...
@@ -116,6 +123,9 @@
       modules = [
         ./hosts/Carbon/hardware-configuration.nix
         ./hosts/Carbon/configuration.nix
+
+        # Secrets management
+        agenix.nixosModules.default
       ];
     };
   };
